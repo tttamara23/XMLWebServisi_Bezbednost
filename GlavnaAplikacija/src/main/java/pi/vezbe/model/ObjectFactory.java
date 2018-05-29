@@ -48,8 +48,8 @@ public class ObjectFactory {
      * Create an instance of {@link Smestaj.Ponuda }
      * 
      */
-    public Smestaj.Ponuda createSmestajPonuda() {
-        return new Smestaj.Ponuda();
+    public Ponuda createSmestajPonuda() {
+        return new Ponuda();
     }
 
     /**
@@ -120,8 +120,8 @@ public class ObjectFactory {
      * Create an instance of {@link Smestaj.Ponuda.Rezervacija }
      * 
      */
-    public Smestaj.Ponuda.Rezervacija createSmestajPonudaRezervacija() {
-        return new Smestaj.Ponuda.Rezervacija();
+    public Rezervacija createSmestajPonudaRezervacija() {
+        return new Rezervacija();
     }
 
 }
