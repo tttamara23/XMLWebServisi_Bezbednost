@@ -12,3 +12,8 @@ insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values
 	
 insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
 	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 2, 3, 1);
+insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
+	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 3, 4, 1);
+	
+insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
+	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 1, 1, 2);
