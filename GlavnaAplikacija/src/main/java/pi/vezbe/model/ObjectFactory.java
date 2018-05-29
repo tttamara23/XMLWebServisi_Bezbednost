@@ -72,8 +72,8 @@ public class ObjectFactory {
      * Create an instance of {@link Smestaj.Slika }
      * 
      */
-    public Smestaj.Slika createSmestajSlika() {
-        return new Smestaj.Slika();
+    public Slika createSmestajSlika() {
+        return new Slika();
     }
 
     /**

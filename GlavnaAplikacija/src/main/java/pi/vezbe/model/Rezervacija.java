@@ -1,5 +1,14 @@
 package pi.vezbe.model;
 
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -32,19 +41,27 @@ import javax.xml.datatype.XMLGregorianCalendar;
         @XmlType(name = "", propOrder = {
 
         })
+        @Entity
         public class Rezervacija {
-
-            protected long id;
+        	@Id
+        	@GeneratedValue(strategy=GenerationType.AUTO)
+            protected Long id;
+        	
             protected boolean realizovano;
+            
             @XmlElement(required = true)
             @XmlSchemaType(name = "dateTime")
-            protected XMLGregorianCalendar datumRezervacije;
+            protected Date datumRezervacije;
+            
+            @ManyToOne(fetch = FetchType.EAGER)
+            @JoinColumn(name = "id_ponuda", nullable = false)
+        	private Ponuda ponuda;
 
             /**
              * Gets the value of the id property.
              * 
              */
-            public long getId() {
+            public Long getId() {
                 return id;
             }
 
@@ -52,7 +69,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
              * Sets the value of the id property.
              * 
              */
-            public void setId(long value) {
+            public void setId(Long value) {
                 this.id = value;
             }
 
@@ -80,7 +97,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
              *     {@link XMLGregorianCalendar }
              *     
              */
-            public XMLGregorianCalendar getDatumRezervacije() {
+            public Date getDatumRezervacije() {
                 return datumRezervacije;
             }
 
@@ -92,7 +109,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
              *     {@link XMLGregorianCalendar }
              *     
              */
-            public void setDatumRezervacije(XMLGregorianCalendar value) {
+            public void setDatumRezervacije(Date value) {
                 this.datumRezervacije = value;
             }
 

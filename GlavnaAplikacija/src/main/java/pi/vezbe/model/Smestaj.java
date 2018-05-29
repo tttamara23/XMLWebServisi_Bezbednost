@@ -8,16 +8,22 @@
 
 package pi.vezbe.model;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -136,22 +142,33 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 })
 @XmlRootElement(name = "Smestaj")
+@Entity
 public class Smestaj {
 
     @XmlElement(required = true)
     protected String naziv;
-    protected long id;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    protected Long id;
+    
     @XmlElement(required = true)
     protected String tip;
+    
     protected int kategorija;
+    
     @XmlElement(required = true)
     protected String lokacija;
+    
     @XmlElement(required = true)
     protected String opis;
+    
     @XmlElement(name = "Ponuda", required = true)
-    protected Ponuda ponuda;
+    @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
+    protected List<Ponuda> ponuda;
+    
     @XmlElement(name = "Slika", required = true)
-    protected Smestaj.Slika slika;
+    @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
+    protected List<Slika> slika;
 
     /**
      * Gets the value of the naziv property.
@@ -181,7 +198,7 @@ public class Smestaj {
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -189,7 +206,7 @@ public class Smestaj {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 
@@ -289,7 +306,7 @@ public class Smestaj {
      *     {@link Smestaj.Ponuda }
      *     
      */
-    public Ponuda getPonuda() {
+    public List<Ponuda> getPonuda() {
         return ponuda;
     }
 
@@ -301,7 +318,7 @@ public class Smestaj {
      *     {@link Smestaj.Ponuda }
      *     
      */
-    public void setPonuda(Ponuda value) {
+    public void setPonuda(List<Ponuda> value) {
         this.ponuda = value;
     }
 
@@ -313,7 +330,7 @@ public class Smestaj {
      *     {@link Smestaj.Slika }
      *     
      */
-    public Smestaj.Slika getSlika() {
+    public List<Slika> getSlika() {
         return slika;
     }
 
@@ -325,7 +342,7 @@ public class Smestaj {
      *     {@link Smestaj.Slika }
      *     
      */
-    public void setSlika(Smestaj.Slika value) {
+    public void setSlika(List<Slika> value) {
         this.slika = value;
     }
 
@@ -333,109 +350,5 @@ public class Smestaj {
     
 
 
-    /**
-     * <p>Java class for anonymous complex type.
-     * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
-     *         &lt;element name="naziv">
-     *           &lt;simpleType>
-     *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
-     *               &lt;maxLength value="100"/>
-     *             &lt;/restriction>
-     *           &lt;/simpleType>
-     *         &lt;/element>
-     *         &lt;element name="data" type="{http://www.w3.org/2001/XMLSchema}base64Binary" form="qualified"/>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "id",
-        "naziv",
-        "data"
-    })
-    public static class Slika {
-
-        protected long id;
-        @XmlElement(required = true)
-        protected String naziv;
-        @XmlElement(required = true)
-        protected byte[] data;
-
-        /**
-         * Gets the value of the id property.
-         * 
-         */
-        public long getId() {
-            return id;
-        }
-
-        /**
-         * Sets the value of the id property.
-         * 
-         */
-        public void setId(long value) {
-            this.id = value;
-        }
-
-        /**
-         * Gets the value of the naziv property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
-         */
-        public String getNaziv() {
-            return naziv;
-        }
-
-        /**
-         * Sets the value of the naziv property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
-         */
-        public void setNaziv(String value) {
-            this.naziv = value;
-        }
-
-        /**
-         * Gets the value of the data property.
-         * 
-         * @return
-         *     possible object is
-         *     byte[]
-         */
-        public byte[] getData() {
-            return data;
-        }
-
-        /**
-         * Sets the value of the data property.
-         * 
-         * @param value
-         *     allowed object is
-         *     byte[]
-         */
-        public void setData(byte[] value) {
-            this.data = value;
-        }
-
-    }
-
+    
 }

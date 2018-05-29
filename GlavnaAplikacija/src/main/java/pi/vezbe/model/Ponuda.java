@@ -1,9 +1,18 @@
 package pi.vezbe.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -67,23 +76,38 @@ import javax.xml.datatype.XMLGregorianCalendar;
         "rezervacija",
         "usluga"
     })
+    @Entity
     public class Ponuda {
-
-        protected long id;
+    	
+    	@Id
+    	@GeneratedValue(strategy=GenerationType.AUTO)
+        protected Long id;
+    	
         @XmlElement(required = true)
         @XmlSchemaType(name = "date")
-        protected XMLGregorianCalendar datumOd;
+        protected Date datumOd;
+        
         @XmlElement(required = true)
         @XmlSchemaType(name = "date")
-        protected XMLGregorianCalendar datumDo;
+        protected Date datumDo;
+        
         @XmlElement(required = true)
         protected BigDecimal cena;
+        
         protected int brojLezaja;
+        
         protected int brojSlobodnihPonuda;
+        
         @XmlElement(name = "Rezervacija", required = true)
-        protected Rezervacija rezervacija;
-        @XmlElement(name = "Usluga", required = true)
-        protected List<Usluga> usluga;
+        @OneToMany(mappedBy = "ponuda", cascade = CascadeType.REMOVE)
+        protected List<Rezervacija> rezervacija;
+        
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "id_smestaj", nullable = false)
+        private Smestaj smestaj;
+        
+        @OneToMany(mappedBy = "ponuda", cascade = CascadeType.REMOVE)
+        protected List<PonudaUsluga> ponudaUsluga;
 
         /**
          * Gets the value of the id property.
@@ -109,7 +133,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
          *     {@link XMLGregorianCalendar }
          *     
          */
-        public XMLGregorianCalendar getDatumOd() {
+        public Date getDatumOd() {
             return datumOd;
         }
 
@@ -121,7 +145,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
          *     {@link XMLGregorianCalendar }
          *     
          */
-        public void setDatumOd(XMLGregorianCalendar value) {
+        public void setDatumOd(Date value) {
             this.datumOd = value;
         }
 
@@ -133,7 +157,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
          *     {@link XMLGregorianCalendar }
          *     
          */
-        public XMLGregorianCalendar getDatumDo() {
+        public Date getDatumDo() {
             return datumDo;
         }
 
@@ -145,7 +169,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
          *     {@link XMLGregorianCalendar }
          *     
          */
-        public void setDatumDo(XMLGregorianCalendar value) {
+        public void setDatumDo(Date value) {
             this.datumDo = value;
         }
 
@@ -213,7 +237,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
          *     {@link Smestaj.Ponuda.Rezervacija }
          *     
          */
-        public Rezervacija getRezervacija() {
+        public List<Rezervacija> getRezervacija() {
             return rezervacija;
         }
 
@@ -225,40 +249,28 @@ import javax.xml.datatype.XMLGregorianCalendar;
          *     {@link Smestaj.Ponuda.Rezervacija }
          *     
          */
-        public void setRezervacija(Rezervacija value) {
+        public void setRezervacija(List<Rezervacija> value) {
             this.rezervacija = value;
         }
 
-        /**
-         * Gets the value of the usluga property.
-         * 
-         * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the usluga property.
-         * 
-         * <p>
-         * For example, to add a new item, do as follows:
-         * <pre>
-         *    getUsluga().add(newItem);
-         * </pre>
-         * 
-         * 
-         * <p>
-         * Objects of the following type(s) are allowed in the list
-         * {@link Usluga }
-         * 
-         * 
-         */
-        public List<Usluga> getUsluga() {
-            if (usluga == null) {
-                usluga = new ArrayList<Usluga>();
-            }
-            return this.usluga;
-        }
+		public Smestaj getSmestaj() {
+			return smestaj;
+		}
 
+		public void setSmestaj(Smestaj smestaj) {
+			this.smestaj = smestaj;
+		}
 
-        
+		public List<PonudaUsluga> getPonudaUsluga() {
+			return ponudaUsluga;
+		}
+
+		public void setPonudaUsluga(List<PonudaUsluga> ponudaUsluga) {
+			this.ponudaUsluga = ponudaUsluga;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
 
     }
