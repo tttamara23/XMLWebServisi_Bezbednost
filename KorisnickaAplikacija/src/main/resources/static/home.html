@@ -7,44 +7,126 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="scripts/profile.js"></script>
+	<script src="scripts/search.js"></script>
 	<link rel="shortcut icon" href="assets/ico/favicon.png">
-	
+	<link rel="stylesheet" href="homeStyle/css/myStyle.css">
 	<script src="toastr/toastr.min.js"></script>
     	<link href="toastr/toastr.min.css" rel="stylesheet"/>
 </head>
 <body>
-	<ul class="nav nav-tabs" id="myTab">
-	    
+	<ul class="nav nav-tabs homeTabs">
+	    <li style="width: 85%">
+	    	<h1 class="title"><a href="#mainDiv" class="aTag" data-toggle="tab">Booking</a></h1>
+	    </li>
 	    <li class="dropdown">
-	    <a class="dropdown-toggle" data-toggle="dropdown" id="tabProfileName"><span class="caret"></span></a>
-	        <ul class="dropdown-menu">
-	            <li><a href="#changePasswordTab" data-toggle="tab">Change password</a></li>
-	            <li><a onclick="return logout()" data-toggle="tab">Logout</a></li>
-	        </ul>
+	    	<div class="row" style="margin-top: 30%">
+	    		<i class="glyphicon glyphicon-user" style="color: white"></i>
+	    		<a class="dropdown-toggle aTag"  data-toggle="dropdown" id="tabProfileName" ></a>
+	    	
+		        <ul class="dropdown-menu">
+		            <li><a style="cursor: pointer;" href="#changePasswordTab" data-toggle="tab">Change password</a></li>
+		            <li><a style="cursor: pointer;" onclick="return logout()" data-toggle="tab">Logout</a></li>
+		        </ul>
+	        </div>
 	    </li>
 	   
 	</ul>
 	
 	<div class="tab-content">
 	    
-	    <div class="tab-pane" id="changePasswordTab">
-	    	<div class="container">
-	    		<div class="row">
-	    			<div class="col-lg-4">
-	        		<br><h4>Change password</h4>
-	        		<br><input class="form-control" type="password" id="changePasOldPas" placeholder="Old password"/>
-	        		<br><input class="form-control" type="password" id="changePasNewPas" placeholder="New password"/>
-	        		<br><input class="form-control" type="password" id="changePasPasCon" placeholder="Confirm password"/>
-	        		<br><button class="btn btn-default" onclick="changePasswordClick()">Confirm</button>
+	    <div class="tab-pane homeDiv" id="changePasswordTab">
+	    	<div class="searchDiv">
+        		<h4 style="padding-left: 1.5%">Change password</h4>
+        		<div class="divSearchInput">
+        			<label class="searchLabel">Old password</label>
+	        		<input class="form-control" type="password" id="changePasOldPas" placeholder="Old password..."/>
+	        		<br><label class="searchLabel">New password</label>
+	        		<input class="form-control" type="password" id="changePasNewPas" placeholder="New password..."/>
+	        		<br><label class="searchLabel">Confirm password</label>
+	        		<input class="form-control" type="password" id="changePasPasCon" placeholder="Confirm password..."/>
+	        	</div>
+	        	<br><button class="btn btn-default buttonSearch" onclick="changePasswordClick()">Confirm</button>
+        	</div>
+	        
+	    </div>
+	    <div class="tab-pane">
+	        
+	    </div>
+	    <div class="tab-pane active" id="mainDiv">
+	        <div class="homeDiv">
+	        	<div class="searchDiv">
+	        		<h4 style="padding-left: 1.5%">Search</h4>
+	        		<div class="divSearchInput">
+		        		<label class="searchLabel">Destination</label>
+		        		<input class="form-control" type="text" id="searchDestination" placeholder="Destination..."><br>
+		        		<div class="row">
+		        			<div class="col-lg-6">
+				        		<label class="searchLabel">Date from</label>
+				        		<input class="form-control" type="date" id="searchDateFrom">
+			        		</div>
+			        		<div class="col-lg-6">
+				        		<label class="searchLabel">Date to</label>
+				        		<input class="form-control" type="date" id="searchDateTo">
+			        		</div>
+		        		</div>
+		        		<div class="row">
+		        			<div class="col-lg-6">
+				        		<br><label class="searchLabel">Number of persons</label>
+				        		<input class="form-control" type="text" id="searchNumberOfPersons" placeholder="Number of persons...">
+			        		</div>
+			        		<div class="col-lg-6">
+			        		</div>
+		        		</div>
+		        		
+		        		<div id="advancedSearchDiv" style="display: none;">
+		        			<div class="row">
+			        			<div class="col-lg-6">
+				        			<br><label class="searchLabel">Accommodation Type</label>
+				        			<select class="form-control" id="searchAccommodationType">
+				        				<option selected value="" disabled style="display: none;">Select one</option>
+								        <option value="hotel">Hotel</option>
+								        <option value="bed&breakfast">Bed&Breakfast</option>
+								        <option value="apartment">Apartment</option>
+		      						</select>
+	      						</div>
+			        			<div class="col-lg-6">
+			        				<br><label class="searchLabel">Category</label>
+				        			<select class="form-control" id="searchCategory">
+				        				<option selected value="" disabled style="display: none;">Select one</option>
+								        <option value="0">Uncategorized</option>
+								        <option value="1">1 Star</option>
+								        <option value="2">2 Stars</option>
+								        <option value="3">3 Stars</option>
+								        <option value="4">4 Stars</option>
+								        <option value="5">5 Stars</option>
+		      						</select>
+			        			</div>
+			        		</div>
+			        		<div class="row">
+		        			<div class="col-lg-6">
+				        		<br><label class="searchLabel">Services</label>
+				        			<select multiple class="form-control" id="searchServices">
+								        <option value="Parking">Parking</option>
+								        <option value="WiFi">WiFi</option>
+								        <option value="Breakfast">Breakfast</option>
+								        <option value="Polupansion">Polupansion</option>
+								        <option value="Pansion">Pansion</option>
+								        <option value="TV">TV</option>
+								        <option value="Kitchen">Kitchen</option>
+								        <option value="Bathroom">Bathroom</option>
+		      						</select>
+			        		</div>
+			        		<div class="col-lg-6">
+			        		</div>
+		        		</div>
+			        	</div>
+		        		<div>
+		        			<br><a id="aTagShowMore" style="background-color: #e2e9fc; color: #1e1e77" class="aTag">Show advanced</a>
+		        		</div>
 	        		</div>
-	        		<div class="col-lg-8">
-	        		
-	        		</div>
+	        		<br><button class="btn btn-default buttonSearch" onclick="buttonSearchClick()">Search</button>
 	        	</div>
 	        </div>
-	    </div>
-	    <div class="tab-pane" id="#logout">
-	        
 	    </div>
 	    
 	</div>

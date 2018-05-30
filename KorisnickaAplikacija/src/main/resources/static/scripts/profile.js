@@ -20,6 +20,15 @@ $(document).ready(function () {
             top.location.href = "index.html";
         }
     });
+	
+	$('#aTagShowMore').click(function() {
+	    $('#advancedSearchDiv').slideToggle('medium', function(){
+	    	$('#aTagShowMore').text($('#aTagShowMore').text() == 'Show advanced' ? 'Hide advanced' : 'Show advanced');
+	    });
+	    
+	    return false;
+	});
+	
 })
 
 
