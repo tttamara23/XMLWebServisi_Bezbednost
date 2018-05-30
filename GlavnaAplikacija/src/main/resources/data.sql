@@ -17,3 +17,7 @@ insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda,
 	
 insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
 	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 1, 1, 2);
+	
+insert into Komentar(datum_komentara,objavljen, opis) values ('2018-01-28 21:00:00',false,'Dobar kom');
+	
+	
