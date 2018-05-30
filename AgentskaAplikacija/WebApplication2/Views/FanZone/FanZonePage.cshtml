@@ -1,0 +1,282 @@
+﻿@Html.ValidationSummary("", new { @class = "text-danger" })
+
+@if (TempData["success"] != null)
+{
+    <div id="IndexSuccessMessage" class="row">
+        <h3 style="color:white">@TempData["success"]</h3>
+    </div>
+}
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'ThemeReqs')" id="defaultOpen">Theme requisits</button>
+    @if (User.IsInRole("Regular_User"))
+    {
+        <button class="tablinks" onclick="openTab(event, 'Reserved requisits')">Reserved requisits</button>
+        <button class="tablinks" onclick="openTab(event, 'All posts')">All posts</button>
+        <button class="tablinks" onclick="openTab(event, 'My posts')">My posts</button>
+    }
+    else if (User.IsInRole("Fanzone_Admin"))
+    {
+        <button class="tablinks" onclick="openTab(event, 'Unapproved posts')">Unapproved posts</button>
+        <button class="tablinks" onclick="openTab(event, 'Manage posts')">Manage posts</button>
+    }
+</div>
+
+<div id="ThemeReqs" class="tabcontent">
+    <h2 style="color:white">Official offers:</h2>
+
+    @if (User.IsInRole("Fanzone_Admin"))
+    {
+        <input type="button" class="btn btn-success" value="New" onclick="location.href='@Url.Action("AddNewThemeRequisit", "FanZone")'" />
+    }
+    <div style="position:relative">
+        @if (ViewBag.requisitsToShow.Count > 0)
+        {
+            foreach (var thReq in ViewBag.requisitsToShow)
+            {
+                <div class="jumbotron" style="background-color:rgba(211,211,211,0.2);  width: 600px; margin:0 auto ">
+                    <div style="background-color:gray">
+                        <h2 style="color:white">@thReq.Name</h2>
+                    </div>
+                    <h3 style="font-weight:bold;color:white;font-size: 14px">Price: @thReq.Price</h3>
+
+                    <label style="color:white; font-weight:bold; font-size: 14px">Available count: @thReq.AvailableCount</label>
+
+                    <img src=@Url.Content(@thReq.ImageUrl) height="32" width="32" />
+
+                    @if (User.IsInRole("Regular_User"))
+                    {
+                        <input type="button" class="btn btn-success" value="Reserve" onclick="location.href='@Url.Action("ReserveRequisit", "FanZone",new { reqID = @thReq.Id })'" />
+                    }
+                    else if (User.IsInRole("Fanzone_Admin"))
+                    {
+                        <input type="button" class="btn btn-success" value="Edit" onclick="location.href='@Url.Action("EditThemeRequisit", "FanZone",new { reqID = @thReq.Id })'" />
+                        <input type="button" class="btn btn-success" value="Delete" onclick="location.href='@Url.Action("DeleteRequisit", "FanZone",new { reqID = @thReq.Id })'" />
+                    }
+                </div>
+                <br />
+            }
+        }
+    </div>
+</div>
+
+@if (User.IsInRole("Regular_User"))
+{
+    <div id="Reserved requisits" class="tabcontent">
+        <h2 style="color:white">My reservations:</h2>
+
+        <div style="position:relative">
+            @if (ViewBag.myRequisits.Count > 0)
+            {
+                foreach (var thReq in ViewBag.myRequisits)
+                {
+                    <div class="jumbotron" style="background-color:rgba(211,211,211,0.2);  width: 600px; margin:0 auto ">
+                        <div style="background-color:gray">
+                            <h2 style="color:white">@thReq.Name</h2>
+                        </div>
+                        <h3 style="font-weight:bold;color:white;font-size: 14px">Price: @thReq.Price</h3>
+
+                        <label style="color:white; font-weight:bold; font-size: 14px">Available count: @thReq.AvailableCount</label>
+
+                        <img src=@Url.Content(@thReq.ImageUrl) height="32" width="32" />
+                    </div>
+                    <br />
+                }
+            }
+        </div>
+    </div>
+    <div id="All posts" class="tabcontent">
+        <h2 style="color:white">All posts:</h2>
+
+        <div style="position:relative">
+            @if (ViewBag.allPosts.Count > 0)
+            {
+                foreach (var post in ViewBag.allPosts)
+                {
+                    <div class="jumbotron" style="background-color:rgba(211,211,211,0.2);  width: 600px; margin:0 auto ">
+                        <div style="background-color:gray">
+                            <h2 style="color:white">@post.Name</h2>
+                        </div>
+                        <h3 style="font-weight:bold;color:white;font-size: 14px">Offer expires: @post.OfferExpireDate</h3>
+
+                        @if (@post.OfferExpireDate < ViewBag.systemTime)
+                        {
+                            <h2 style="color:red">EXPIRED</h2>
+                        }
+
+                        @if (@post.ImageUrl != null)
+                        {
+                            <img src=@Url.Content(@post.ImageUrl) height="32" width="32" />
+                        }                        
+
+                        <input type="button" class="btn btn-success" value="View offers" onclick="location.href='@Url.Action("PostOffers", "FanZone",new { postID = @post.Id })'" />
+
+                    </div>
+                    <br />
+                }
+            }
+        </div>
+    </div>
+    <div id="My posts" class="tabcontent">
+        <h2 style="color:white">My posts:</h2>
+
+        <input type="button" class="btn btn-success" value="New" onclick="location.href='@Url.Action("AddNewPost", "FanZone")'" />
+
+        <div style="position:relative">
+            @if (ViewBag.myPosts.Count > 0)
+            {
+                foreach (var post in ViewBag.myPosts)
+                {
+                    <div class="jumbotron" style="background-color:rgba(211,211,211,0.2);  width: 600px; margin:0 auto ">
+                        <div style="background-color:gray">
+                            <h2 style="color:white">@post.Name</h2>
+                        </div>
+                        <h3 style="font-weight:bold;color:white;font-size: 14px">Offer expires: @post.OfferExpireDate</h3>
+
+                        @if (@post.ImageUrl != null)
+                        {
+                            <img src=@Url.Content(@post.ImageUrl) height="64" width="64" />
+                        }
+
+                        @if (!@post.IsChecked)
+                        {
+                            <h3 style="font-weight:bold;color:yellow;font-size: 20px">WAITING FOR ADMIN CHECK</h3>
+                        }
+                        else
+                        {
+                            if (!@post.IsApproved)
+                            {
+                                <h3 style="font-weight:bold;color:red;font-size: 20px">DENIED BY ADMIN</h3>
+                                <input type="button" class="btn btn-success" value="Delete" onclick="location.href='@Url.Action("DeletePost", "FanZone", new { postID = @post.Id })'" />
+                            }
+                            else
+                            {
+                                <h3 style="font-weight:bold;color:green;font-size: 20px">APPROVED BY ADMIN</h3>
+                                <input type="button" class="btn btn-success" value="Check licitations" onclick="location.href='@Url.Action("PostOffers", "FanZone", new { postID = @post.Id })'" />
+                            }
+                        }
+                        
+                        @if (@post.OfferExpireDate < ViewBag.systemTime)
+                        {
+                            <h2 style="color:red">EXPIRED</h2>
+
+                            if (!@post.IsApproved && !@post.IsChecked)
+                            {
+                                <input type="button" class="btn btn-success" value="Delete" onclick="location.href='@Url.Action("DeletePost", "FanZone", new { postID = @post.Id })'" />
+                            }
+                        }                        
+                    </div>
+                    <br />
+                }
+            }
+        </div>
+    </div>
+}
+else if (User.IsInRole("Fanzone_Admin"))
+{
+    <div id="Unapproved posts" class="tabcontent">
+        <h2 style="color:white">Unapproved posts:</h2>
+
+        <div style="position:relative">
+            @if (ViewBag.unapprovedPosts.Count > 0)
+            {
+                foreach (var post in ViewBag.unapprovedPosts)
+                {
+                    if (!post.IsTakenByAdmin)
+                    {
+                        <div class="jumbotron" style="background-color:rgba(211,211,211,0.2);  width: 600px; margin:0 auto ">
+                            <div style="background-color:gray">
+                                <h2 style="color:white">@post.Name</h2>
+                            </div>
+                            <h3 style="font-weight:bold;color:white;font-size: 14px">Offer expires: @post.OfferExpireDate</h3>
+
+                            @if (@post.ImageUrl != null)
+                            {
+                                <img src=@Url.Content(@post.ImageUrl) height="64" width="64" />
+                            }
+
+                            @if (@post.OfferExpireDate < ViewBag.systemTime)
+                            {
+                                <h2 style="color:red">EXPIRED</h2>
+                            }
+                            else
+                            {
+                                <input type="button" class="btn btn-success" value="Manage post" onclick="location.href='@Url.Action("ManagePost", "FanZone", new { postID = @post.Id})'" />
+                            }                                                        
+                        </div>
+                        <br />
+                    }
+                }
+            }
+        </div>
+    </div>
+    <div id="Manage posts" class="tabcontent">
+        <h2 style="color:white">Manage posts:</h2>
+
+        <div style="position:relative">
+            @if (ViewBag.postsToManage.Count > 0)
+            {
+                foreach (var post in ViewBag.postsToManage)
+                {
+                    if (!post.IsChecked)
+                    {
+                        <div class="jumbotron" style="background-color:rgba(211,211,211,0.2);  width: 600px; margin:0 auto ">
+                            <div style="background-color:gray">
+                                <h2 style="color:white">@post.Name</h2>
+                            </div>
+                            <h3 style="font-weight:bold;color:white;font-size: 14px">Offer expires: @post.OfferExpireDate</h3>
+
+                            @if (@post.ImageUrl != null)
+                            {
+                                <img src=@Url.Content(@post.ImageUrl) height="64" width="64" />
+                            }
+
+                            @if (@post.OfferExpireDate < ViewBag.systemTime)
+                            {
+                                <h2 style="color:red">EXPIRED</h2>
+                            }
+                            else
+                            {
+                                <input type="button" class="btn btn-success" value="Approve" onclick="location.href='@Url.Action("ApprovePost", "FanZone", new { postID = @post.Id})'" />
+                                <input type="button" class="btn btn-success" value="Dissmiss" onclick="location.href='@Url.Action("DissmissPost", "FanZone", new { postID = @post.Id})'" />
+                            }
+                        </div>
+                        <br />
+                    }
+                }
+            }
+        </div>
+    </div>
+}
+
+
+<script>
+    document.getElementById("defaultOpen").click();
+
+    function openTab(evt, tabName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    $(function () {
+        setTimeout(function () {
+            $("#IndexSuccessMessage").hide('blind', {}, 500)
+        }, 3000);
+    });
+</script>

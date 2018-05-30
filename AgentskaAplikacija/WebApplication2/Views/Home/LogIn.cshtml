@@ -1,0 +1,50 @@
+﻿@using Isa2017Cinema.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "LogIn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>LogIn</h2>
+<h2>@ViewBag.Title.</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            <form>
+                <label>Email: </label>
+                <input type="text" id="email" name="FirstName"><br>
+                <br />
+                <label>Password:</label>
+                <input type="password" id="pass" name="LastName"><br>
+                <br />
+                <input type="submit" id="login" value="Log in">
+            </form>
+        </section>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById("login").onclick = Reserve;
+    function Reserve() {
+
+        var data = JSON.stringify({
+            "email": document.getElementById("email").value,
+            "password": document.getElementById("pass").value
+        });
+        debugger;
+       $.ajax({
+
+           url: 'http://localhost:1234/user/loginAgent',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: data,
+
+            success: function (aa) {
+                
+
+                window.location.href = '../Home/Index';
+            }
+        });
+    }
+</script>
