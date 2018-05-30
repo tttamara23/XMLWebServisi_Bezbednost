@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 <html>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
 <head>
 	<meta charset="UTF-8">
 	<title>Booking</title>
@@ -20,6 +39,8 @@
 	        <ul class="dropdown-menu">
 	            <li><a href="#changePasswordTab" data-toggle="tab">Change password</a></li>
 	            <li><a href="#addAgentTab" data-toggle="tab">Add agent</a></li>
+	            <li><a href="#changeUsers" onclick="return users()" data-toggle="tab">Users</a></li>
+	             <li><a href="#publishComments" onclick="return comments()" data-toggle="tab">Comments</a></li>
 	            <li><a onclick="return logout()" data-toggle="tab">Logout</a></li>
 	        </ul>
 	    </li>
@@ -79,7 +100,36 @@
 	    <div class="tab-pane" id="logout">
 	        
 	    </div>
-	    
+	    <div class="tab-pane" id="changeUsers">
+	    <br/><br/>
+	        <table width="200" id="tableUsers">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	<th>Ime</th>
+	        	 	<th>Prezime</th>
+	        	 	<th>Email</th>
+	        	 	<th>Kontakt</th>
+	        	 	<th>Blokiran</th>
+	        	 	<th></th>
+	        	 	
+	        	 	<th></th>
+	        	</tr>
+	        </table>
+	    </div>
+	    <div class="tab-pane" id="publishComments">
+	    <br/><br/>
+	        <table width="200" id="tableComments">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	<!-- <th>Autor</th> -->
+	        	 	<th>Opis</th>
+	        	 	<th>Datum</th>
+	        	 	<!--<th>Smestaj</th>-->
+	        	 	
+	        	 	<th></th>
+	        	</tr>
+	        </table>
+	    </div>
 	</div>
 </body>
 </html>
