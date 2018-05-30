@@ -8,6 +8,15 @@
 
 package pi.vezbe.model;
 
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -50,26 +59,38 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "id",
-    "datumObjave",
-    "smestaj",
+    
+    //"smestaj",
+    "datumKomentara",
     "opis",
-    "objavljen",
-    "autor"
+    "objavljen"
+  //  "autor"
 })
 @XmlRootElement(name = "Komentar")
+@Entity
 public class Komentar {
-
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
     protected long id;
-    @XmlElement(required = true)
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar datumObjave;
+   
+	/*@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_smestaja", nullable = false)
     @XmlElement(name = "Smestaj", required = true)
-    protected Smestaj smestaj;
+    protected Smestaj smestaj;*/
+	
+	@XmlElement(required = true)
+    @XmlSchemaType(name = "date")
+    protected Date datumKomentara;
+	
+	
     @XmlElement(required = true)
     protected String opis;
     protected boolean objavljen;
-    @XmlElement(required = true)
-    protected KrajnjiKorisnik autor;
+    
+   
+    /*@XmlElement(required = true)
+    protected KrajnjiKorisnik autor;*/
 
     /**
      * Gets the value of the id property.
@@ -87,31 +108,17 @@ public class Komentar {
         this.id = value;
     }
 
-    /**
-     * Gets the value of the datumObjave property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getDatumObjave() {
-        return datumObjave;
-    }
+   
 
-    /**
-     * Sets the value of the datumObjave property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setDatumObjave(XMLGregorianCalendar value) {
-        this.datumObjave = value;
-    }
+    public Date getDatumKomentara() {
+		return datumKomentara;
+	}
 
-    /**
+	public void setDatumKomentara(Date datumKomentara) {
+		this.datumKomentara = datumKomentara;
+	}
+
+	/**
      * Gets the value of the smestaj property.
      * 
      * @return
@@ -119,9 +126,9 @@ public class Komentar {
      *     {@link Smestaj }
      *     
      */
-    public Smestaj getSmestaj() {
+  /*  public Smestaj getSmestaj() {
         return smestaj;
-    }
+    }*/
 
     /**
      * Sets the value of the smestaj property.
@@ -131,9 +138,9 @@ public class Komentar {
      *     {@link Smestaj }
      *     
      */
-    public void setSmestaj(Smestaj value) {
+  /*  public void setSmestaj(Smestaj value) {
         this.smestaj = value;
-    }
+    }*/
 
     /**
      * Gets the value of the opis property.
@@ -183,20 +190,6 @@ public class Komentar {
      *     {@link KrajnjiKorisnik }
      *     
      */
-    public KrajnjiKorisnik getAutor() {
-        return autor;
-    }
-
-    /**
-     * Sets the value of the autor property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link KrajnjiKorisnik }
-     *     
-     */
-    public void setAutor(KrajnjiKorisnik value) {
-        this.autor = value;
-    }
+   
 
 }

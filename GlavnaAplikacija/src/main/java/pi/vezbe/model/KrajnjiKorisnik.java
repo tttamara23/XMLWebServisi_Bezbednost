@@ -8,10 +8,15 @@
 
 package pi.vezbe.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -38,7 +43,10 @@ import javax.xml.bind.annotation.XmlType;
 public class KrajnjiKorisnik
     extends Korisnik
 {
-
+	//@XmlElement(name = "Komentari", required = true)
+    //@OneToMany(mappedBy = "autor", cascade = CascadeType.REMOVE)
+	//protected List<Komentar> komentari;
+	
     @XmlAttribute(name = "blokiran")
     protected Boolean blokiran;
 
@@ -53,8 +61,28 @@ public class KrajnjiKorisnik
     public Boolean isBlokiran() {
         return blokiran;
     }
+    
+    
 
-    /**
+  /*  public List<Komentar> getKomentari() {
+		return komentari;
+	}
+
+
+
+	public void setKomentari(List<Komentar> komentari) {
+		this.komentari = komentari;
+	}
+*/
+
+
+	public Boolean getBlokiran() {
+		return blokiran;
+	}
+
+
+
+	/**
      * Sets the value of the blokiran property.
      * 
      * @param value

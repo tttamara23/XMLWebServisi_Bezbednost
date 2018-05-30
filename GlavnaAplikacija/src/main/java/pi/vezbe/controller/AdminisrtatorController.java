@@ -1,5 +1,6 @@
 package pi.vezbe.controller;
 
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import pi.vezbe.converters.AgentDtoToAgentConverter;
 import pi.vezbe.dto.AgentDTO;
 import pi.vezbe.model.Agent;
+import pi.vezbe.model.Komentar;
+import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.service.AgentService;
 import pi.vezbe.service.EmailService;
+import pi.vezbe.service.KomentarService;
 import pi.vezbe.service.UserService;
 
 @RestController()
@@ -35,6 +39,9 @@ public class AdminisrtatorController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private KomentarService komentarService;
 	
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -71,6 +78,96 @@ public class AdminisrtatorController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "showUsers",
+            method = RequestMethod.GET
+    )
+    public List<KrajnjiKorisnik> showUsers() {
+		List<KrajnjiKorisnik> lista = userService.findAll();
+		
+		return lista;
+    }
+	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "blokiraj",
+            method = RequestMethod.POST
+    )
+    public boolean blokiraj(@RequestBody String id) {
+		KrajnjiKorisnik zaBlok = userService.findRegisteredByEmail(id);
+		if(zaBlok!=null){
+			zaBlok.setBlokiran(true);
+			KrajnjiKorisnik saved = userService.save(zaBlok);
+			return true;	
+		}
+		
+		return false;
+    }
+	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "aktiviraj",
+            method = RequestMethod.POST
+    )
+    public boolean aktiviraj(@RequestBody String id) {
+		KrajnjiKorisnik zaAktivaciju = userService.findRegisteredByEmail(id);
+		if(zaAktivaciju!=null){
+			zaAktivaciju.setBlokiran(false);
+			KrajnjiKorisnik saved = userService.save(zaAktivaciju);
+			return true;	
+		}
+		
+		return false;
+    }
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "ukloni",
+            method = RequestMethod.POST
+    )
+    public boolean ukloni(@RequestBody String id) {
+		KrajnjiKorisnik zaBrisanje = userService.findRegisteredByEmail(id);
+		if(zaBrisanje!=null){
+			userService.delete(zaBrisanje);
+			
+			return true;	
+		}
+		
+		return false;
+    }
+	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "showComments",
+            method = RequestMethod.GET
+    )
+    public List<Komentar> showComments() {
+		List<Komentar> lista = komentarService.findAllComments();
+		
+		return lista;
+    }
+	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "objaviKomentar",
+            method = RequestMethod.POST
+    )
+    public boolean objaviKomentar(@RequestBody String id) {
+		Komentar zaObjavljivanje = komentarService.findById(id);
+		if(zaObjavljivanje!=null){
+			zaObjavljivanje.setObjavljen(true);
+			Komentar saved = komentarService.save(zaObjavljivanje);
+			return true;	
+		}
+		
+		return false;
+    }
 	
 	public String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

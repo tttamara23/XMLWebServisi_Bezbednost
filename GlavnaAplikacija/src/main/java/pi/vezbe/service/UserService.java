@@ -2,6 +2,7 @@ package pi.vezbe.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,20 +13,35 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Service;
 
 import pi.vezbe.model.Korisnik;
+import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.repository.KorisnikRepository;
+import pi.vezbe.repository.KrajnjiKorisnikRepository;
 
 @Service
 public class UserService {
 	
 	@Autowired
 	private KorisnikRepository korisnikRepository;
+
+	@Autowired
+	private KrajnjiKorisnikRepository krajnjiKorisnikRepository;
 	
 	public Korisnik findByEmail(String email) {
 		return korisnikRepository.findByEmailIgnoreCase(email).orElseThrow(RuntimeException::new);
 	}
-	
+	public KrajnjiKorisnik findRegisteredByEmail(String email) {
+		return krajnjiKorisnikRepository.findByEmailIgnoreCase(email).orElseThrow(RuntimeException::new);
+	}
 	public Korisnik save(Korisnik korisnik) {
 		return korisnikRepository.save(korisnik);
+	}
+	
+	public KrajnjiKorisnik save(KrajnjiKorisnik korisnik) {
+		return krajnjiKorisnikRepository.save(korisnik);
+	}
+	
+	public void delete(KrajnjiKorisnik zaBrisanje) {
+		krajnjiKorisnikRepository.delete(zaBrisanje);
 	}
 	
 	public void setCurrentUser(Korisnik user) {
@@ -43,6 +59,10 @@ public class UserService {
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    public List<KrajnjiKorisnik> findAll(){
+    	return krajnjiKorisnikRepository.findAll();
     }
 
 }
