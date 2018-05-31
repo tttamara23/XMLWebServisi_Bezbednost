@@ -1,5 +1,8 @@
 package pi.vezbe.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SmestajDTO {
 	
 	private Long id;
@@ -8,6 +11,7 @@ public class SmestajDTO {
 	private int kategorija;
 	private String lokacija;
 	private String opis;
+	private List<PonudaDTO> ponude;
 	
 	public SmestajDTO(Long id, String naziv, String tip, int kategorija, String lokacija, String opis) {
 		this.id = id;
@@ -16,10 +20,12 @@ public class SmestajDTO {
 		this.kategorija = kategorija;
 		this.lokacija = lokacija;
 		this.opis = opis;
+		ponude = new ArrayList<PonudaDTO>();
 	}
 	
 	public SmestajDTO() {
 		// TODO Auto-generated constructor stub
+		ponude = new ArrayList<PonudaDTO>();
 	}
 
 	public Long getId() {
@@ -69,5 +75,15 @@ public class SmestajDTO {
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
+
+	public List<PonudaDTO> getPonude() {
+		return ponude;
+	}
+
+	public void setPonude(List<PonudaDTO> ponude) {
+		this.ponude = ponude;
+	}
+	
+	
 
 }

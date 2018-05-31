@@ -19,7 +19,7 @@ public class PonudaToPonudaDtoConverter implements Converter<Ponuda, PonudaDTO> 
 		if(source == null) {
 			return null;
 		}
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd, HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		PonudaDTO ret = new PonudaDTO();
 		ret.setId(source.getId());
 		ret.setBrojLezaja(source.getBrojLezaja());

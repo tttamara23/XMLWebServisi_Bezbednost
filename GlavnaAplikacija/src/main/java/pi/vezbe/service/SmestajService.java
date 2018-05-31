@@ -29,5 +29,9 @@ public class SmestajService {
 	public List<Smestaj>getByLocation(String lokacija) {
 		return smestajRepository.findByLokacija(lokacija);
 	}
+	
+	public Smestaj findById(Long idSmestaja){
+		return smestajRepository.findOne(idSmestaja);
+	}
 
 }

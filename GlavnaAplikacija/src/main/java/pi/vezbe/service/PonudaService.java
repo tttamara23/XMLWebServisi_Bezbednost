@@ -1,5 +1,6 @@
 package pi.vezbe.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ public class PonudaService {
 	
 	public List<Ponuda> getBySmestaj(Long smestajId) {
 		return ponudaRepository.findBySmestajId(smestajId);
+	}
+	
+	public List<Ponuda> getByCurrentDateAndSmestajId(Date start,Long idSmestaja){
+		return ponudaRepository.findByDatumOdGreaterThanAndSmestajIdOrderByDatumOdAsc(start, idSmestaja);
 	}
 	
 }

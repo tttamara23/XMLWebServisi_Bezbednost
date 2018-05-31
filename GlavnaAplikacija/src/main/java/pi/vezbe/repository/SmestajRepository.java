@@ -14,4 +14,5 @@ public interface SmestajRepository extends JpaRepository<Smestaj, Long> {
 	
 	public List<Smestaj> findByLokacija(String lokacija);
 
+
 }
