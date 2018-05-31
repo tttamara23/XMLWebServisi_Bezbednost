@@ -21,5 +21,13 @@ public class SmestajService {
 	public List<Smestaj>getAll() {
 		return smestajRepository.findAll();
 	}
+	
+	public List<Smestaj>getLocations() {
+		return smestajRepository.findLocations();
+	}
+	
+	public List<Smestaj>getByLocation(String lokacija) {
+		return smestajRepository.findByLokacija(lokacija);
+	}
 
 }

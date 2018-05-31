@@ -29,8 +29,39 @@ $(document).ready(function () {
 	    return false;
 	});
 	
+	$.ajax({
+		async: false,
+		url: "http://localhost:1234/smestaj/getLocations",
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	for(i=0; i<data.length; i++) {
+        		newDiv = "";
+        		if(i%3==0) {
+        			$('#divPonude').append("<div class=\"row\">");
+        		}
+        		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput\">"
+        			+ "<h1>" + data[i] + "</h1>"
+        			+ "<div id=\"divPonuda" + i + "\" style=\"display:none\">asd</div>"
+        			+ "<a id=\"aTag" + i + "\" onclick=\"return showMoreLocationClick(" + i + ",'" + data[i] + "')\" class=\"aTag\" style=\"background-color: #e2e9fc; color: #1e1e77\">Show accommodations</a>"
+        			+ "</div></div>";
+        		if(i%3==0) {
+        			$('#divPonude').append("</div>");
+        		}
+        		$('#divPonude').append(newDiv);
+        	}
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+            top.location.href = "index.html";
+        }
+    });
+	
 })
-
 
 function changePasswordClick() {
 	oldPassword = $('#changePasOldPas').val();

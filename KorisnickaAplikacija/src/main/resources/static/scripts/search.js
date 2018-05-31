@@ -7,4 +7,14 @@ function buttonSearchClick() {
 	category = $('#searchCategory').val();
 	searchServices = $('#searchServices').val();
 	
+	var data = JSON.stringify({
+		"destination": destination,
+		"dateFrom": dateFrom,
+		"dateTo": dateTo,
+		"numberOfPersons": numberOfPersons,
+		"searchAccommodationType": searchAccommodationType,
+		"category": category,
+		"searchServices": searchServices,
+	});
+	
 }
