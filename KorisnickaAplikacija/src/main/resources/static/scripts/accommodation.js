@@ -95,11 +95,13 @@ function ucitajSmestaj(idSmestaja){
         		if(i%3==0) {
         			$('#ponudaDiv').append("<div class=\"row\">");
         		}
-        		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput\">"
+        		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput \" style=\"padding-bottom:10%\">"
         			+"<h4>" + data.ponude[i].datumOd + " - " + data.ponude[i].datumDo + "</h4>"
-        			+ "<p> Number of beds: " + data.ponude[i].brojLezaja + "</p><p> " + "Number of available rooms: "+ data.ponude[i].brojSlobodnihPonuda+"</p>"
+        			+ "<p> Number of beds: " + data.ponude[i].brojLezaja + "<br/> " + "Number of available rooms: "+ data.ponude[i].brojSlobodnihPonuda +"<br/>"
+        			+ "Price: "+data.ponude[i].cena+"</p>"
         			+ "<div id=\"divUsluge" + i + "\" style=\"display:none\">asd</div>"
         			+ "<a id=\"aTag" + i + "\" onclick=\"return showMoreServicesClick(" + i + ",'" + data.ponude[i].id + "')\" class=\"aTag\" style=\"background-color: #e2e9fc; color: #1e1e77\">Show services</a>"
+        			+"<button class=\"btn btn-light buttonSearch\" onclick=\"rezervisanje("+data.ponude[i].id+")\" >Reserve</button>"
         			+ "</div></div>";
         		if(i%3==0) {
         			$('#ponudaDiv').append("</div>");

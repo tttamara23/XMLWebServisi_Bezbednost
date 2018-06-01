@@ -61,4 +61,26 @@ $(document).ready(function () {
         }
     });
 	
+	$.ajax({
+		async: false,
+		url: "http://localhost:1234/usluga/getUsluge",
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	for(i=0;i<data.length;i++){
+        		$('#searchServices').append("<option value=\""+ data[i].id+"\">"+data[i].naziv+"</option>");
+        	}
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+            top.location.href = "index.html";
+        }
+        
+		
+	});
+	
 })

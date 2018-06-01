@@ -56,6 +56,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
             @ManyToOne(fetch = FetchType.EAGER)
             @JoinColumn(name = "id_ponuda", nullable = false)
         	private Ponuda ponuda;
+            
+            @ManyToOne(fetch = FetchType.EAGER)
+            @JoinColumn(name = "id_korisnika", nullable = false)
+        	private KrajnjiKorisnik korisnik;
 
             /**
              * Gets the value of the id property.
@@ -112,5 +116,23 @@ import javax.xml.datatype.XMLGregorianCalendar;
             public void setDatumRezervacije(Date value) {
                 this.datumRezervacije = value;
             }
+
+			public Ponuda getPonuda() {
+				return ponuda;
+			}
+
+			public void setPonuda(Ponuda ponuda) {
+				this.ponuda = ponuda;
+			}
+
+			public KrajnjiKorisnik getKorisnik() {
+				return korisnik;
+			}
+
+			public void setKorisnik(KrajnjiKorisnik korisnik) {
+				this.korisnik = korisnik;
+			}
+            
+            
 
         }

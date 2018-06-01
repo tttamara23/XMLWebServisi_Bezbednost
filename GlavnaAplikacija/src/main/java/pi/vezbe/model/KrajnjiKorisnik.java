@@ -12,6 +12,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -62,6 +65,9 @@ public class KrajnjiKorisnik
         return blokiran;
     }
     
+    @OneToMany(mappedBy="korisnik", cascade = CascadeType.REMOVE)
+	private List<Rezervacija> rezervacije;
+    
     
 
   /*  public List<Komentar> getKomentari() {
@@ -102,4 +108,18 @@ public class KrajnjiKorisnik
 	public KrajnjiKorisnik() {
 		this.setRole(Role.REGISTERED);
 	}
+
+
+
+	public List<Rezervacija> getRezervacije() {
+		return rezervacije;
+	}
+
+
+
+	public void setRezervacije(List<Rezervacija> rezervacije) {
+		this.rezervacije = rezervacije;
+	}
+	
+	
 }
