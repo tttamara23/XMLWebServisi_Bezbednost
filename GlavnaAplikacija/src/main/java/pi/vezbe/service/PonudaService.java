@@ -22,5 +22,16 @@ public class PonudaService {
 	public List<Ponuda> getByCurrentDateAndSmestajId(Date start,Long idSmestaja){
 		return ponudaRepository.findByDatumOdGreaterThanAndSmestajIdOrderByDatumOdAsc(start, idSmestaja);
 	}
+
+	public Ponuda findOne(Long idPonuda) {
+		// TODO Auto-generated method stub
+		return ponudaRepository.findOne(idPonuda);
+	}
+
+	public Ponuda save(Ponuda ponuda) {
+		// TODO Auto-generated method stub
+		return ponudaRepository.save(ponuda);
+	}
+	
 	
 }

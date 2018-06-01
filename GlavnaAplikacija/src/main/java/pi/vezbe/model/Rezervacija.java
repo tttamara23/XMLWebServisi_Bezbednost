@@ -129,10 +129,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 				return korisnik;
 			}
 
-			public void setKorisnik(KrajnjiKorisnik korisnik) {
-				this.korisnik = korisnik;
+			public void setKorisnik(KrajnjiKorisnik krajnjiKorisnik) {
+				this.korisnik = krajnjiKorisnik;
 			}
-            
+
+			
             
 
         }

@@ -1,6 +1,7 @@
 package pi.vezbe.controller;
 
-import javax.servlet.http.Cookie;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +22,7 @@ import pi.vezbe.dto.LoginDTO;
 import pi.vezbe.dto.RegisterDTO;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
+import pi.vezbe.model.Rezervacija;
 import pi.vezbe.model.Role;
 import pi.vezbe.service.UserService;
 
@@ -196,6 +198,22 @@ public class UserController {
 			role = "REGISTERED";
 		}
         return new ResponseEntity<>(new LoggedInUserDTO(loggedIn.getIme(), role), HttpStatus.OK);
+    }
+	
+	@CrossOrigin()
+	@PreAuthorize("isAuthenticated()")
+    @RequestMapping(
+            value = "/getReservations",
+            method = RequestMethod.POST)
+    public ResponseEntity<?> getReservations() {
+		Korisnik loggedIn = userService.getCurrentUser();
+		
+		if(loggedIn == null) {
+			return new ResponseEntity<>(HttpStatus.MOVED_PERMANENTLY);
+		}
+		List<Rezervacija> korisnickeRezervacije = ((KrajnjiKorisnik)loggedIn).getRezervacije();
+		
+        return new ResponseEntity<>(korisnickeRezervacije, HttpStatus.OK);
     }
 
 }
