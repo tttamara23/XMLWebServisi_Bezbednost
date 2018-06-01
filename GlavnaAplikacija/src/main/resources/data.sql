@@ -38,4 +38,10 @@ insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda,
 	
 insert into Komentar(datum_komentara,objavljen, opis) values ('2018-01-28 21:00:00',false,'Dobar kom');
 	
-	
+insert into Usluga(naziv) values('wifi');
+insert into Usluga(naziv) values('kitchen');
+insert into Usluga(naziv) values('polupansion');
+
+insert into ponuda_usluga(id_ponuda, id_usluga) values (1, 1);
+insert into ponuda_usluga(id_ponuda, id_usluga) values (4, 1);
+insert into ponuda_usluga(id_ponuda, id_usluga) values (4, 3);

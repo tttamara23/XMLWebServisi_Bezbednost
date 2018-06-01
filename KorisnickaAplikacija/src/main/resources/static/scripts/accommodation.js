@@ -48,18 +48,18 @@ function showMoreServicesClick(i, idPonude) {
 function loadServices(i, idPonude) {
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/usluga/getByPonuda/"+idPonude,
+		url: "http://localhost:1234/ponudaUsluga/getByPonuda/"+idPonude,
         type: "GET",
         dataType: "json",
         crossDomain: true,
         xhrFields: {
             withCredentials: true
          },
-        headers: {  'Access-Control-Allow-Origin': '*' },
+        headers: {  'Access-Control-Allow-Origin' : '*' },
         success: function (data) {
         	$('#divUsluge' + i).empty();
         	for(j=0; j<data.length; j++) {
-        		divContent = "<i class=\"glyphicon glyphicon-home\"></i>&nbsp<a  class=\"aTag\" style=\"background-color: #e2e9fc; color: #1e1e77\">" + data[j].naziv + "</a><br>";
+        		divContent = "<i class=\"glyphicon glyphicon-plus\"></i>&nbsp<a  class=\"aTag\" style=\"background-color: #e2e9fc; color: #1e1e77\">" + data[j].uslugaDTO.naziv + "</a><br>";
         		$('#divUsluge' + i).append(divContent);
         	}
         	$('#divUsluge' + i).append("<br>");

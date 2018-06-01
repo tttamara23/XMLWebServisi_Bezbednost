@@ -18,9 +18,9 @@ $(document).ready(function () {
         	
         },
         error: function (jqxhr, textStatus, errorThrown) {
-        	if (jqxhr.status === 301) {
+        	
                 top.location.href = "index.html";
-            }
+            
         }
     });
 })
