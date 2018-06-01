@@ -12,5 +12,11 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 	List<Ponuda> findBySmestajId(Long smestajId);
 	
 	List<Ponuda> findByDatumOdGreaterThanAndSmestajIdOrderByDatumOdAsc(Date start,Long idSmestaj);
+	
+	List<Ponuda> findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipContainingIgnoreCaseAndSmestajKategorija     
+		(Date dateFrom, Date dateTo, String naziv, int brojLezaja, String tip, int kategorija);
+	
+	List<Ponuda> findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipContainingIgnoreCase 
+	(Date dateFrom, Date dateTo, String naziv, int brojLezaja, String tip);
 
 }

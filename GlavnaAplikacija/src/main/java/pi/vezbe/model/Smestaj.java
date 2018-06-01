@@ -152,7 +152,7 @@ public class Smestaj {
     @XmlElement(required = true)
     protected String tip;
     
-    protected int kategorija;
+    protected Integer kategorija;
     
     @XmlElement(required = true)
     protected String lokacija;
@@ -251,7 +251,7 @@ public class Smestaj {
      * Gets the value of the kategorija property.
      * 
      */
-    public int getKategorija() {
+    public Integer getKategorija() {
         return kategorija;
     }
 
@@ -259,7 +259,7 @@ public class Smestaj {
      * Sets the value of the kategorija property.
      * 
      */
-    public void setKategorija(int value) {
+    public void setKategorija(Integer value) {
         this.kategorija = value;
     }
 

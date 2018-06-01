@@ -7,14 +7,54 @@ function buttonSearchClick() {
 	category = $('#searchCategory').val();
 	searchServices = $('#searchServices').val();
 	
+	if(isNaN(numberOfPersons)) {
+		toastr["error"]('Number of persons must be number.');
+		return;
+	}
+	
 	var data = JSON.stringify({
 		"destination": destination,
 		"dateFrom": dateFrom,
 		"dateTo": dateTo,
 		"numberOfPersons": numberOfPersons,
-		"searchAccommodationType": searchAccommodationType,
+		"accommodationType": searchAccommodationType,
 		"category": category,
 		"searchServices": searchServices,
 	});
 	
+	$.ajax({
+		async: false,
+		url: "http://localhost:1234/ponuda/search",
+        type: "POST",
+        contentType: "application/json",
+        data: data,
+        dataType: "json",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	$('#divPonude').empty();
+        	for(i=0; i<data.length; i++) {
+        		newDiv = "";
+        		if(i%3==0) {
+        			$('#divPonude').append("<div class=\"row\">");
+        		}
+        		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput\">"
+        			+ "<h1>" + data[i].smestajNaziv + "</h1>"
+        			+"<p>" + data[i].datumOd + " - " + data[i].datumDo + "</p>"
+        			+ "<p> Number of beds: " + data[i].brojLezaja + "<br/> " + "Number of available rooms: "+ data[i].brojSlobodnihPonuda +"<br/>"
+        			+ "Price: "+data[i].cena+"</p>"
+        			+ "</div></div>";
+        		if(i%3==0) {
+        			$('#divPonude').append("</div>");
+        		}
+        		$('#divPonude').append(newDiv);
+        	}
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            toastr["error"](jqXHR.responseText);
+        }
+    });
 }
