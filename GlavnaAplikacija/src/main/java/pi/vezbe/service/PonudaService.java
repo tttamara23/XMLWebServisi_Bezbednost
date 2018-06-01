@@ -22,6 +22,17 @@ public class PonudaService {
 	public List<Ponuda> getByCurrentDateAndSmestajId(Date start,Long idSmestaja){
 		return ponudaRepository.findByDatumOdGreaterThanAndSmestajIdOrderByDatumOdAsc(start, idSmestaja);
 	}
+
+	public Ponuda findOne(Long idPonuda) {
+		// TODO Auto-generated method stub
+		return ponudaRepository.findOne(idPonuda);
+	}
+
+	public Ponuda save(Ponuda ponuda) {
+		// TODO Auto-generated method stub
+		return ponudaRepository.save(ponuda);
+	}
+	
 	
 	public List<Ponuda> searchWithCategory(Date dateFrom, Date dateTo, String naziv, int brojLezaja, String tip, Integer kategorija) {
 		return ponudaRepository.findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipContainingIgnoreCaseAndSmestajKategorija(dateFrom, dateTo, naziv, brojLezaja, tip, kategorija);
