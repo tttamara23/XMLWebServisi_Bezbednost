@@ -57,6 +57,7 @@ function ukloni(id){
     });
 }
 
+
 function izmeni(id){
 	$.ajax({
     	url: "http://localhost:1234/administrator/izmeniTipSmestaja",
@@ -64,6 +65,42 @@ function izmeni(id){
         crossDomain: true,
         contentType: "text/plain",
         data: id,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function (data) {
+        	
+        	var x = document.getElementById("nazivTipaInput");
+        	x.value = data.naziv;
+        	
+        	var button = document.getElementById("saveTipButton");
+        	button.setAttribute("onclick","return sacuvajIzmenuTipa('"+data.id +"')");
+        	
+        	$("#myModal").modal('show');
+
+
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+function sacuvajIzmenuTipa(id){
+	var noviNaziv = document.getElementById("nazivTipaInput");
+	sacuvajIzmenuTipa2(id,noviNaziv.value);
+}
+
+function sacuvajIzmenuTipa2(id,naziv){
+	var podaci = {};
+	podaci.id = id;
+	podaci.naziv = naziv;
+	
+	var podaciJson = JSON.stringify(podaci);
+	$.ajax({
+    	url: "http://localhost:1234/administrator/sacuvajIzmenuTipaSmestaja",
+        type: "POST",
+        crossDomain: true,
+        contentType: "application/json",
+        data: podaciJson,
         xhrFields: {
             withCredentials: true
          },
@@ -190,7 +227,7 @@ function kategorijaSmestaja() {
                    tr.appendChild(td1);  
                    tr.appendChild(td);              
                    td2 = document.createElement('td');
-                   td2.innerHTML="<button class=\"btn btn-danger\" onclick=\"return ukloniKategoriju('" + data[i].id + "')\">Ukloni</button>";
+                   td2.innerHTML="<button class=\"btn btn-danger\" onclick=\"return ukloniKategoriju('" + data[i].id + "')\">Ukloni</button> &nbsp;&nbsp;&nbsp; <button class=\"btn btn-warning\" onclick=\"return izmeniKategoriju('" + data[i].id + "')\">Izmeni</button>";
                    tr.appendChild(td2);    
                   
                    
@@ -223,6 +260,64 @@ function ukloniKategoriju(id){
         }
     });
 }
+function izmeniKategoriju(id){
+	$.ajax({
+    	url: "http://localhost:1234/administrator/izmeniKategoriju",
+        type: "POST",
+        crossDomain: true,
+        contentType: "text/plain",
+        data: id,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function (data) {
+        	
+        	var x = document.getElementById("nazivKategorije");
+        	x.value = data.kategorija;
+        	
+        	var button = document.getElementById("saveKategorijaButton");
+        	button.setAttribute("onclick","return sacuvajIzmenuKategorije('"+data.id +"')");
+        	
+        	$("#modalKategorija").modal('show');
+
+
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+
+function sacuvajIzmenuKategorije(id){
+	var noviNaziv = document.getElementById("nazivKategorije");
+	sacuvajIzmenuKategorije2(id,noviNaziv.value);
+}
+
+function sacuvajIzmenuKategorije2(id,kategorija){
+	var podaci = {};
+	podaci.id = id;
+	podaci.kategorija = kategorija;
+	
+	var podaciJson = JSON.stringify(podaci);
+	$.ajax({
+    	url: "http://localhost:1234/administrator/sacuvajIzmenuKategorijeSmestaja",
+        type: "POST",
+        crossDomain: true,
+        contentType: "application/json",
+        data: podaciJson,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function () {
+        	$("#tableKategorijaSmestaja").find("tr:gt(0)").remove();
+        	
+        	kategorijaSmestaja();
+
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+
 function dodatneUsluge() {
 	$("#tableDodatneUsluge").find("tr:gt(0)").remove();
     $.ajax({
@@ -249,7 +344,7 @@ function dodatneUsluge() {
                    tr.appendChild(td1);  
                    tr.appendChild(td);              
                    td2 = document.createElement('td');
-                   td2.innerHTML="<button class=\"btn btn-danger\" onclick=\"return ukloniUslugu('" + data[i].id + "')\">Ukloni</button>";
+                   td2.innerHTML="<button class=\"btn btn-danger\" onclick=\"return ukloniUslugu('" + data[i].id + "')\">Ukloni</button> &nbsp;&nbsp;&nbsp; <button class=\"btn btn-warning\" onclick=\"return izmeniUslugu('" + data[i].id + "')\">Izmeni</button>";
                    tr.appendChild(td2);    
                   
                    
@@ -269,6 +364,63 @@ function ukloniUslugu(id){
         crossDomain: true,
         contentType: "text/plain",
         data: id,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function () {
+        	$("#tableDodatneUsluge").find("tr:gt(0)").remove();
+        	
+        	dodatneUsluge();
+
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+
+function izmeniUslugu(id){
+	$.ajax({
+    	url: "http://localhost:1234/administrator/izmeniUslugu",
+        type: "POST",
+        crossDomain: true,
+        contentType: "text/plain",
+        data: id,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function (data) {
+        	
+        	var x = document.getElementById("nazivUsluge");
+        	x.value = data.naziv;
+        	
+        	var button = document.getElementById("saveUslugaButton");
+        	button.setAttribute("onclick","return sacuvajIzmenuUsluge('"+data.id +"')");
+        	
+        	$("#modalUsluga").modal('show');
+
+
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+function sacuvajIzmenuUsluge(id){
+	var noviNaziv = document.getElementById("nazivUsluge");
+	sacuvajIzmenuUsluge2(id,noviNaziv.value);
+}
+
+function sacuvajIzmenuUsluge2(id,naziv){
+	var podaci = {};
+	podaci.id = id;
+	podaci.naziv = naziv;
+	
+	var podaciJson = JSON.stringify(podaci);
+	$.ajax({
+    	url: "http://localhost:1234/administrator/sacuvajIzmenuUsluge",
+        type: "POST",
+        crossDomain: true,
+        contentType: "application/json",
+        data: podaciJson,
         xhrFields: {
             withCredentials: true
          },

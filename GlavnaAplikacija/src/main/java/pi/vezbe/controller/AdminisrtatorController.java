@@ -28,7 +28,6 @@ import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Komentar;
 import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.model.TipSmestaja;
-import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
 import pi.vezbe.service.DodatneUslugeService;
 import pi.vezbe.service.EmailService;
@@ -119,6 +118,7 @@ public class AdminisrtatorController {
 			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
 		}
         TipSmestaja TipToSave = tipSmestajaDTOToTipSmestajaConverter.convert(tipSmestajaDTO);
+        @SuppressWarnings("unused")
         TipSmestaja saved = tipSmestajaService.save(TipToSave);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -134,6 +134,7 @@ public class AdminisrtatorController {
 			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
 		}
 		KategorijaSmestaja KategorijaToSave = kategorijaSmestajaDTOToKategorijaSmestajaConverter.convert(kategorijaSmestajaDTO);
+		@SuppressWarnings("unused")
 		KategorijaSmestaja saved = kategorijaSmestajaService.save(KategorijaToSave);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -149,6 +150,7 @@ public class AdminisrtatorController {
 			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
 		}
 		DodatneUsluge UslugaToSave = dodatneUslugeDTOToDodatneUslugeConverter.convert(dodatneUslugeDTO);
+		@SuppressWarnings("unused")
 		DodatneUsluge saved = dodatneUslugeService.save(UslugaToSave);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -174,6 +176,7 @@ public class AdminisrtatorController {
 		KrajnjiKorisnik zaBlok = userService.findRegisteredByEmail(id);
 		if(zaBlok!=null){
 			zaBlok.setBlokiran(true);
+			@SuppressWarnings("unused")
 			KrajnjiKorisnik saved = userService.save(zaBlok);
 			return true;	
 		}
@@ -191,6 +194,7 @@ public class AdminisrtatorController {
 		KrajnjiKorisnik zaAktivaciju = userService.findRegisteredByEmail(id);
 		if(zaAktivaciju!=null){
 			zaAktivaciju.setBlokiran(false);
+			@SuppressWarnings("unused")
 			KrajnjiKorisnik saved = userService.save(zaAktivaciju);
 			return true;	
 		}
@@ -270,15 +274,49 @@ public class AdminisrtatorController {
             value = "izmeniTipSmestaja",
             method = RequestMethod.POST
     )
-    public boolean izmeniTipSmestaja(@RequestBody String id) {
+    public ResponseEntity<?> izmeniTipSmestaja(@RequestBody String id) {
 		//Long idSmestaja = Long.parseLong(id);
 		TipSmestaja zaIzmenu = tipSmestajaService.findById(id);
 		if(zaIzmenu!=null){
 			//tipSmestajaService.delete(zaBrisanje);
-			return true;	
+			return new ResponseEntity<>(zaIzmenu, HttpStatus.OK);
 		}
 		
-		return false;
+		return null;
+    }
+	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "izmeniKategoriju",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<?> izmeniKategoriju(@RequestBody String id) {
+		
+		KategorijaSmestaja zaIzmenu = kategorijaSmestajaService.findById(id);
+		if(zaIzmenu!=null){
+			
+			return new ResponseEntity<>(zaIzmenu, HttpStatus.OK);
+		}
+		
+		return null;
+    }
+	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "izmeniUslugu",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<?> izmeniUslugu(@RequestBody String id) {
+		
+		DodatneUsluge zaIzmenu = dodatneUslugeService.findById(id);
+		if(zaIzmenu!=null){
+			
+			return new ResponseEntity<>(zaIzmenu, HttpStatus.OK);
+		}
+		
+		return null;
     }
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -332,13 +370,44 @@ public class AdminisrtatorController {
 		Komentar zaObjavljivanje = komentarService.findById(id);
 		if(zaObjavljivanje!=null){
 			zaObjavljivanje.setObjavljen(true);
+			@SuppressWarnings("unused")
 			Komentar saved = komentarService.save(zaObjavljivanje);
 			return true;	
 		}
 		
 		return false;
     }
+	@CrossOrigin
+	@RequestMapping(
+            value = "/sacuvajIzmenuTipaSmestaja",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<?> sacuvajIzmenuTipaSmestaja(@RequestBody TipSmestaja tipSmestaja) {
+		@SuppressWarnings("unused")
+		TipSmestaja saved = tipSmestajaService.save(tipSmestaja);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
+	@CrossOrigin
+	@RequestMapping(
+            value = "/sacuvajIzmenuKategorijeSmestaja",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<?> sacuvajIzmenuKategorijeSmestaja(@RequestBody KategorijaSmestaja ks) {
+		@SuppressWarnings("unused")
+		KategorijaSmestaja saved = kategorijaSmestajaService.save(ks);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	@CrossOrigin
+	@RequestMapping(
+            value = "/sacuvajIzmenuUsluge",
+            method = RequestMethod.POST
+    )
+	public ResponseEntity<?> sacuvajIzmenuUsluge(@RequestBody DodatneUsluge usluga) {
+		@SuppressWarnings("unused")
+		DodatneUsluge saved = dodatneUslugeService.save(usluga);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	public String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
