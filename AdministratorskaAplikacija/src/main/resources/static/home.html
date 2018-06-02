@@ -18,6 +18,10 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+.TextBox > div {
+    margin:0 auto;
+    width:250px;
+}
 </style>
 <head>
 	<meta charset="UTF-8">
@@ -26,6 +30,7 @@ tr:nth-child(even) {
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="scripts/profile.js"></script>
+	<script src="scripts/sifarnici.js"></script>
 	<link rel="shortcut icon" href="assets/ico/favicon.png">
 	
 	<script src="toastr/toastr.min.js"></script>
@@ -42,6 +47,15 @@ tr:nth-child(even) {
 	            <li><a href="#changeUsers" onclick="return users()" data-toggle="tab">Users</a></li>
 	             <li><a href="#publishComments" onclick="return comments()" data-toggle="tab">Comments</a></li>
 	            <li><a onclick="return logout()" data-toggle="tab">Logout</a></li>
+	        </ul>
+	    </li>
+	    <li class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" id="tabSifarniciName">Sifarnici<span class="caret"></span></a>
+	        <ul class="dropdown-menu">
+	            <li><a href="#tipSmestaja" onclick="return tipSmestaja()" data-toggle="tab">Tip smestaja</a></li>
+	            <li><a href="#kategorijaSmestaja" onclick="return kategorijaSmestaja()" data-toggle="tab">Kategorizacija smestaja</a></li>
+	            <li><a href="#dodatneUsluge" onclick="return dodatneUsluge()" data-toggle="tab">Dodatne usluge</a></li>
+	             
 	        </ul>
 	    </li>
 	   
@@ -127,6 +141,54 @@ tr:nth-child(even) {
 	        	 	<!--<th>Smestaj</th>-->
 	        	 	
 	        	 	<th></th>
+	        	</tr>
+	        </table>
+	    </div>
+	    <div class="tab-pane" id="tipSmestaja">
+	    <br/><br/>
+	    	<div class="TextBox">
+    			<div>
+        			<input id="textBoxTipSmestaja" type="text" />
+        			<button class="btn btn-success" onclick="return dodajTipSmestaja()">Dodaj</button>
+    			</div>
+			</div>
+	        <table width="200" id="tableTipSmestaja">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	<th>Naziv</th>
+	        	 	
+	        	</tr>
+	        </table>
+	    </div>
+	    <div class="tab-pane" id="kategorijaSmestaja">
+	    <br/><br/>
+	    	<div class="TextBox">
+    			<div>
+        			<input id="textBoxKategorijaSmestaja" type="text" />
+        			<button class="btn btn-success" onclick="return dodajKategorijuSmestaja()">Dodaj</button>
+    			</div>
+			</div>
+	        <table width="200" id="tableKategorijaSmestaja">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	<th>Kategorija</th>
+	        	 	
+	        	</tr>
+	        </table>
+	    </div>
+	    <div class="tab-pane" id="dodatneUsluge">
+	    <br/><br/>
+	    	<div class="TextBox">
+    			<div>
+        			<input id="textBoxDodatneUsluge" type="text" />
+        			<button class="btn btn-success" onclick="return dodajDodatneUsluge()">Dodaj</button>
+    			</div>
+			</div>
+	        <table width="200" id="tableDodatneUsluge">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	<th>Naziv</th>
+	        	 	
 	        	</tr>
 	        </table>
 	    </div>
