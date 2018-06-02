@@ -13,9 +13,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -149,10 +152,9 @@ public class Smestaj {
     @GeneratedValue(strategy=GenerationType.AUTO)
     protected Long id;
     
-    @XmlElement(required = true)
-    protected String tip;
-    
-    protected Integer kategorija;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_tip_smestaja")
+	private TipSmestaja tipSmestaja;
     
     @XmlElement(required = true)
     protected String lokacija;
@@ -168,6 +170,10 @@ public class Smestaj {
     @XmlElement(name = "Slika", required = true)
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
     protected List<Slika> slika;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_kategorija_smestaja")
+	private KategorijaSmestaja kategorijaSmestaja;
     
    // @XmlElement(name = "Komentari", required = true)
    // @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
@@ -223,47 +229,25 @@ public class Smestaj {
         this.id = value;
     }
 
-    /**
-     * Gets the value of the tip property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTip() {
-        return tip;
-    }
 
-    /**
-     * Sets the value of the tip property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTip(String value) {
-        this.tip = value;
-    }
 
-    /**
-     * Gets the value of the kategorija property.
-     * 
-     */
-    public Integer getKategorija() {
-        return kategorija;
-    }
+    public TipSmestaja getTipSmestaja() {
+		return tipSmestaja;
+	}
 
-    /**
-     * Sets the value of the kategorija property.
-     * 
-     */
-    public void setKategorija(Integer value) {
-        this.kategorija = value;
-    }
+	public void setTipSmestaja(TipSmestaja tipSmestaja) {
+		this.tipSmestaja = tipSmestaja;
+	}
 
-    /**
+	public KategorijaSmestaja getKategorijaSmestaja() {
+		return kategorijaSmestaja;
+	}
+
+	public void setKategorijaSmestaja(KategorijaSmestaja kategorijaSmestaja) {
+		this.kategorijaSmestaja = kategorijaSmestaja;
+	}
+
+	/**
      * Gets the value of the lokacija property.
      * 
      * @return

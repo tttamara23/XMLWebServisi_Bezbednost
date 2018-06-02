@@ -48,25 +48,12 @@ public class PonudaController {
 	)
 	public ResponseEntity<?> search(@RequestBody SearchDTO searchDTO) {
 		int numberOfPersons;
-		int category = 0;
 		try{
 			numberOfPersons = Integer.parseInt(searchDTO.getNumberOfPersons());
 		} catch(Exception e) {
 			return new ResponseEntity<>("Number of persons must be number.",HttpStatus.BAD_REQUEST);
 		}
 		
-		if(searchDTO.getCategory() != null) {
-			if(!searchDTO.getCategory().equals("")) {
-				try{
-					category = Integer.parseInt(searchDTO.getCategory());
-				} catch(Exception e) {
-					return new ResponseEntity<>("Category must be number.",HttpStatus.BAD_REQUEST);
-				}
-			}	
-		}
-		if(searchDTO.getAccommodationType() == null) {
-			searchDTO.setAccommodationType("");
-		}
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			Date dateFrom;
@@ -84,10 +71,10 @@ public class PonudaController {
 			List<Ponuda> ponude = new ArrayList<Ponuda>();
 			if(searchDTO.getCategory() == null) {
 				ponude = ponudaService.searchWithoutCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType());
-			} else if(searchDTO.getCategory().equals("")) {
+			} else if(searchDTO.getCategory().equals("") || searchDTO.getCategory()== null) {
 				ponude = ponudaService.searchWithoutCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType());
 			} else {
-				ponude = ponudaService.searchWithCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), category);
+				ponude = ponudaService.searchWithCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory());
 			}
 			return new ResponseEntity<>(ponudaToPonudaDtoConverter.convert(ponude), HttpStatus.OK);
 		} catch (ParseException e) {

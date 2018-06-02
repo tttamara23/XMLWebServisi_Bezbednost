@@ -7,13 +7,13 @@ public class SmestajDTO {
 	
 	private Long id;
 	private String naziv;
-	private String tip;
-	private int kategorija;
+	private TipSmestajaDTO tip;
+	private KategorijaSmestajaDTO kategorija;
 	private String lokacija;
 	private String opis;
 	private List<PonudaDTO> ponude;
 	
-	public SmestajDTO(Long id, String naziv, String tip, int kategorija, String lokacija, String opis) {
+	public SmestajDTO(Long id, String naziv, TipSmestajaDTO tip, KategorijaSmestajaDTO kategorija, String lokacija, String opis) {
 		this.id = id;
 		this.naziv = naziv;
 		this.tip = tip;
@@ -44,19 +44,19 @@ public class SmestajDTO {
 		this.naziv = naziv;
 	}
 
-	public String getTip() {
+	public TipSmestajaDTO getTip() {
 		return tip;
 	}
 
-	public void setTip(String tip) {
+	public void setTip(TipSmestajaDTO tip) {
 		this.tip = tip;
 	}
 
-	public int getKategorija() {
+	public KategorijaSmestajaDTO getKategorija() {
 		return kategorija;
 	}
 
-	public void setKategorija(int kategorija) {
+	public void setKategorija(KategorijaSmestajaDTO kategorija) {
 		this.kategorija = kategorija;
 	}
 

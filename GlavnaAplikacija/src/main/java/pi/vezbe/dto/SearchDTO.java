@@ -7,8 +7,8 @@ public class SearchDTO {
 	private String dateFrom;
 	private String dateTo;
 	private String numberOfPersons;
-	private String accommodationType;
-	private String category;
+	private Long accommodationType;
+	private Long category;
 	private List<String> searchServices;
 	
 	public SearchDTO() {
@@ -16,7 +16,7 @@ public class SearchDTO {
 	}
 
 	public SearchDTO(String destination, String dateFrom, String dateTo, String numberOfPersons,
-			String accommodationType, String category, List<String> searchServices) {
+			Long accommodationType, Long category, List<String> searchServices) {
 		this.destination = destination;
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;
@@ -58,19 +58,19 @@ public class SearchDTO {
 		this.numberOfPersons = numberOfPersons;
 	}
 
-	public String getAccommodationType() {
+	public Long getAccommodationType() {
 		return accommodationType;
 	}
 
-	public void setAccommodationType(String accommodationType) {
+	public void setAccommodationType(Long accommodationType) {
 		this.accommodationType = accommodationType;
 	}
 
-	public String getCategory() {
+	public Long getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Long category) {
 		this.category = category;
 	}
 
