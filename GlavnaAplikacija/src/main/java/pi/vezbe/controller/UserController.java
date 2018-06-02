@@ -209,13 +209,13 @@ public class UserController {
 	@PreAuthorize("isAuthenticated()")
     @RequestMapping(
             value = "/getReservations",
-            method = RequestMethod.POST)
+            method = RequestMethod.GET)
     public ResponseEntity<?> getReservations() {
 		Korisnik loggedIn = userService.getCurrentUser();
 		
-		if(loggedIn == null) {
+		/*if(loggedIn == null) {
 			return new ResponseEntity<>(HttpStatus.MOVED_PERMANENTLY);
-		}
+		}*/
 		List<Rezervacija> korisnickeRezervacije = ((KrajnjiKorisnik)loggedIn).getRezervacije();
 		List<RezervacijaDTO> korisnickeRezervacijeDTO = rezervacijaToRezervacijaDTO.convert(korisnickeRezervacije);
         return new ResponseEntity<>(korisnickeRezervacijeDTO, HttpStatus.OK);

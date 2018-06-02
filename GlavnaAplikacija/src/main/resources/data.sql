@@ -60,3 +60,5 @@ insert into Dodatne_Usluge(id,naziv) values (1, 'tv');
 insert into Dodatne_Usluge(id,naziv) values (2, 'klima');
 insert into Dodatne_Usluge(id,naziv) values (3, 'fen');
 insert into Dodatne_Usluge(id,naziv) values (4, 'internet');
+
+insert into Rezervacija(realizovano,datum_rezervacije,id_ponuda,id_korisnika) values (true,'2018-01-29 21:00:00',1,2);

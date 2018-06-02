@@ -67,4 +67,21 @@ public class RezervacijeController {
 
 	
 	
+	@CrossOrigin
+	@RequestMapping(
+            value = "/cancelReservation/{idRezervacije}",
+            method = RequestMethod.DELETE
+    )
+    public ResponseEntity<?> cancelReservation(@PathVariable Long idRezervacije) {
+		Rezervacija rez = rezervacijeService.findOne(idRezervacije);
+		Ponuda ponuda = ponudaService.findOne(rez.getPonuda().getId());
+		ponuda.setBrojSlobodnihPonuda(ponuda.getBrojSlobodnihPonuda()+1);
+		
+		rezervacijeService.delete(idRezervacije);		
+		
+		ponuda.getRezervacija().remove(rez);
+		Ponuda retPonuda = ponudaService.save(ponuda);
+		PonudaDTO ponudaDTOret = ponudaToPonudaDtoConverter.convert(retPonuda);
+		return new ResponseEntity<>(ponudaDTOret,HttpStatus.OK);
+	}
 }

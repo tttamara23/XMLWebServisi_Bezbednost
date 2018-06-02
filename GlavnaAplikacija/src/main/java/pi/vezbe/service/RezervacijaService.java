@@ -17,5 +17,15 @@ public class RezervacijaService {
 		return rezervacijeRepository.save(rezervacija);
 	}
 
+	public Rezervacija findOne(Long idRezervacije) {
+		// TODO Auto-generated method stub
+		return rezervacijeRepository.findOne(idRezervacije);
+	}
+
+	public void delete(Long id ) {
+		// TODO Auto-generated method stub
+		 rezervacijeRepository.delete(id);
+	}
+
 	
 }
