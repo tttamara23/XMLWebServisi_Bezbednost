@@ -89,7 +89,7 @@ function ucitajSmestaj(idSmestaja){
         	$('.divSearchInput').empty();
         	$('#nazivSmestaja').append(data.naziv);
         	$('#opisSmestaja').append(data.opis);
-        	$('#tipSmestaja').append(data.tip);
+        	$('#tipSmestaja').append(data.tip.naziv);
         	for(i=0; i<data.ponude.length; i++) {
         		newDiv = "";
         		if(i%3==0) {

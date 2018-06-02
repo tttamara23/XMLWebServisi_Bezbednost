@@ -22,9 +22,12 @@ function buttonSearchClick() {
 		"searchServices": searchServices,
 	});
 	
+	//0 nije napredna
+	napredna = $('#aTagShowMore').text() == 'Show advanced' ? 0 : 1;
+	
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/ponuda/search",
+		url: "http://localhost:1234/ponuda/search/" + napredna,
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -42,9 +45,11 @@ function buttonSearchClick() {
         			$('#divPonude').append("<div class=\"row\">");
         		}
         		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput\">"
-        			+ "<h1>" + data[i].smestajNaziv + "</h1>"
+        			+ "<h1>" + data[i].lokacija + "</h1>"
+        			+ "<h3><a href=\"accommodation.html?idSmestaja=" + data[i].smestajId + "\">" + data[i].smestajNaziv + "</a></h3>"
         			+"<p>" + data[i].datumOd + " - " + data[i].datumDo + "</p>"
-        			+ "<p> Number of beds: " + data[i].brojLezaja + "<br/> " + "Number of available rooms: "+ data[i].brojSlobodnihPonuda +"<br/>"
+        			+ "<p> Number of beds: " + data[i].brojLezaja + "<br/> " 
+        			+ "Number of available rooms: "+ data[i].brojSlobodnihPonuda +"<br/>"
         			+ "Price: "+data[i].cena+"</p>"
         			+ "</div></div>";
         		if(i%3==0) {

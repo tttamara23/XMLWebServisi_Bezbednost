@@ -1,5 +1,8 @@
 package pi.vezbe.converters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +21,14 @@ public class TipSmestajaToTipSmestajaDTO implements Converter<TipSmestaja, TipSm
 		tipSmestajaDTO.setId(source.getId());
 		tipSmestajaDTO.setNaziv(source.getNaziv());
 		return tipSmestajaDTO;
+	}
+	
+	public List<TipSmestajaDTO> convert(List<TipSmestaja> source) {
+		List<TipSmestajaDTO> ret = new ArrayList<TipSmestajaDTO>();
+		for(TipSmestaja tipSmestaja : source) {
+			ret.add(convert(tipSmestaja));
+		}
+		return ret;
 	}
 
 }

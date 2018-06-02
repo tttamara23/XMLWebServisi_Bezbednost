@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,10 +45,10 @@ public class PonudaController {
 	
 	@CrossOrigin
 	@RequestMapping(
-			value = "/search",
+			value = "/search/{advanced}",
 			method = RequestMethod.POST
 	)
-	public ResponseEntity<?> search(@RequestBody SearchDTO searchDTO) {
+	public ResponseEntity<?> search(@PathVariable("advanced") int advanced, @RequestBody SearchDTO searchDTO) {
 		int numberOfPersons;
 		try{
 			numberOfPersons = Integer.parseInt(searchDTO.getNumberOfPersons());
@@ -68,13 +70,12 @@ public class PonudaController {
 			} else {
 				dateTo = dateFormat.parse(searchDTO.getDateTo());
 			}
+			
 			List<Ponuda> ponude = new ArrayList<Ponuda>();
-			if(searchDTO.getCategory() == null) {
-				ponude = ponudaService.searchWithoutCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType());
-			} else if(searchDTO.getCategory().equals("") || searchDTO.getCategory()== null) {
-				ponude = ponudaService.searchWithoutCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType());
+			if(advanced == 0) {
+				ponude = ponudaService.searchNotAdvanced(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
 			} else {
-				ponude = ponudaService.searchWithCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory());
+				ponude = ponudaService.searchAdvanced(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory(), searchDTO.getSearchServices());
 			}
 			return new ResponseEntity<>(ponudaToPonudaDtoConverter.convert(ponude), HttpStatus.OK);
 		} catch (ParseException e) {

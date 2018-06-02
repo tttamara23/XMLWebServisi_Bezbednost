@@ -9,14 +9,14 @@ public class SearchDTO {
 	private String numberOfPersons;
 	private Long accommodationType;
 	private Long category;
-	private List<String> searchServices;
+	private List<Long> searchServices;
 	
 	public SearchDTO() {
 		
 	}
 
 	public SearchDTO(String destination, String dateFrom, String dateTo, String numberOfPersons,
-			Long accommodationType, Long category, List<String> searchServices) {
+			Long accommodationType, Long category, List<Long> searchServices) {
 		this.destination = destination;
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;
@@ -74,11 +74,11 @@ public class SearchDTO {
 		this.category = category;
 	}
 
-	public List<String> getSearchServices() {
+	public List<Long> getSearchServices() {
 		return searchServices;
 	}
 
-	public void setSearchServices(List<String> searchServices) {
+	public void setSearchServices(List<Long> searchServices) {
 		this.searchServices = searchServices;
 	}
 	

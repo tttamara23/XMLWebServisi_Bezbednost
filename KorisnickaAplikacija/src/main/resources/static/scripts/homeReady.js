@@ -83,4 +83,46 @@ $(document).ready(function () {
 		
 	});
 	
+	$.ajax({
+		async: false,
+		url: "http://localhost:1234/tipSmestaja/getSviTipovi",
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	$('#searchAccommodationType').empty();
+        	for(i=0;i<data.length;i++){
+        		$('#searchAccommodationType').append("<option value=\""+ data[i].id+"\">"+data[i].naziv+"</option>");
+        	}
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+            top.location.href = "index.html";
+        }
+	});
+	
+	$.ajax({
+		async: false,
+		url: "http://localhost:1234/kategorijaSmestaja/getSveKategorije",
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	$('#searchCategory').empty();
+        	for(i=0;i<data.length;i++){
+        		$('#searchCategory').append("<option value=\""+ data[i].id+"\">"+data[i].kategorija+"</option>");
+        	}
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+            top.location.href = "index.html";
+        }
+	});
+	
 })

@@ -10,13 +10,14 @@ public class PonudaDTO {
     private int brojSlobodnihPonuda;
     private Long smestajId;
     private String smestajNaziv;
+    private String lokacija;
     
     public PonudaDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public PonudaDTO(Long id, String datumOd, String datumDo, double cena, int brojLezaja, int brojSlobodnihPonuda,
-			Long smestajId, String smestajNaziv) {
+			Long smestajId, String smestajNaziv, String lokacija) {
 		this.id = id;
 		this.datumOd = datumOd;
 		this.datumDo = datumDo;
@@ -25,6 +26,7 @@ public class PonudaDTO {
 		this.brojSlobodnihPonuda = brojSlobodnihPonuda;
 		this.smestajId = smestajId;
 		this.smestajNaziv = smestajNaziv;
+		this.lokacija = lokacija;
 	}
 
 	public Long getId() {
@@ -89,6 +91,14 @@ public class PonudaDTO {
 
 	public void setSmestajNaziv(String smestajNaziv) {
 		this.smestajNaziv = smestajNaziv;
+	}
+
+	public String getLokacija() {
+		return lokacija;
+	}
+
+	public void setLokacija(String lokacija) {
+		this.lokacija = lokacija;
 	}
 
 }

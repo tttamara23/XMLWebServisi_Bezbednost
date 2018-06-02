@@ -29,6 +29,7 @@ public class PonudaToPonudaDtoConverter implements Converter<Ponuda, PonudaDTO> 
         ret.setDatumOd(dateFormat.format(source.getDatumOd()));
 		ret.setSmestajId(source.getSmestaj().getId());
 		ret.setSmestajNaziv(source.getSmestaj().getNaziv());
+		ret.setLokacija(source.getSmestaj().getLokacija());
 		
 		return ret;
 	}
