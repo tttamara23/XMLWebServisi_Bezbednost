@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pi.vezbe.model.DodatneUsluge;
+import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.repository.DodatneUslugeRepository;
 
 @Service
@@ -23,5 +24,8 @@ public class DodatneUslugeService {
 	}
 	public DodatneUsluge save(DodatneUsluge dodU) {
 		return dodatneUslugeRepository.save(dodU);
+	}
+	public void delete(DodatneUsluge zaBrisanje) {
+		dodatneUslugeRepository.delete(zaBrisanje);
 	}
 }

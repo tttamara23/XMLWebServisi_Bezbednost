@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pi.vezbe.model.KategorijaSmestaja;
+import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.repository.KategorijaSmestajaRepository;
 
 @Service
@@ -24,5 +25,8 @@ public class KategorijaSmestajaService {
 	}
 	public KategorijaSmestaja save(KategorijaSmestaja katS) {
 		return kategorijaSmestajaRepository.save(katS);
+	}
+	public void delete(KategorijaSmestaja zaBrisanje) {
+		kategorijaSmestajaRepository.delete(zaBrisanje);
 	}
 }

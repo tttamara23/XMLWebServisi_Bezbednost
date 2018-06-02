@@ -28,6 +28,7 @@ import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Komentar;
 import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.model.TipSmestaja;
+import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
 import pi.vezbe.service.DodatneUslugeService;
 import pi.vezbe.service.EmailService;
@@ -212,7 +213,73 @@ public class AdminisrtatorController {
 		
 		return false;
     }
-	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "ukloniTipSmestaja",
+            method = RequestMethod.POST
+    )
+    public boolean ukloniTipSmestaja(@RequestBody String id) {
+		//Long idSmestaja = Long.parseLong(id);
+		TipSmestaja zaBrisanje = tipSmestajaService.findById(id);
+		if(zaBrisanje!=null){
+			tipSmestajaService.delete(zaBrisanje);
+			
+			return true;	
+		}
+		
+		return false;
+    }
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "ukloniKategoriju",
+            method = RequestMethod.POST
+    )
+    public boolean ukloniKategoriju(@RequestBody String id) {
+		//Long idSmestaja = Long.parseLong(id);
+		KategorijaSmestaja zaBrisanje = kategorijaSmestajaService.findById(id);
+		if(zaBrisanje!=null){
+			kategorijaSmestajaService.delete(zaBrisanje);
+			
+			return true;	
+		}
+		
+		return false;
+    }
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "ukloniUslugu",
+            method = RequestMethod.POST
+    )
+    public boolean ukloniUslugu(@RequestBody String id) {
+		//Long idSmestaja = Long.parseLong(id);
+		DodatneUsluge zaBrisanje = dodatneUslugeService.findById(id);
+		if(zaBrisanje!=null){
+			dodatneUslugeService.delete(zaBrisanje);
+			
+			return true;	
+		}
+		
+		return false;
+    }
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "izmeniTipSmestaja",
+            method = RequestMethod.POST
+    )
+    public boolean izmeniTipSmestaja(@RequestBody String id) {
+		//Long idSmestaja = Long.parseLong(id);
+		TipSmestaja zaIzmenu = tipSmestajaService.findById(id);
+		if(zaIzmenu!=null){
+			//tipSmestajaService.delete(zaBrisanje);
+			return true;	
+		}
+		
+		return false;
+    }
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(

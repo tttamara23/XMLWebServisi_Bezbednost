@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.repository.TipSmestajaRepository;
 
@@ -23,5 +24,9 @@ public class TipSmestajaService {
 	}
 	public TipSmestaja save(TipSmestaja tipS) {
 		return tipSmestajaRepository.save(tipS);
+	}
+	
+	public void delete(TipSmestaja zaBrisanje) {
+		tipSmestajaRepository.delete(zaBrisanje);
 	}
 }

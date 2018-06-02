@@ -23,17 +23,10 @@ function tipSmestaja() {
                    
                    tr.appendChild(td1);  
                    tr.appendChild(td);              
+                   td2 = document.createElement('td');
+                   td2.innerHTML="<button class=\"btn btn-danger\" onclick=\"return ukloni('" + data[i].id + "')\">Ukloni</button> &nbsp;&nbsp;&nbsp; <button class=\"btn btn-warning\" onclick=\"return izmeni('" + data[i].id + "')\">Izmeni</button>";
+                   tr.appendChild(td2);    
                    
-                   /*td6 = document.createElement('td');
-                   if(data[i].blokiran == false)
-                	   td6.innerHTML= "<button class=\"btn btn-warning\" onclick=\"return blokiraj('" + data[i].email + "')\">Blokiraj</button>";
-                   else 
-                	   td6.innerHTML= "<button class=\"btn btn-success\" onclick=\"return aktiviraj('" + data[i].email + "')\">Aktiviraj</button>";
-                   tr.appendChild(td6);
-                   td7 = document.createElement('td');
-                   td7.innerHTML = "<button class=\"btn btn-danger\" onclick=\"return ukloni('" + data[i].naziv + "')\">Ukloni</button>" +
-                   		"<button class=\"btn btn-danger\" onclick=\"return ukloni('" + data[i].naziv + "')\">Izmeni</button>";
-                   tr.appendChild(td7);*/
                    $('#tableTipSmestaja').append(tr);
                    
                }
@@ -43,7 +36,47 @@ function tipSmestaja() {
         }
     });
 }
+function ukloni(id){
+	$.ajax({
+    	url: "http://localhost:1234/administrator/ukloniTipSmestaja",
+        type: "POST",
+        crossDomain: true,
+        contentType: "text/plain",
+        data: id,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function () {
+        	$("#tableTipSmestaja").find("tr:gt(0)").remove();
+        	
+        	tipSmestaja();
 
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+
+function izmeni(id){
+	$.ajax({
+    	url: "http://localhost:1234/administrator/izmeniTipSmestaja",
+        type: "POST",
+        crossDomain: true,
+        contentType: "text/plain",
+        data: id,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function () {
+        	$("#tableTipSmestaja").find("tr:gt(0)").remove();
+        	
+        	tipSmestaja();
+
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
 function dodajTipSmestaja(){
 	naziv = $('#textBoxTipSmestaja').val();
 	if(!naziv) {
@@ -156,16 +189,11 @@ function kategorijaSmestaja() {
                    
                    tr.appendChild(td1);  
                    tr.appendChild(td);              
+                   td2 = document.createElement('td');
+                   td2.innerHTML="<button class=\"btn btn-danger\" onclick=\"return ukloniKategoriju('" + data[i].id + "')\">Ukloni</button>";
+                   tr.appendChild(td2);    
+                  
                    
-                   /*td6 = document.createElement('td');
-                   if(data[i].blokiran == false)
-                	   td6.innerHTML= "<button class=\"btn btn-warning\" onclick=\"return blokiraj('" + data[i].email + "')\">Blokiraj</button>";
-                   else 
-                	   td6.innerHTML= "<button class=\"btn btn-success\" onclick=\"return aktiviraj('" + data[i].email + "')\">Aktiviraj</button>";
-                   tr.appendChild(td6);
-                   td7 = document.createElement('td');
-                   td7.innerHTML = "<button class=\"btn btn-danger\" onclick=\"return ukloni('" + data[i].email + "')\">Ukloni</button>";
-                   tr.appendChild(td7);*/
                    $('#tableKategorijaSmestaja').append(tr);
                    
                }
@@ -175,7 +203,26 @@ function kategorijaSmestaja() {
         }
     });
 }
+function ukloniKategoriju(id){
+	$.ajax({
+    	url: "http://localhost:1234/administrator/ukloniKategoriju",
+        type: "POST",
+        crossDomain: true,
+        contentType: "text/plain",
+        data: id,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function () {
+        	$("#tableKategorijaSmestaja").find("tr:gt(0)").remove();
+        	
+        	kategorijaSmestaja();
 
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
 function dodatneUsluge() {
 	$("#tableDodatneUsluge").find("tr:gt(0)").remove();
     $.ajax({
@@ -201,20 +248,35 @@ function dodatneUsluge() {
                    
                    tr.appendChild(td1);  
                    tr.appendChild(td);              
+                   td2 = document.createElement('td');
+                   td2.innerHTML="<button class=\"btn btn-danger\" onclick=\"return ukloniUslugu('" + data[i].id + "')\">Ukloni</button>";
+                   tr.appendChild(td2);    
+                  
                    
-                   /*td6 = document.createElement('td');
-                   if(data[i].blokiran == false)
-                	   td6.innerHTML= "<button class=\"btn btn-warning\" onclick=\"return blokiraj('" + data[i].email + "')\">Blokiraj</button>";
-                   else 
-                	   td6.innerHTML= "<button class=\"btn btn-success\" onclick=\"return aktiviraj('" + data[i].email + "')\">Aktiviraj</button>";
-                   tr.appendChild(td6);
-                   td7 = document.createElement('td');
-                   td7.innerHTML = "<button class=\"btn btn-danger\" onclick=\"return ukloni('" + data[i].email + "')\">Ukloni</button>";
-                   tr.appendChild(td7);*/
                    $('#tableDodatneUsluge').append(tr);
                    
                }
              
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+function ukloniUslugu(id){
+	$.ajax({
+    	url: "http://localhost:1234/administrator/ukloniUslugu",
+        type: "POST",
+        crossDomain: true,
+        contentType: "text/plain",
+        data: id,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function () {
+        	$("#tableDodatneUsluge").find("tr:gt(0)").remove();
+        	
+        	dodatneUsluge();
+
         }, error: function (jqxhr, textStatus, errorThrown) {
             alert(errorThrown);
         }
