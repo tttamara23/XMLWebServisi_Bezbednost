@@ -15,13 +15,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import pi.vezbe.converters.AgentDtoToAgentConverter;
+import pi.vezbe.converters.DodatneUslugeDTOToDodatneUslugeConverter;
+import pi.vezbe.converters.KategorijaSmestajaDTOToKategorijaSmestajaConverter;
+import pi.vezbe.converters.TipSmestajaDTOToTipSmestajaConverter;
 import pi.vezbe.dto.AgentDTO;
+import pi.vezbe.dto.DodatneUslugeDTO;
+import pi.vezbe.dto.KategorijaSmestajaDTO;
+import pi.vezbe.dto.TipSmestajaDTO;
 import pi.vezbe.model.Agent;
+import pi.vezbe.model.DodatneUsluge;
+import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Komentar;
 import pi.vezbe.model.KrajnjiKorisnik;
+import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.service.AgentService;
+import pi.vezbe.service.DodatneUslugeService;
 import pi.vezbe.service.EmailService;
+import pi.vezbe.service.KategorijaSmestajaService;
 import pi.vezbe.service.KomentarService;
+import pi.vezbe.service.TipSmestajaService;
 import pi.vezbe.service.UserService;
 
 @RestController()
@@ -30,6 +42,15 @@ public class AdminisrtatorController {
 	
 	@Autowired
 	private AgentDtoToAgentConverter agentDtoToAgentConverter;
+	
+	@Autowired
+	private TipSmestajaDTOToTipSmestajaConverter tipSmestajaDTOToTipSmestajaConverter;
+	
+	@Autowired
+	private KategorijaSmestajaDTOToKategorijaSmestajaConverter kategorijaSmestajaDTOToKategorijaSmestajaConverter;
+	
+	@Autowired
+	private DodatneUslugeDTOToDodatneUslugeConverter dodatneUslugeDTOToDodatneUslugeConverter;
 	
 	@Autowired
 	private AgentService agentService;
@@ -42,6 +63,15 @@ public class AdminisrtatorController {
 	
 	@Autowired
 	private KomentarService komentarService;
+	
+	@Autowired
+	private TipSmestajaService tipSmestajaService;
+	
+	@Autowired
+	private KategorijaSmestajaService kategorijaSmestajaService;
+	
+	@Autowired
+	private DodatneUslugeService dodatneUslugeService;
 	
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -77,7 +107,50 @@ public class AdminisrtatorController {
         
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "addTipSmestaja",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<?> addTipSmestaja(@RequestBody TipSmestajaDTO tipSmestajaDTO) {
+		if(tipSmestajaDTO.getNaziv().equals("") || tipSmestajaDTO.getNaziv() == null)	{
+			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
+		}
+        TipSmestaja TipToSave = tipSmestajaDTOToTipSmestajaConverter.convert(tipSmestajaDTO);
+        TipSmestaja saved = tipSmestajaService.save(TipToSave);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "addKategorijaSmestaja",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<?> addKategorijaSmestaja(@RequestBody KategorijaSmestajaDTO kategorijaSmestajaDTO) {
+		if(kategorijaSmestajaDTO.getKategorija().equals("") || kategorijaSmestajaDTO.getKategorija() == null)	{
+			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
+		}
+		KategorijaSmestaja KategorijaToSave = kategorijaSmestajaDTOToKategorijaSmestajaConverter.convert(kategorijaSmestajaDTO);
+		KategorijaSmestaja saved = kategorijaSmestajaService.save(KategorijaToSave);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "addDodatneUsluge",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<?> addDodatneUsluge(@RequestBody DodatneUslugeDTO dodatneUslugeDTO) {
+		if(dodatneUslugeDTO.getNaziv().equals("") || dodatneUslugeDTO.getNaziv() == null)	{
+			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
+		}
+		DodatneUsluge UslugaToSave = dodatneUslugeDTOToDodatneUslugeConverter.convert(dodatneUslugeDTO);
+		DodatneUsluge saved = dodatneUslugeService.save(UslugaToSave);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
@@ -150,6 +223,36 @@ public class AdminisrtatorController {
 		List<Komentar> lista = komentarService.findAllComments();
 		
 		return lista;
+    }
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "tipSmestaja",
+            method = RequestMethod.GET
+    )
+    public List<TipSmestaja> showTipSmestaja() {
+		List<TipSmestaja> lista = tipSmestajaService.findAllTipS();
+		
+		return lista;
+    }
+	
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "kategorijaSmestaja",
+            method = RequestMethod.GET
+    )
+    public List<KategorijaSmestaja> showKategorijaSmestaja() {		
+		return kategorijaSmestajaService.findAllKS();
+    }
+	@CrossOrigin
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@RequestMapping(
+            value = "dodatneUsluge",
+            method = RequestMethod.GET
+    )
+    public List<DodatneUsluge> showDodatneUsluge() {		
+		return dodatneUslugeService.findAllDU();
     }
 	
 	@CrossOrigin

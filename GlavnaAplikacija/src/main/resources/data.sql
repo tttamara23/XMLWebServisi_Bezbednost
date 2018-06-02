@@ -6,44 +6,32 @@ insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, poslov
 	('Agent', 'Marko', 'Vuckovic', 'marko@gmail.com', '123456', 'AGENT', 'Marko1234++', '1234567');
 	
 insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values 
-	('Stay Hybrid Hostel', 'Hotel', 0, 'Solun', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.');
+	('Stay Hybrid Hostel', 'Hostel', 0, 'Solun', 'opis...');
 insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values 
-	('Mandrino Hotel', 'Hotel', 0, 'Solun', 'opis...');
-insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values 
-	('Hotel Aleksandar', 'Hotel', 0, 'Novi Sad', 'opis...');
-insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values 
-	('Hotel Vojvodina', 'Hotel', 0, 'Novi Sad', 'opis...');
-insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values 
-	('Hotel Sheraton', 'Hotel', 0, 'Novi Sad', 'opis...');
-insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values 
-	('Hotel Centar', 'Hotel', 0, 'Novi Sad', 'opis...');
-insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values 
-	('HotelPrag', 'Hotel', 0, 'Prag', 'opis...');
-insert into Smestaj (naziv, tip, kategorija, lokacija, opis) values 
-	('HotelRim', 'Hotel', 0, 'Rim', 'opis...');
+	('Mandrino Hotel', 'Hostel', 0, 'Solun', 'opis...');
 	
 insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
-	('2018-11-28 21:00:00', '2018-11-29 21:00:00', 100, 2, 3, 1);
-insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
-	('2018-11-23 21:00:00', '2018-11-29 21:00:00', 100, 3, 3, 1);
-insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
-	('2018-11-25 21:00:00', '2018-11-29 21:00:00', 100, 4, 3, 1);
-insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
-	('2018-11-15 21:00:00', '2018-11-29 21:00:00', 100, 2, 3, 1);
+	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 2, 3, 1);
 insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
 	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 3, 4, 1);
-insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
-	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 3, 4, 3);
 	
 insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
 	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 1, 1, 2);
 	
 insert into Komentar(datum_komentara,objavljen, opis) values ('2018-01-28 21:00:00',false,'Dobar kom');
-	
-insert into Usluga(naziv) values('wifi');
-insert into Usluga(naziv) values('kitchen');
-insert into Usluga(naziv) values('polupansion');
 
-insert into ponuda_usluga(id_ponuda, id_usluga) values (1, 1);
-insert into ponuda_usluga(id_ponuda, id_usluga) values (4, 1);
-insert into ponuda_usluga(id_ponuda, id_usluga) values (4, 3);
+insert into Tip_Smestaja(id,naziv) values (1,'hotel');
+insert into Tip_Smestaja(id,naziv) values (2,'apartman');
+insert into Tip_Smestaja(id,naziv) values (3,'bad&breakfast');	
+
+insert into Kategorija_Smestaja(id,kategorija) values (1,'nekategorizovan');
+insert into Kategorija_Smestaja(id,kategorija) values (2,'*');
+insert into Kategorija_Smestaja(id,kategorija) values (3,'**');
+insert into Kategorija_Smestaja(id,kategorija) values (4,'***');
+insert into Kategorija_Smestaja(id,kategorija) values (5,'****');
+insert into Kategorija_Smestaja(id,kategorija) values (6,'*****');
+	
+insert into Dodatne_Usluge(id,naziv) values (1, 'tv');
+insert into Dodatne_Usluge(id,naziv) values (2, 'klima');
+insert into Dodatne_Usluge(id,naziv) values (3, 'fen');
+insert into Dodatne_Usluge(id,naziv) values (4, 'internet');
