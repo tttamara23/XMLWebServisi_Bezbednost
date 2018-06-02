@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.converters.RezervacijaToRezervacijaDTO;
 import pi.vezbe.dto.ChangePasswordDTO;
 import pi.vezbe.dto.LoggedInUserDTO;
 import pi.vezbe.dto.LoginDTO;
 import pi.vezbe.dto.RegisterDTO;
+import pi.vezbe.dto.RezervacijaDTO;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.model.Rezervacija;
@@ -32,6 +34,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RezervacijaToRezervacijaDTO rezervacijaToRezervacijaDTO;
 	
 	@CrossOrigin
 	@RequestMapping(
@@ -212,8 +217,8 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.MOVED_PERMANENTLY);
 		}
 		List<Rezervacija> korisnickeRezervacije = ((KrajnjiKorisnik)loggedIn).getRezervacije();
-		
-        return new ResponseEntity<>(korisnickeRezervacije, HttpStatus.OK);
+		List<RezervacijaDTO> korisnickeRezervacijeDTO = rezervacijaToRezervacijaDTO.convert(korisnickeRezervacije);
+        return new ResponseEntity<>(korisnickeRezervacijeDTO, HttpStatus.OK);
     }
 
 }

@@ -7,6 +7,7 @@ public class RezervacijaDTO {
 	private boolean realizovano;
 	private String date;
 	
+	
 
 	public RezervacijaDTO(PonudaDTO ponudaDTO, Long id, boolean realizovano, String date) {
 		super();

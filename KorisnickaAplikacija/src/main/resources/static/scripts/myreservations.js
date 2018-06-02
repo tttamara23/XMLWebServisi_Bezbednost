@@ -30,8 +30,8 @@ $(document).ready(function () {
 function ucitajRezervacije(){
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/user/getLoggedIn",
-        type: "GET",
+		url: "http://localhost:1234/user/getReservaions",
+        type: "POST",
         dataType: "json",
         crossDomain: true,
         xhrFields: {
@@ -39,7 +39,7 @@ function ucitajRezervacije(){
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function (data) {
-        
+        alert('OK!');
         }
 	});
 	
