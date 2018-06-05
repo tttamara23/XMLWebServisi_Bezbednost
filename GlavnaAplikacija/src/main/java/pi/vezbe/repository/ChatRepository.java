@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import pi.vezbe.model.Chat;
+import pi.vezbe.model.Korisnik;
 
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 	
-	Chat findByKorisniciIdIn(List<Long> ids);
+	Chat findAllByKorisniciIn(List<Korisnik> ids);
 
 }

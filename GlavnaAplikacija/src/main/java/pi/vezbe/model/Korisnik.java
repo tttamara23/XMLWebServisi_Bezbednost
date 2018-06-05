@@ -14,6 +14,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -118,12 +119,8 @@ public abstract class Korisnik {
     @Enumerated(EnumType.STRING)
     protected Role role;
     
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-        name = "Korisnik_Chat", 
-        joinColumns = { @JoinColumn(name = "korisnik_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "chat_id") }
-    )
+    @XmlElement(required = true)
+	@ManyToMany(mappedBy = "korisnici", fetch = FetchType.EAGER)
     protected List<Chat> chats;
     
     

@@ -20,6 +20,7 @@ import pi.vezbe.model.Chat;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.Poruka;
 import pi.vezbe.service.ChatService;
+import pi.vezbe.service.PorukaService;
 import pi.vezbe.service.UserService;
 
 @RestController()
@@ -31,6 +32,9 @@ public class ChatController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PorukaService porukaService;
 	
 	@Autowired 
 	private ChatToChatDTOConverter chatToChatDTOConverter;
@@ -45,13 +49,14 @@ public class ChatController {
     )
 	public ResponseEntity<?> sendMessage(@PathVariable Long idPrimalac, @RequestBody String sadrzaj) {
 		Korisnik ulogovani = userService.getCurrentUser();
-		List<Long> ids = new ArrayList<Long>();
-		ids.add(idPrimalac);
-		ids.add(ulogovani.getId());
-		Chat chat = chatService.findByKorisniciId(ids);
+		List<Korisnik> ids = new ArrayList<Korisnik>();
+		Korisnik primalac = userService.findById(idPrimalac);
+		ids.add(ulogovani);
+		ids.add(primalac);
+		Chat chat = chatService.findByKorisniciIn(ids);
 		
 		if(chat == null) {
-			Korisnik primalac = userService.findById(idPrimalac);
+			
 			chat = new Chat();
 			chat.getKorisnici().add(ulogovani);
 			chat.getKorisnici().add(primalac);
@@ -70,6 +75,8 @@ public class ChatController {
 		poruka.setDatumSlanja(new Date());
 		poruka.setPosiljalac(ulogovani);
 		poruka.setSadrzaj(sadrzaj);
+		
+		porukaService.save(poruka);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
