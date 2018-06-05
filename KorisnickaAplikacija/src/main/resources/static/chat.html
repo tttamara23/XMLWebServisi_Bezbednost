@@ -6,20 +6,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="scripts/profile.js"></script>
-	<script src="scripts/search.js"></script>
-	<script src="scripts/accommodation.js"></script>
-	<script src="scripts/reservation.js"></script>
-	<script src="scripts/chat.js"></script>
-	<script src="scripts/accommodationReady.js"></script>
+	<script src="scripts/chatReady.js"></script>
 	<link rel="shortcut icon" href="assets/ico/favicon.png">
 	<link rel="stylesheet" href="homeStyle/css/myStyle.css">
 	<script src="toastr/toastr.min.js"></script>
     	<link href="toastr/toastr.min.css" rel="stylesheet"/>
- 
-	
 </head>
 <body>
+
 	<ul class="nav nav-tabs homeTabs">
 	    <li style="width: 85%">
 	    	<h1 class="title"><a href="home.html" class="aTag" >Booking</a></h1>
@@ -33,6 +27,7 @@
 		            <li><a style="cursor: pointer;" href="#changePasswordTab" data-toggle="tab">Change password</a></li>
 		            <li><a style="cursor: pointer;" href="chat.html">Chats</a></li>
 		            <li><a style="cursor: pointer;" onclick="return logout()" data-toggle="tab">Logout</a></li>
+		        
 		        </ul>
 	        </div>
 	    </li>
@@ -60,21 +55,12 @@
 	        
 	    </div>
 	    <div class="tab-pane active" id="mainDiv">
-	        <div class="homeDiv" id="homeDivID">
-	      		<div class="searchDiv">
-	        		<h4 id="nazivSmestaja" style="padding-left: 1.5%"></h4>
-	        		<div class="divSearchInput" id="vlasnikSmestaja">
-	        		</div>
-	        		<div class="divSearchInput" id="opisSmestaja">
-	        		</div>
-	        		<div class="divSearchInput" id="tipSmestaja" style="margin-top: 3%">
-	        		</div>
-	        		
-	        	</div>
-	      		<div class="row" style="margin-top:5%" id="ponudaDiv"></div>
+	        <div class="homeDiv" id="homeDivChat">
+	      		
 	        </div>
 	    </div>
 	    
 	</div>
+
 </body>
 </html>

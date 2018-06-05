@@ -26,6 +26,10 @@ public class UserService {
 	@Autowired
 	private KrajnjiKorisnikRepository krajnjiKorisnikRepository;
 	
+	public Korisnik findById(Long id) {
+		return korisnikRepository.findOne(id);
+	}
+	
 	public Korisnik findByEmail(String email) {
 		return korisnikRepository.findByEmailIgnoreCase(email).orElseThrow(RuntimeException::new);
 	}

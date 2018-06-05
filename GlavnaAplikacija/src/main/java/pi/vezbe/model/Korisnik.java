@@ -8,6 +8,9 @@
 
 package pi.vezbe.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +19,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -112,6 +118,15 @@ public abstract class Korisnik {
     @Enumerated(EnumType.STRING)
     protected Role role;
     
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "Korisnik_Chat", 
+        joinColumns = { @JoinColumn(name = "korisnik_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "chat_id") }
+    )
+    protected List<Chat> chats;
+    
+    
     public Korisnik() {}
 
     public Korisnik(Long id, String ime, String prezime, String email, String lozinka, String kontakt, Role role) {
@@ -123,6 +138,14 @@ public abstract class Korisnik {
 		this.lozinka = lozinka;
 		this.kontakt = kontakt;
 		this.role = role;
+	}
+
+	public List<Chat> getChats() {
+		return chats;
+	}
+
+	public void setChats(List<Chat> chats) {
+		this.chats = chats;
 	}
 
 	/**
