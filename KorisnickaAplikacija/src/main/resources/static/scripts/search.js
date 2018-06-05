@@ -44,13 +44,17 @@ function buttonSearchClick() {
         		if(i%3==0) {
         			$('#divPonude').append("<div class=\"row\">");
         		}
-        		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput\">"
+        		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput\" style=\"padding-bottom:15%\">"
         			+ "<h1>" + data[i].lokacija + "</h1>"
         			+ "<h3><a href=\"accommodation.html?idSmestaja=" + data[i].smestajId + "\">" + data[i].smestajNaziv + "</a></h3>"
         			+"<p>" + data[i].datumOd + " - " + data[i].datumDo + "</p>"
+        			
+        			+"<p>" + data[i].id + "</p>"
+        			
         			+ "<p> Number of beds: " + data[i].brojLezaja + "<br/> " 
         			+ "Number of available rooms: "+ data[i].brojSlobodnihPonuda +"<br/>"
         			+ "Price: "+data[i].cena+"</p>"
+        			+ "<button class=\"btn btn-light buttonSearch\" onclick=\"rezervisanje(" + data[i].id + ")\">Reserve</button>"
         			+ "</div></div>";
         		if(i%3==0) {
         			$('#divPonude').append("</div>");

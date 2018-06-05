@@ -56,7 +56,9 @@ insert into Komentar(datum_komentara,objavljen, opis) values ('2018-01-28 21:00:
 insert into Usluga(naziv) values('wifi');
 insert into Usluga(naziv) values('kitchen');
 insert into Usluga(naziv) values('polupansion');
-
+insert into Ponuda_usluga(id_ponuda, id_usluga) values (1, 1);
+insert into Ponuda_usluga(id_ponuda, id_usluga) values (1, 2);
+insert into Ponuda_usluga(id_ponuda, id_usluga) values (1, 3);
 	
 insert into Dodatne_Usluge(id,naziv) values (1, 'tv');
 insert into Dodatne_Usluge(id,naziv) values (2, 'klima');

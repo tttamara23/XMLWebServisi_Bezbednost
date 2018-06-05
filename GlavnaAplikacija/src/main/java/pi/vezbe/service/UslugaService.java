@@ -19,5 +19,10 @@ public class UslugaService {
 		return uslugaRepository.findAll();
 	}
 	
+	public List<Usluga> findByIdNotIn(List<Long> id) {
+		// TODO Auto-generated method stub
+		return uslugaRepository.findByIdNotIn(id);
+	}
+	
 	
 }

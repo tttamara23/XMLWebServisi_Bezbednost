@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pi.vezbe.model.Ponuda;
+import pi.vezbe.model.Usluga;
 import pi.vezbe.repository.PonudaRepository;
 
 @Service
@@ -34,12 +35,12 @@ public class PonudaService {
 	}
 	
 	
-	public List<Ponuda> searchAdvanced(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Long> usluge) {
-		return ponudaRepository.findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaIdContaining(dateFrom, dateTo, naziv, brojLezaja, tip, idKategorija, usluge);
+	public List<Ponuda> searchAdvanced(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> usluge) {
+		return ponudaRepository.findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotIn(dateFrom, dateTo, naziv, brojLezaja, tip, idKategorija, usluge);
 	}
 	
 	public List<Ponuda> searchNotAdvanced(Date dateFrom, Date dateTo, String naziv, int brojLezaja) {
-		return ponudaRepository.findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezaja(dateFrom, dateTo, naziv, brojLezaja);
+		return ponudaRepository.findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezaja(dateFrom, dateTo, naziv, brojLezaja);
 	}
 	
 }

@@ -4,11 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import pi.vezbe.model.Ponuda;
-import pi.vezbe.model.PonudaUsluga;
+import pi.vezbe.model.Usluga;
 
 public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 	
@@ -34,10 +32,10 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 			@Param("idTipSmestaja") Long idTipSmestaja, 
 			@Param("idKategorijaSmestaja") Long idKategorijaSmestaja);*/
 	
-	List<Ponuda> findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaIdContaining  
-		(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Long> ponudaUsluga);
+	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotIn  
+		(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> ponudaUsluga);
 	
-	List<Ponuda> findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezaja
+	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezaja
 	(Date dateFrom, Date dateTo, String naziv, int brojLezaja);
 
 }
