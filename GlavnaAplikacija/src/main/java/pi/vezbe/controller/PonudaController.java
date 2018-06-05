@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import pi.vezbe.converters.PonudaToPonudaDtoConverter;
 import pi.vezbe.dto.SearchDTO;
 import pi.vezbe.model.Ponuda;
+import pi.vezbe.model.Usluga;
 import pi.vezbe.service.PonudaService;
+import pi.vezbe.service.UslugaService;
 
 @RestController
 @RequestMapping(value = "/ponuda")
@@ -30,6 +30,9 @@ public class PonudaController {
 	
 	@Autowired
 	private PonudaService ponudaService;
+	
+	@Autowired
+	private UslugaService uslugaService; 
 	
 	@Autowired
 	private PonudaToPonudaDtoConverter ponudaToPonudaDtoConverter;
@@ -75,7 +78,9 @@ public class PonudaController {
 			if(advanced == 0) {
 				ponude = ponudaService.searchNotAdvanced(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
 			} else {
-				ponude = ponudaService.searchAdvanced(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory(), searchDTO.getSearchServices());
+				List<Usluga> usl = uslugaService.findByIdNotIn(searchDTO.getSearchServices());
+			
+				ponude = ponudaService.searchAdvanced(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory(), usl);
 			}
 			return new ResponseEntity<>(ponudaToPonudaDtoConverter.convert(ponude), HttpStatus.OK);
 		} catch (ParseException e) {
