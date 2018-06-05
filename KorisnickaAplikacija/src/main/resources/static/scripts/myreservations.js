@@ -39,6 +39,7 @@ function ucitajRezervacije(){
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function (data) {
+        	$('#homeDivID').empty();
         	for(i=0;i<data.length;i++){
 	        	divContent = "<div class=\"searchDiv\">" 
 		        		+"<h4 id=\"nazivSmestaja\" style=\"padding-left: 1.5%\">Naziv smeštaja: "+data[i].ponudaDTO.smestajNaziv
@@ -56,6 +57,7 @@ function ucitajRezervacije(){
 		        		+"<br/></div><br/><br/>"
 		        		+"</div>";
 	        	$('#homeDivID').append(divContent);
+	        	
 	        	}
         		
         },

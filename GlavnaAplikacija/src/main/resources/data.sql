@@ -4,6 +4,8 @@ insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, blokir
 	('KrajnjiKorisnik', 'Smiljana', 'Dragoljevic', 'smiljana@gmail.com', '123456', 'REGISTERED', 'Smiljana1234++', false);
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, poslovni_maticni_broj) values 
 	('Agent', 'Marko', 'Vuckovic', 'marko@gmail.com', '123456', 'AGENT', 'Marko1234++', '1234567');
+insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, poslovni_maticni_broj) values 
+	('Agent', 'Jelena', 'Stanarevic', 'jelena@gmail.com', '123456', 'AGENT', 'Jelena1234++', '1234567');
 	
 insert into Kategorija_Smestaja(id,kategorija) values (1,'nekategorizovan');
 insert into Kategorija_Smestaja(id,kategorija) values (2,'*');
@@ -62,3 +64,6 @@ insert into Dodatne_Usluge(id,naziv) values (3, 'fen');
 insert into Dodatne_Usluge(id,naziv) values (4, 'internet');
 
 insert into Rezervacija(realizovano,datum_rezervacije,id_ponuda,id_korisnika) values (true,'2018-01-29 21:00:00',1,2);
+
+insert into Smestaj_Vlasnik(id_smestaj,id_agent) values (1,3);
+insert into Smestaj_Vlasnik(id_smestaj,id_agent) values (1,4);

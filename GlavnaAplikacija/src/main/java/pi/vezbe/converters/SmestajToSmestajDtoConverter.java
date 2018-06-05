@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import pi.vezbe.dto.AgentDTO;
 import pi.vezbe.dto.SmestajDTO;
+import pi.vezbe.dto.SmestajVlasnikDTO;
+import pi.vezbe.model.Agent;
 import pi.vezbe.model.Smestaj;
+import pi.vezbe.model.SmestajVlasnik;
 
 @Component
 public class SmestajToSmestajDtoConverter implements Converter<Smestaj, SmestajDTO> {
@@ -42,4 +46,5 @@ public class SmestajToSmestajDtoConverter implements Converter<Smestaj, SmestajD
 		return ret;
 	}
 
+	
 }

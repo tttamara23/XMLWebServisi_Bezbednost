@@ -8,7 +8,11 @@
 
 package pi.vezbe.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -81,5 +85,8 @@ public class Agent
     public void setPoslovniMaticniBroj(String value) {
         this.poslovniMaticniBroj = value;
     }
+    
+    @OneToMany(mappedBy = "agent",cascade = CascadeType.REMOVE)
+	private List<SmestajVlasnik> smestajVlasnik;
 
 }

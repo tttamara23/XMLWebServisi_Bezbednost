@@ -175,6 +175,10 @@ public class Smestaj {
     @JoinColumn(name = "id_kategorija_smestaja")
 	private KategorijaSmestaja kategorijaSmestaja;
     
+    @OneToMany(mappedBy = "smestaj",cascade = CascadeType.REMOVE)
+	private List<SmestajVlasnik> smestajVlasnik;
+   
+    
    // @XmlElement(name = "Komentari", required = true)
    // @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
 	//protected List<Komentar> komentari;

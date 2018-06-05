@@ -20,3 +20,7 @@ function rezervisanje(idPonude){
         
 	});
 }
+
+function gotoReservations(){
+	top.location.href = "myreservations.html";
+}
