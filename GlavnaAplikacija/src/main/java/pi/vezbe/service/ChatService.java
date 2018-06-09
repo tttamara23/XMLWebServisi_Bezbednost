@@ -19,8 +19,30 @@ public class ChatService {
 		return chatRepository.save(chat);
 	}
 	
-	public Chat findByKorisniciIn(List<Korisnik> id) {
-		return chatRepository.findAllByKorisniciIn(id);
+	public Chat findExistingChat(List<Korisnik> id) {
+		List<Chat> chats =  chatRepository.findAll();
+		for(Chat chat : chats){
+			boolean found = true;
+			for(Korisnik korisnik : id){
+				if(!chat.findKorisnik(korisnik)){
+					found = false;
+					break;
+				}
+			}
+			if(found==true){
+				return chat;
+			}
+		}
+		
+		return null;
+	}
+	
+	public List<Chat> findAllByKorisniciId(Long id){
+		return chatRepository.findAllByKorisniciId(id);
+	}
+	
+	public Chat findById(Long id){
+		return chatRepository.findOne(id);
 	}
 	
 }

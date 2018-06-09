@@ -18,6 +18,9 @@ public class ChatToChatDTOConverter implements Converter<Chat, ChatDTO>{
 	@Autowired
 	private KorisnikToKorisnikDTOConverter korisnikConverter;
 	
+	@Autowired
+	private PorukaToPorukaDTOConverter  porukaToPorukaDTOConverter; 
+	
 	@Override
 	public ChatDTO convert(Chat source) {
 		if(source == null) {
@@ -26,6 +29,7 @@ public class ChatToChatDTOConverter implements Converter<Chat, ChatDTO>{
 		ChatDTO ret = new ChatDTO();
 		ret.setId(source.getId());
 		ret.setKorisnici(korisnikConverter.convert(source.getKorisnici()));
+		ret.setPoruke(porukaToPorukaDTOConverter.convert(source.getPoruke()));
 		return ret;
 	}
 	

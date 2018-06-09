@@ -69,3 +69,16 @@ insert into Rezervacija(realizovano,datum_rezervacije,id_ponuda,id_korisnika) va
 
 insert into Smestaj_Vlasnik(id_smestaj,id_agent) values (1,3);
 insert into Smestaj_Vlasnik(id_smestaj,id_agent) values (1,4);
+
+insert into chat () values ();
+insert into chat () values ();
+
+insert into chat_korisnik (chat_id, korisnik_id) values (1, 2);
+insert into chat_korisnik (chat_id, korisnik_id) values (1, 3);
+
+insert into chat_korisnik (chat_id, korisnik_id) values (2, 2);
+insert into chat_korisnik (chat_id, korisnik_id) values (2, 1);
+
+insert into poruka(sadrzaj, datum_slanja,id_chat,id_posiljalac,seen) values('poy','2018-06-09 18:08:10',1,2,false);
+insert into poruka(sadrzaj, datum_slanja,id_chat,id_posiljalac,seen) values('poqwdqwd','2018-06-09 18:08:10',1,3,false);
+insert into poruka(sadrzaj, datum_slanja,id_chat,id_posiljalac,seen) values('qkemdkq','2018-06-09 18:08:10',1,2,false);

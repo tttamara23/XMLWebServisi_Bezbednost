@@ -20,6 +20,8 @@ public class KorisnikToKorisnikDTOConverter implements Converter<Korisnik, Koris
 		KorisnikDTO korisnikDTO = new KorisnikDTO();
 		korisnikDTO.setId(source.getId());
 		korisnikDTO.setEmail(source.getEmail());
+		korisnikDTO.setIme(source.getIme());
+		korisnikDTO.setPrezime(source.getPrezime());
 		return korisnikDTO;
 	}
 	

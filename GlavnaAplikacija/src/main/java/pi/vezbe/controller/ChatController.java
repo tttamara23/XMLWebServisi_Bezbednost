@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pi.vezbe.converters.ChatToChatDTOConverter;
 import pi.vezbe.converters.KategorijaSmestajaToKategorijaSmestajaDTOConverter;
+import pi.vezbe.converters.KorisnikToKorisnikDTOConverter;
+import pi.vezbe.dto.ChatDTO;
 import pi.vezbe.model.Chat;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.Poruka;
@@ -39,46 +41,35 @@ public class ChatController {
 	@Autowired 
 	private ChatToChatDTOConverter chatToChatDTOConverter;
 	
+	@Autowired 
+	private KorisnikToKorisnikDTOConverter korisnikToKorisnikDTOConverter;
+	
 	@Autowired
 	private KategorijaSmestajaToKategorijaSmestajaDTOConverter kategorijaSmestajaToKategorijaSmestajaDTOConverter;
 	
+	
+	
 	@CrossOrigin
 	@RequestMapping(
-            value = "/sendMessage/{idPrimalac}",
-            method = RequestMethod.POST
+            value = "/findAllByKorisniciId",
+            method = RequestMethod.GET
     )
-	public ResponseEntity<?> sendMessage(@PathVariable Long idPrimalac, @RequestBody String sadrzaj) {
-		Korisnik ulogovani = userService.getCurrentUser();
-		List<Korisnik> ids = new ArrayList<Korisnik>();
-		Korisnik primalac = userService.findById(idPrimalac);
-		ids.add(ulogovani);
-		ids.add(primalac);
-		Chat chat = chatService.findByKorisniciIn(ids);
+	public ResponseEntity<?> findAllByKorisniciId(){
+		Korisnik korisnik = userService.getCurrentUser();
+		List<Chat> chats = chatService.findAllByKorisniciId(korisnik.getId());
+		List<ChatDTO> chatsDTO = new ArrayList<ChatDTO>();
 		
-		if(chat == null) {
-			
-			chat = new Chat();
-			chat.getKorisnici().add(ulogovani);
-			chat.getKorisnici().add(primalac);
-			chatService.save(chat);
-			
-			ulogovani.getChats().add(chat);
-			userService.save(ulogovani);
-			
-			primalac.getChats().add(chat);
-			userService.save(primalac);
-			
+		for(Chat chat : chats){
+			ChatDTO chatDTO = new ChatDTO();
+			chatDTO.setId(chat.getId());
+			for(Korisnik toAdd : chat.getKorisnici()){
+				if(!toAdd.getId().equals(korisnik.getId())){
+					chatDTO.getKorisnici().add(korisnikToKorisnikDTOConverter.convert(toAdd));				
+				}
+			}
+			chatsDTO.add(chatDTO);
 		}
-		
-		Poruka poruka = new Poruka();
-		poruka.setChat(chat);
-		poruka.setDatumSlanja(new Date());
-		poruka.setPosiljalac(ulogovani);
-		poruka.setSadrzaj(sadrzaj);
-		
-		porukaService.save(poruka);
-		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(chatsDTO,HttpStatus.OK);
 	}
 
 }

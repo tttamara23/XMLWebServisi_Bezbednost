@@ -9,6 +9,6 @@ import pi.vezbe.model.Korisnik;
 
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 	
-	Chat findAllByKorisniciIn(List<Korisnik> ids);
+	List<Chat> findAllByKorisniciId(Long id);
 
 }

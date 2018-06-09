@@ -65,4 +65,13 @@ public class Chat {
 		this.poruke = poruke;
 	}
 	
+	public boolean findKorisnik(Korisnik korisnik){
+		for(Korisnik kor : korisnici){
+			if(kor.getId().equals(korisnik.getId())){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

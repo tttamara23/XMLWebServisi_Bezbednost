@@ -64,7 +64,7 @@
 	      		<div class="searchDiv">
 	        		<h4 id="nazivSmestaja" style="padding-left: 1.5%"></h4>
 	        		<div class="divSearchInput" id="vlasnikSmestaja">
-	        		</div>
+	        		</div><br/>
 	        		<div class="divSearchInput" id="opisSmestaja">
 	        		</div>
 	        		<div class="divSearchInput" id="tipSmestaja" style="margin-top: 3%">
@@ -76,5 +76,36 @@
 	    </div>
 	    
 	</div>
+	
+	<div class="modal fade" id="sendMessageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Send message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="sendMessageForm">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="idPrimalac"/>
+                   
+                    <p>
+                        <label>Message:</label> <textarea class="form-control"  name="label"
+                                                    id="messageContent"></textarea>
+                    </p>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendMessageNew()" id="sendMessageBtn">
+                        Send
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+	
 </body>
 </html>

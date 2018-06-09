@@ -86,11 +86,21 @@ public class Poruka {
     @JoinColumn(name = "id_posiljalac", nullable = false)
     private Korisnik posiljalac;
     
+    private boolean seen;
+    
     public Poruka() {
-		// TODO Auto-generated constructor stub
+		seen = false;
 	}
 
-    public Korisnik getPosiljalac() {
+    public boolean isSeen() {
+		return seen;
+	}
+
+	public void setSeen(boolean seen) {
+		this.seen = seen;
+	}
+
+	public Korisnik getPosiljalac() {
 		return posiljalac;
 	}
 
