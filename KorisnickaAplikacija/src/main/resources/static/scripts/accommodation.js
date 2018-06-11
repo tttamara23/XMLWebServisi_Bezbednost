@@ -102,7 +102,10 @@ function ucitajSmestaj(idSmestaja){
                  },
                 headers: {  'Access-Control-Allow-Origin': '*' },
                 success: function (dataVlasnik) {
-                	$('.divSearchInput').empty();
+                	$('#vlasnikSmestaja').empty();
+                	$('#opisSmestaja').empty();
+                	$('#tipSmestaja').empty();
+                	
                 	$('#nazivSmestaja').append(data.naziv);
                 	$('#vlasnikSmestaja').append("<h4>Owners:</h4>")
                 	for(j=0;j<dataVlasnik.length;j++){
