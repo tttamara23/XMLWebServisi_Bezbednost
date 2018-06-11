@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/user/getLoggedIn",
+		url: "https://localhost:1234/user/getLoggedIn",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -17,7 +17,7 @@ $(document).ready(function () {
         		$.ajax({
         			
         			async: false,
-        			url: "http://localhost:1234/chat/findAllByKorisniciId",
+        			url: "https://localhost:1234/chat/findAllByKorisniciId",
         	        type: "GET",
         	        dataType: "json",
         	        crossDomain: true,

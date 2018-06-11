@@ -38,6 +38,16 @@ public class UserController {
 	@Autowired
 	private RezervacijaToRezervacijaDTO rezervacijaToRezervacijaDTO;
 	
+	
+	/*@CrossOrigin
+	@RequestMapping(
+            value = "/**",
+            method = RequestMethod.OPTIONS
+    )
+	public ResponseEntity<?> handle() {
+		return new ResponseEntity<>(HttpStatus.OK);
+	}*/
+	
 	@CrossOrigin
 	@RequestMapping(
             value = "/register",

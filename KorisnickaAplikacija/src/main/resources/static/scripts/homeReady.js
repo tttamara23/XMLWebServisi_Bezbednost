@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/user/getLoggedIn",
+		url: "https://localhost:1234/user/getLoggedIn",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -31,7 +31,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/smestaj/getLocations",
+		url: "https://localhost:1234/smestaj/getLocations",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -63,7 +63,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/usluga/getUsluge",
+		url: "https://localhost:1234/usluga/getUsluge",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -85,7 +85,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/tipSmestaja/getSviTipovi",
+		url: "https://localhost:1234/tipSmestaja/getSviTipovi",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -106,7 +106,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/kategorijaSmestaja/getSveKategorije",
+		url: "https://localhost:1234/kategorijaSmestaja/getSveKategorije",
         type: "GET",
         dataType: "json",
         crossDomain: true,

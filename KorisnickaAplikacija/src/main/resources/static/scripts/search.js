@@ -27,7 +27,7 @@ function buttonSearchClick() {
 	
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/ponuda/search/" + napredna,
+		url: "https://localhost:1234/ponuda/search/" + napredna,
         type: "POST",
         contentType: "application/json",
         data: data,

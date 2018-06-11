@@ -3,16 +3,17 @@ package pi.vezbe.converters;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import pi.vezbe.dto.DodatneUslugeDTO;
+import pi.vezbe.dto.UslugaDTO;
 import pi.vezbe.model.DodatneUsluge;
+import pi.vezbe.model.Usluga;
 
 @Component
-public class DodatneUslugeDTOToDodatneUslugeConverter implements Converter<DodatneUslugeDTO, DodatneUsluge> {
+public class UslugaDTOToUslugaConverter implements Converter<UslugaDTO, Usluga> {
 
 	@Override
-	public DodatneUsluge convert(DodatneUslugeDTO source) {
+	public Usluga convert(UslugaDTO source) {
 		// TODO Auto-generated method stub
-		DodatneUsluge dodU = new DodatneUsluge();
+		Usluga dodU = new Usluga();
 		dodU.setId(source.getId());
 		dodU.setNaziv(source.getNaziv());
 		return dodU;

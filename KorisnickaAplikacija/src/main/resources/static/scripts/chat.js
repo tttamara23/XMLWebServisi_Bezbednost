@@ -7,7 +7,7 @@ function posaljiPorukuUChat(chatId) {
 	sadrzaj = $('#sadrzajPoruke').val();
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/poruka/posaljiPorukuUChat/"+chatId,
+		url: "https://localhost:1234/poruka/posaljiPorukuUChat/"+chatId,
         type: "POST",
         dataType: "json",
         contentType:"text/plain",
@@ -29,7 +29,7 @@ function posaljiPorukuUChat(chatId) {
 function showChat(id) {
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/poruka/getPoruke/"+id,
+		url: "https://localhost:1234/poruka/getPoruke/"+id,
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -79,7 +79,7 @@ function sendMessageNew(){
 	sadrzaj = $('#messageContent').val();
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/poruka/sendMessage/"+idPrimalac,
+		url: "https://localhost:1234/poruka/sendMessage/"+idPrimalac,
         type: "POST",
         dataType: "json",
         contentType:"text/plain",

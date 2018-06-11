@@ -15,26 +15,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import pi.vezbe.converters.AgentDtoToAgentConverter;
-import pi.vezbe.converters.DodatneUslugeDTOToDodatneUslugeConverter;
+import pi.vezbe.converters.UslugaDTOToUslugaConverter;
 import pi.vezbe.converters.KategorijaSmestajaDTOToKategorijaSmestajaConverter;
 import pi.vezbe.converters.TipSmestajaDTOToTipSmestajaConverter;
+import pi.vezbe.converters.UslugaToUslugaDtoConverter;
 import pi.vezbe.dto.AgentDTO;
-import pi.vezbe.dto.DodatneUslugeDTO;
 import pi.vezbe.dto.KategorijaSmestajaDTO;
 import pi.vezbe.dto.TipSmestajaDTO;
+import pi.vezbe.dto.UslugaDTO;
 import pi.vezbe.model.Agent;
 import pi.vezbe.model.DodatneUsluge;
 import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Komentar;
 import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.model.TipSmestaja;
+import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
-import pi.vezbe.service.DodatneUslugeService;
 import pi.vezbe.service.EmailService;
 import pi.vezbe.service.KategorijaSmestajaService;
 import pi.vezbe.service.KomentarService;
 import pi.vezbe.service.TipSmestajaService;
 import pi.vezbe.service.UserService;
+import pi.vezbe.service.UslugaService;
 
 @RestController()
 @RequestMapping(value = "/administrator")
@@ -50,7 +52,7 @@ public class AdminisrtatorController {
 	private KategorijaSmestajaDTOToKategorijaSmestajaConverter kategorijaSmestajaDTOToKategorijaSmestajaConverter;
 	
 	@Autowired
-	private DodatneUslugeDTOToDodatneUslugeConverter dodatneUslugeDTOToDodatneUslugeConverter;
+	private UslugaDTOToUslugaConverter dodatneUslugeDTOToDodatneUslugeConverter;
 	
 	@Autowired
 	private AgentService agentService;
@@ -71,7 +73,10 @@ public class AdminisrtatorController {
 	private KategorijaSmestajaService kategorijaSmestajaService;
 	
 	@Autowired
-	private DodatneUslugeService dodatneUslugeService;
+	private UslugaService dodatneUslugeService;
+	
+	@Autowired
+	private UslugaToUslugaDtoConverter uslugaToUslugaDtoConverter;
 	
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -145,13 +150,13 @@ public class AdminisrtatorController {
             value = "addDodatneUsluge",
             method = RequestMethod.POST
     )
-    public ResponseEntity<?> addDodatneUsluge(@RequestBody DodatneUslugeDTO dodatneUslugeDTO) {
+    public ResponseEntity<?> addDodatneUsluge(@RequestBody UslugaDTO dodatneUslugeDTO) {
 		if(dodatneUslugeDTO.getNaziv().equals("") || dodatneUslugeDTO.getNaziv() == null)	{
 			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
 		}
-		DodatneUsluge UslugaToSave = dodatneUslugeDTOToDodatneUslugeConverter.convert(dodatneUslugeDTO);
+		Usluga UslugaToSave = dodatneUslugeDTOToDodatneUslugeConverter.convert(dodatneUslugeDTO);
 		@SuppressWarnings("unused")
-		DodatneUsluge saved = dodatneUslugeService.save(UslugaToSave);
+		Usluga saved = dodatneUslugeService.save(UslugaToSave);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	@CrossOrigin
@@ -259,7 +264,7 @@ public class AdminisrtatorController {
     )
     public boolean ukloniUslugu(@RequestBody String id) {
 		//Long idSmestaja = Long.parseLong(id);
-		DodatneUsluge zaBrisanje = dodatneUslugeService.findById(id);
+		Usluga zaBrisanje = dodatneUslugeService.findById(id);
 		if(zaBrisanje!=null){
 			dodatneUslugeService.delete(zaBrisanje);
 			
@@ -310,10 +315,10 @@ public class AdminisrtatorController {
     )
     public ResponseEntity<?> izmeniUslugu(@RequestBody String id) {
 		
-		DodatneUsluge zaIzmenu = dodatneUslugeService.findById(id);
+		Usluga zaIzmenu = dodatneUslugeService.findById(id);
 		if(zaIzmenu!=null){
 			
-			return new ResponseEntity<>(zaIzmenu, HttpStatus.OK);
+			return new ResponseEntity<>(uslugaToUslugaDtoConverter.convert(zaIzmenu), HttpStatus.OK);
 		}
 		
 		return null;
@@ -356,8 +361,8 @@ public class AdminisrtatorController {
             value = "dodatneUsluge",
             method = RequestMethod.GET
     )
-    public List<DodatneUsluge> showDodatneUsluge() {		
-		return dodatneUslugeService.findAllDU();
+    public List<UslugaDTO> showDodatneUsluge() {		
+		return uslugaToUslugaDtoConverter.convert(dodatneUslugeService.findAll());
     }
 	
 	@CrossOrigin
@@ -403,9 +408,9 @@ public class AdminisrtatorController {
             value = "/sacuvajIzmenuUsluge",
             method = RequestMethod.POST
     )
-	public ResponseEntity<?> sacuvajIzmenuUsluge(@RequestBody DodatneUsluge usluga) {
+	public ResponseEntity<?> sacuvajIzmenuUsluge(@RequestBody Usluga usluga) {
 		@SuppressWarnings("unused")
-		DodatneUsluge saved = dodatneUslugeService.save(usluga);
+		Usluga saved = dodatneUslugeService.save(usluga);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	public String getSaltString() {

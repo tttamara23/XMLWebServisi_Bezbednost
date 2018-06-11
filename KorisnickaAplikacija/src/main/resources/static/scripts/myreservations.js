@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/user/getLoggedIn",
+		url: "https://localhost:1234/user/getLoggedIn",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -30,7 +30,7 @@ $(document).ready(function () {
 function ucitajRezervacije(){
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/user/getReservations",
+		url: "https://localhost:1234/user/getReservations",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -72,7 +72,7 @@ function ucitajRezervacije(){
 function otkaziRezervaciju(idRezervacije){
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/rezervacija/cancelReservation/"+idRezervacije,
+		url: "https://localhost:1234/rezervacija/cancelReservation/"+idRezervacije,
         type: "DELETE",
         dataType: "json",
         crossDomain: true,

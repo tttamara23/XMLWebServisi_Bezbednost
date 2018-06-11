@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pi.vezbe.model.DodatneUsluge;
 import pi.vezbe.model.Usluga;
 import pi.vezbe.repository.UslugaRepository;
 
@@ -24,5 +25,15 @@ public class UslugaService {
 		return uslugaRepository.findByIdNotIn(id);
 	}
 	
+	public Usluga findById(String id){
+		Long idKatS = Long.parseLong(id);
+		return uslugaRepository.findById(idKatS);
+	}
+	public Usluga save(Usluga dodU) {
+		return uslugaRepository.save(dodU);
+	}
+	public void delete(Usluga zaBrisanje) {
+		uslugaRepository.delete(zaBrisanje);
+	}
 	
 }

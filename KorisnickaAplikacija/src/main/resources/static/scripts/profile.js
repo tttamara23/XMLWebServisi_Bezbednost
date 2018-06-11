@@ -12,7 +12,7 @@ function changePasswordClick() {
 	
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/user/changePassword",
+		url: "https://localhost:1234/user/changePassword",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -22,7 +22,7 @@ function changePasswordClick() {
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
-        	top.location.href = "home.html";
+        	logout();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             toastr["error"](jqXHR.responseText);
@@ -32,7 +32,7 @@ function changePasswordClick() {
 
 function logout() {
     $.ajax({
-    	url: "http://localhost:1234/user/logout",
+    	url: "https://localhost:1234/user/logout",
         type: "POST",
         crossDomain: true,
         xhrFields: {

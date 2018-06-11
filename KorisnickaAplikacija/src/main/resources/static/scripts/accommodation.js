@@ -11,7 +11,7 @@ function showMoreLocationClick(i, data) {
 function loadAccommodation(i, location) {
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/smestaj/getByLocation",
+		url: "https://localhost:1234/smestaj/getByLocation",
         type: "POST",
         dataType: "json",
         contentType: "text/plain",
@@ -48,7 +48,7 @@ function showMoreServicesClick(i, idPonude) {
 function loadServices(i, idPonude) {
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/ponudaUsluga/getByPonuda/"+idPonude,
+		url: "https://localhost:1234/ponudaUsluga/getByPonuda/"+idPonude,
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -81,7 +81,7 @@ function showAccommodationClick(idSmestaja) {
 function ucitajSmestaj(idSmestaja){
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/smestaj/getSmestaj/"+idSmestaja,
+		url: "https://localhost:1234/smestaj/getSmestaj/"+idSmestaja,
         type: "GET",
         dataType: "json",       
         crossDomain: true,
@@ -93,7 +93,7 @@ function ucitajSmestaj(idSmestaja){
         	
         	$.ajax({
         		async: false,
-        		url: "http://localhost:1234/smestajVlasnik/getVlasnik/"+idSmestaja,
+        		url: "https://localhost:1234/smestajVlasnik/getVlasnik/"+idSmestaja,
                 type: "GET",
                 dataType: "json",       
                 crossDomain: true,

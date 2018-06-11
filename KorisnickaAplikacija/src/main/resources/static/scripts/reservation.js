@@ -1,7 +1,7 @@
 function rezervisanje(idPonude){
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/rezervacija/reserve/"+idPonude,
+		url: "https://localhost:1234/rezervacija/reserve/"+idPonude,
         type: "POST",
         dataType:"json",
         crossDomain: true,

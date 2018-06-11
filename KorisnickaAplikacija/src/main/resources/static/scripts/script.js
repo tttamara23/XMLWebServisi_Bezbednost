@@ -1,7 +1,7 @@
 function clickFunction() {
 	alert('Usao u funkciju'); 
 	$.ajax({
-		url: "http://localhost:1234/administrator/proba",
+		url: "https://localhost:1234/administrator/proba",
         type: "POST",
         //crossDomain: true,
         headers: {  'Access-Control-Allow-Origin': '*' },

@@ -13,7 +13,7 @@ function buttonLoginClick() {
 	});
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/user/loginRegistered",
+		url: "https://localhost:1234/user/loginRegistered",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -21,7 +21,8 @@ function buttonLoginClick() {
         xhrFields: {
             withCredentials: true
          },
-        headers: {  'Access-Control-Allow-Origin': '*' },
+        headers: {  'Access-Control-Allow-Origin': '*'
+        },
         success: function () {
         	top.location.href = "home.html";
         },
@@ -66,7 +67,7 @@ function buttonRegisterClick() {
 	});
 	$.ajax({
 		async: false,
-		url: "http://localhost:1234/user/register",
+		url: "https://localhost:1234/user/register",
         type: "POST",
         contentType: "application/json",
         data: data,
