@@ -79,9 +79,13 @@ public class PorukaController {
 		poruka.setPosiljalac(ulogovani);
 		poruka.setSadrzaj(sadrzaj);
 		
-		porukaService.save(poruka);
+		try{
+			porukaService.save(poruka);
+		} catch(Exception e) {
+			return new ResponseEntity<>("Message too long!", HttpStatus.BAD_REQUEST);
+		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(chatToChatDTOConverter.convert(chat), HttpStatus.OK);
 	}
 	
 	@CrossOrigin
@@ -117,7 +121,13 @@ public class PorukaController {
 		poruka.setSadrzaj(sadrzaj);
 		poruka.setDatumSlanja(new Date());
 		poruka.setChat(chat);
-		Poruka saved = porukaService.save(poruka);
+		Poruka saved;
+		
+		try {
+			saved = porukaService.save(poruka);
+		}catch(Exception e) {
+			return new ResponseEntity<>("Message too long!", HttpStatus.BAD_REQUEST);
+		}
 		
 		return new ResponseEntity<>(porukaToPorukaDTOConverter.convert(saved), HttpStatus.OK);
 		

@@ -58,8 +58,12 @@ function loadServices(i, idPonude) {
         headers: {  'Access-Control-Allow-Origin' : '*' },
         success: function (data) {
         	$('#divUsluge' + i).empty();
+        	if(data.length == 0) {
+        		$('#divUsluge' + i).append("No services.<br><br>");
+        		return;
+        	}
         	for(j=0; j<data.length; j++) {
-        		divContent = "<i class=\"glyphicon glyphicon-plus\"></i>&nbsp<a  class=\"aTag\" style=\"background-color: #e2e9fc; color: #1e1e77\">" + data[j].uslugaDTO.naziv + "</a><br>";
+        		divContent = "&nbsp<i class=\"glyphicon glyphicon-plus\"></i>" + data[j].uslugaDTO.naziv + "<br>";
         		$('#divUsluge' + i).append(divContent);
         	}
         	$('#divUsluge' + i).append("<br>");

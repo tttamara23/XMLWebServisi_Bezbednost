@@ -45,6 +45,9 @@ public class PorukaToPorukaDTOConverter implements Converter<Poruka, PorukaDTO> 
 	}
 	
 	public List<PorukaDTO> convert(List<Poruka> source) {
+		if(source == null) {
+			return new ArrayList<PorukaDTO>();
+		}
 		List<PorukaDTO> ret = new ArrayList<PorukaDTO>();
 		for(Poruka poruka : source) {
 			ret.add(convert(poruka));

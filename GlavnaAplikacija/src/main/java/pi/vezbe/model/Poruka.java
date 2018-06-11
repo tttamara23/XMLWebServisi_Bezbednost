@@ -10,6 +10,7 @@ package pi.vezbe.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -72,6 +73,7 @@ public class Poruka {
     protected Long id;
 	
     @XmlElement(required = true)
+    @Column(length=1000)
     protected String sadrzaj;
     
     @XmlElement(required = true)

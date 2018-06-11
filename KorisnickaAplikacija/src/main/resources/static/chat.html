@@ -8,10 +8,37 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="scripts/chatReady.js"></script>
 	<script src="scripts/chat.js"></script>
+	<script src="scripts/profile.js"></script>
 	<link rel="shortcut icon" href="assets/ico/favicon.png">
 	<link rel="stylesheet" href="homeStyle/css/myStyle.css">
 	<script src="toastr/toastr.min.js"></script>
     	<link href="toastr/toastr.min.css" rel="stylesheet"/>
+    	<style>
+    		.row {
+			  display: flex; /* equal height of the children */
+			}
+			
+			.col {
+			  flex: 1; /* additionally, equal width */
+			  
+			  padding: 1em;
+			  border: solid;
+			}
+			.sentMessage{
+				margin-left:30%;
+				margin-right:5%;
+				padding-bottom:0.5%;
+				border-radius: 40px;
+				border-top-right-radius: 0px;
+			}
+			.recievedMessage{
+				margin-left:5%;
+				margin-right:30%;
+				padding-bottom:0.5%;
+				border-radius: 40px;
+				border-top-left-radius: 0px;
+			}
+    	</style>
 </head>
 <body>
 
@@ -56,11 +83,11 @@
 	        
 	    </div>
 	    <div class="tab-pane active" id="mainDiv">
-	        <div class="homeDiv" id="homeDivChat">
+	        <div id="homeDivChat">
 	      		<div class="row">
-	      			<div class="col-lg-9" id="divChat">
+	      			<div class="col-lg-9 divChatStyle homeDiv" id="divChat">
 	      			</div>
-	      			<div class="col-lg-3" id="divAllChats">
+	      			<div class="col-lg-3 allChats" id="divAllChats">
 	      			</div>
 	      		</div>
 	        </div>

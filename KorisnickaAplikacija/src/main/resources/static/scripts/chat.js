@@ -19,6 +19,9 @@ function posaljiPorukuUChat(chatId) {
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function (data) {
         	showChat(chatId);
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+        	toastr["error"](jqxhr.responseText);
         }
 	});
 }
@@ -36,7 +39,7 @@ function showChat(id) {
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function (data) {
         	$('#divChat').empty();
-        	divCnt="<h3 style=\"margin-left:5%;color:#1e1e77\">";
+        	divCnt="<h2 style=\"margin-left:5%;color:#1e1e77;\">";
         	for(j=0;j<data.korisnici.length;j++){
         		divCnt += data.korisnici[j].ime +" "+data.korisnici[j].prezime;
         		if(j!=data.korisnici.length-1){
@@ -44,22 +47,58 @@ function showChat(id) {
         		}
         		
         	}
-        	divCnt+="</h3><br/>";
+        	divCnt+="</h2><br/><br/>";
     		$('#divChat').append(divCnt);
         	
         	for(i=0;i<data.poruke.length;i++){
         		style="";
+        		radius="";
         		if(data.poruke[i].poslata){
-        			style="style=\"margin-left:30%;margin-right:5%;padding-bottom:0.5%;\"";
+        			style="sentMessage";
+        			radius="border-top-right-radius:0px;";
         		}else{
-        			style="style=\"margin-left:5%;margin-right:30%;padding-bottom:0.5%;\"";
+        			style="recievedMessage";
+        			radius="border-top-left-radius:0px;";
         		}
-        		divContent = "<div class=\"searchDiv\" "+style+" >"+data.poruke[i].posiljalac.ime+"<div  class=\"divSearchInput\" >"+data.poruke[i].sadrzaj+
-        		"</div>"+data.poruke[i].datum +"</div><br/><br/>";
+        		divContent = "<div class=\"searchDiv " + style + "\" >&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+data.poruke[i].posiljalac.ime+"<div style=\"" + radius + "\" class=\"divMessageContent\">"+data.poruke[i].sadrzaj+
+        		"</div>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+data.poruke[i].datum +"</div><br/><br/>";
         		$('#divChat').append(divContent);
         	}
-        	$('#divChat').append("<div><textarea style=\"margin-left:30%;width:72%\" placeholder=\"Message...\" class=\"form-control\" rows=\"5\" id=\"sadrzajPoruke\"></textarea></div>");
-        	$('#divChat').append("<br><button onclick=\"posaljiPorukuUChat("+data.id+")\" style=\"margin-right:0%;\" class=\"btn btn-light buttonSearch\">Send</button>");
+        	divCnt = "<div><textarea style=\"margin-left:30%;width:94%;\" placeholder=\"Message...\" class=\"form-control\" rows=\"5\" id=\"sadrzajPoruke\"></textarea>"
+        			+ "<br><button onclick=\"posaljiPorukuUChat("+data.id+")\" style=\"margin-right:1%;\" class=\"btn btn-light buttonSearch\">Send</button></div>"
+        	$('#divChat').append(divCnt);
+        	
+        	$("html, body").animate({ scrollTop: $(document).height() }, 2000);
         }
 	});
+}
+
+
+function sendMessageNew(){
+	idPrimalac = $('#idPrimalac').val();
+	sadrzaj = $('#messageContent').val();
+	$.ajax({
+		async: false,
+		url: "http://localhost:1234/poruka/sendMessage/"+idPrimalac,
+        type: "POST",
+        dataType: "json",
+        contentType:"text/plain",
+        data:sadrzaj,
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	$("#sendMessageModal").modal('toggle');
+        	$('#messageContent').val('');
+        	top.location.href = "chat.html?idChat="+data.id;
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+        	toastr["error"](jqxhr.responseText);
+        }
+	});
+	
+	
+	
 }
