@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import pi.vezbe.converters.AgentDtoToAgentConverter;
-import pi.vezbe.converters.UslugaDTOToUslugaConverter;
 import pi.vezbe.converters.KategorijaSmestajaDTOToKategorijaSmestajaConverter;
+import pi.vezbe.converters.KomentarToKomentarDTOConverter;
 import pi.vezbe.converters.TipSmestajaDTOToTipSmestajaConverter;
+import pi.vezbe.converters.UslugaDTOToUslugaConverter;
 import pi.vezbe.converters.UslugaToUslugaDtoConverter;
 import pi.vezbe.dto.AgentDTO;
 import pi.vezbe.dto.KategorijaSmestajaDTO;
+import pi.vezbe.dto.KomentarDTO;
 import pi.vezbe.dto.TipSmestajaDTO;
 import pi.vezbe.dto.UslugaDTO;
 import pi.vezbe.model.Agent;
-import pi.vezbe.model.DodatneUsluge;
 import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Komentar;
 import pi.vezbe.model.KrajnjiKorisnik;
@@ -78,6 +79,8 @@ public class AdminisrtatorController {
 	@Autowired
 	private UslugaToUslugaDtoConverter uslugaToUslugaDtoConverter;
 	
+	@Autowired
+	private KomentarToKomentarDTOConverter komentarToKomentarDtoConverter;
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
@@ -329,10 +332,10 @@ public class AdminisrtatorController {
             value = "showComments",
             method = RequestMethod.GET
     )
-    public List<Komentar> showComments() {
+    public List<KomentarDTO> showComments() {
 		List<Komentar> lista = komentarService.findAllComments();
-		
-		return lista;
+		List<KomentarDTO> listaDTO = komentarToKomentarDtoConverter.convert(lista);
+		return listaDTO;
     }
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
