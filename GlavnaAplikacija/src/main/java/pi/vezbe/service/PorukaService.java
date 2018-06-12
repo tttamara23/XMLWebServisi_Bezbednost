@@ -22,4 +22,12 @@ public class PorukaService {
 		return porukaRepository.findByChatIdOrderByDatumSlanja(idChat);
 	}
 	
+	public int countUnseen(Long idChat, Long idKorisnik) {
+		return porukaRepository.countByChatIdAndPosiljalacIdNotAndSeen(idChat, idKorisnik, false);
+	}
+	
+	public List<Poruka> seen(Long idChat, Long idKorisnik) {
+		return porukaRepository.findByChatIdAndPosiljalacIdNotAndSeen(idChat, idKorisnik, false);
+	}
+	
 }

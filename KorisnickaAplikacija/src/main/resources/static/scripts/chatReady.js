@@ -27,12 +27,14 @@ $(document).ready(function () {
         	        headers: {  'Access-Control-Allow-Origin': '*' },
         	        success: function (data) {
         	        	for(i=0; i<data.length; i++){
-        	        		newChat = "<div class=\"divSearchInput\"><a class=\"aTagChat\" onclick=\"return showChat(" + data[i].id + ")\"><h4>";
+        	        		newChat = "<div class=\"divSearchInput\"><a class=\"aTagChat\" onclick=\"return showChat(" + data[i].id + ")\"><h4 style=\"padding-left:6%;\" class=\"row\">";
         	        		for(j=0; j<data[i].korisnici.length; j++) {
         	        			newChat += data[i].korisnici[j].ime + " " + data[i].korisnici[j].prezime;
-        		        	
         	        		}
-        	        		newChat += "</h4></a></div><br>";
+        	        		if(data[i].unseen != 0) { 
+        	        			newChat += "<div id=\"divUnseenMessages" + data[i].id + "\">&nbsp(" + data[i].unseen + ")</div>";
+        	        		}
+        	        		newChat += "</h4></a></div>";
         	        		$('#divAllChats').append(newChat);
         	        	}
         	        	var url_string = window.location.href;

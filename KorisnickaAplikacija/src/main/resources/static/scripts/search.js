@@ -6,6 +6,7 @@ function buttonSearchClick() {
 	searchAccommodationType = $('#searchAccommodationType').val();
 	category = $('#searchCategory').val();
 	searchServices = $('#searchServices').val();
+	sort = $('#searchSort').val();
 	
 	if(isNaN(numberOfPersons)) {
 		toastr["error"]('Number of persons must be number.');
@@ -27,7 +28,7 @@ function buttonSearchClick() {
 	
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/ponuda/search/" + napredna,
+		url: "https://localhost:1234/ponuda/search/" + napredna + "/" + sort,
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -49,7 +50,7 @@ function buttonSearchClick() {
         			+ "<h3><a href=\"accommodation.html?idSmestaja=" + data[i].smestajId + "\">" + data[i].smestajNaziv + "</a></h3>"
         			+"<p>" + data[i].datumOd + " - " + data[i].datumDo + "</p>"
         			
-        			+"<p>" + data[i].id + "</p>"
+        			//+"<p>" + data[i].id + "</p>"
         			
         			+ "<p> Number of beds: " + data[i].brojLezaja + "<br/> " 
         			+ "Number of available rooms: "+ data[i].brojSlobodnihPonuda +"<br/>"

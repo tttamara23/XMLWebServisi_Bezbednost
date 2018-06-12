@@ -35,12 +35,20 @@ public class PonudaService {
 	}
 	
 	
-	public List<Ponuda> searchAdvanced(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> usluge) {
-		return ponudaRepository.findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotIn(dateFrom, dateTo, naziv, brojLezaja, tip, idKategorija, usluge);
+	public List<Ponuda> searchAdvancedOrderByCena(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> usluge) {
+		return ponudaRepository.findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotInOrderByCena(dateFrom, dateTo, naziv, brojLezaja, tip, idKategorija, usluge);
 	}
 	
-	public List<Ponuda> searchNotAdvanced(Date dateFrom, Date dateTo, String naziv, int brojLezaja) {
-		return ponudaRepository.findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezaja(dateFrom, dateTo, naziv, brojLezaja);
+	public List<Ponuda> searchAdvancedOrderByCategory(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> usluge) {
+		return ponudaRepository.findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotInOrderBySmestajKategorijaSmestajaId(dateFrom, dateTo, naziv, brojLezaja, tip, idKategorija, usluge);
+	}
+	
+	public List<Ponuda> searchNotAdvancedOrderByCena(Date dateFrom, Date dateTo, String naziv, int brojLezaja) {
+		return ponudaRepository.findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderByCena(dateFrom, dateTo, naziv, brojLezaja);
+	}
+	
+	public List<Ponuda> searchNotAdvancedOrderByCategory(Date dateFrom, Date dateTo, String naziv, int brojLezaja) {
+		return ponudaRepository.findPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderBySmestajKategorijaSmestajaId(dateFrom, dateTo, naziv, brojLezaja);
 	}
 	
 }

@@ -68,7 +68,23 @@ function showChat(id) {
         			+ "<br><button onclick=\"posaljiPorukuUChat("+data.id+")\" style=\"margin-right:1%;\" class=\"btn btn-light buttonSearch\">Send</button></div>"
         	$('#divChat').append(divCnt);
         	
+        	$('#divUnseenMessages'+id).empty();
+        	
         	$("html, body").animate({ scrollTop: $(document).height() }, 2000);
+        	
+        	$.ajax({
+        		async: false,
+        		url: "https://localhost:1234/poruka/seen/"+id,
+                type: "PUT",
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+                 },
+                headers: {  'Access-Control-Allow-Origin': '*' },
+                success: function () {
+                	
+                }
+        	});
         }
 	});
 }
