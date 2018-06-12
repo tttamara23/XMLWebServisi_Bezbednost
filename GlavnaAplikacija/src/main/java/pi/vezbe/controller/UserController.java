@@ -1,6 +1,7 @@
 package pi.vezbe.controller;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,8 @@ import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.model.Rezervacija;
 import pi.vezbe.model.Role;
+import pi.vezbe.service.EmailService;
+import pi.vezbe.service.RandomString;
 import pi.vezbe.service.UserService;
 
 @RestController
@@ -37,6 +40,9 @@ public class UserController {
 	
 	@Autowired
 	private RezervacijaToRezervacijaDTO rezervacijaToRezervacijaDTO;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	
 	/*@CrossOrigin
@@ -57,15 +63,13 @@ public class UserController {
 		if(registerDTO.getIme().equals("") || registerDTO.getIme() == null ||
 				registerDTO.getPrezime().equals("") || registerDTO.getPrezime() == null ||
 				registerDTO.getEmail().equals("") || registerDTO.getEmail() == null ||
-				registerDTO.getKontakt().equals("") || registerDTO.getKontakt() == null ||
-				registerDTO.getPassword().equals("") || registerDTO.getPassword() == null ||
-				registerDTO.getPasswordConfirm().equals("") || registerDTO.getPasswordConfirm() == null) {
+				registerDTO.getKontakt().equals("") || registerDTO.getKontakt() == null ) {
 			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
 		}
 		try {
 			Korisnik korisnik = userService.findByEmail(registerDTO.getEmail());
 		} catch(Exception e) {
-			String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{10,}";
+			/*String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{10,}";
 			if(!registerDTO.getPassword().matches(pattern)) {
 				return new ResponseEntity<>("Password must be at least ten characters including"
 					+ " one uppercase letter, one special character and alphanumeric characters!", HttpStatus.BAD_REQUEST);
@@ -73,15 +77,39 @@ public class UserController {
 			
 			if(!registerDTO.getPassword().equals(registerDTO.getPasswordConfirm())) {
 				return new ResponseEntity<>("Passwords don't match!", HttpStatus.BAD_REQUEST);
-			}
+			}*/
+			RandomString gen = new RandomString(10, ThreadLocalRandom.current());
+	        String newPassword = gen.nextString();
 			
 			KrajnjiKorisnik krajnjiKorisnik = new KrajnjiKorisnik();
 			krajnjiKorisnik.setIme(registerDTO.getIme());
 			krajnjiKorisnik.setPrezime(registerDTO.getPrezime());
 			krajnjiKorisnik.setEmail(registerDTO.getEmail());
 			krajnjiKorisnik.setKontakt(registerDTO.getKontakt());
-			krajnjiKorisnik.setLozinka(registerDTO.getPassword());
+			
+			//deo sa hesiranjem lozinke
+			
+			byte[] salt = userService.salt();
+			krajnjiKorisnik.setSalt(salt);
+			byte[] hashedPassword = userService.hashPassword(newPassword, salt);
+			krajnjiKorisnik.setLozinka(new String(hashedPassword));
+			
 			krajnjiKorisnik.setBlokiran(false);
+			
+			 try {
+
+		            emailService.getMail().setTo(krajnjiKorisnik.getEmail());
+		            emailService.getMail().setFrom(emailService.getEnv().getProperty("spring.mail.username"));
+		            emailService.getMail().setSubject("Setting password for your account");
+		            emailService.getMail().setText("Hello " + krajnjiKorisnik.getIme() + ",\n\nThis is your new password:\n\n" + newPassword + "");
+		            emailService.sendNotificaitionAsync(krajnjiKorisnik);
+
+		            
+		        } catch (Exception exc) {
+		            exc.printStackTrace();
+		            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		        }
+			 
 			
 			userService.save(krajnjiKorisnik);
 			
@@ -103,7 +131,11 @@ public class UserController {
 			if(!korisnik.getRole().equals(Role.REGISTERED)) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
-			if(!korisnik.getLozinka().equals(loginDTO.getPassword())) {
+			
+			String enteredPassword = loginDTO.getPassword();
+			byte[] salt = korisnik.getSalt();
+			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
+			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			//response.addCookie(request.getCookies()[0]);
@@ -125,7 +157,10 @@ public class UserController {
 			if(!korisnik.getRole().equals(Role.ADMIN)) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
-			if(!korisnik.getLozinka().equals(loginDTO.getPassword())) {
+			String enteredPassword = loginDTO.getPassword();
+			byte[] salt = korisnik.getSalt();
+			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
+			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			userService.setCurrentUser(korisnik);
@@ -146,7 +181,10 @@ public class UserController {
 			if(!korisnik.getRole().equals(Role.AGENT)) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
-			if(!korisnik.getLozinka().equals(loginDTO.getPassword())) {
+			String enteredPassword = loginDTO.getPassword();
+			byte[] salt = korisnik.getSalt();
+			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
+			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			userService.setCurrentUser(korisnik);
@@ -164,7 +202,11 @@ public class UserController {
     )
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
 		Korisnik loggedIn = userService.getCurrentUser();
-		if(!loggedIn.getLozinka().equals(changePasswordDTO.getOldPassword())) {
+		String oldPassword = changePasswordDTO.getOldPassword();
+		byte[] salt = loggedIn.getSalt();
+		byte[] hashedOldPassword = userService.hashPassword(oldPassword, salt);
+		
+		if(!loggedIn.getLozinka().equals(new String(hashedOldPassword))) {
 			return new ResponseEntity<>("Incorrect old password!", HttpStatus.BAD_REQUEST);
 		}
 		
@@ -178,7 +220,7 @@ public class UserController {
 			return new ResponseEntity<>("Passwords don't match!", HttpStatus.BAD_REQUEST);
 		}
 		
-		loggedIn.setLozinka(changePasswordDTO.getNewPassword());
+		loggedIn.setLozinka(new String((userService.hashPassword(changePasswordDTO.getNewPassword(), loggedIn.getSalt()))));
 		userService.save(loggedIn);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

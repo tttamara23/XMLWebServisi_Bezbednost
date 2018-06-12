@@ -37,33 +37,19 @@ function buttonRegisterClick() {
 	lastName = $('#formRegister-last-name').val();
 	email = $('#formRegister-email').val();
 	phoneNumber = $('#formRegister-phone-number').val();
-	password = $('#formRegister-password').val();
-	passwordConfirm = $('#formRegister-confirm-password').val();
 	
-	if(!firstName || !lastName || !email || !phoneNumber || !password || !passwordConfirm) {
+	if(!firstName || !lastName || !email || !phoneNumber) {
 		toastr["error"]('Fill in all required entry fields!');
 		return;
 	}
 	
-	var strongRegex = new RegExp("^(?=.{10,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
-	if(!strongRegex.test(password)) {
-		toastr["error"]('Password must be at least ten characters including'
-				+ ' one uppercase letter, one special character and alphanumeric characters!');
-		return;
-	}
 	
-	if(password !== passwordConfirm) {
-		toastr["error"]('Passwords don\'t match!');
-		return;
-	}
 	
 	var data = JSON.stringify({
 		"ime": firstName, 
 		"prezime": lastName, 
 		"email": email,
-		"kontakt": phoneNumber, 
-		"password": password, 
-		"passwordConfirm": passwordConfirm
+		"kontakt": phoneNumber
 	});
 	$.ajax({
 		async: false,

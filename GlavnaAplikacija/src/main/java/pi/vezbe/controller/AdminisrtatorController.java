@@ -93,7 +93,7 @@ public class AdminisrtatorController {
 			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
 		}
         Agent agentToSave = agentDtoToAgentConverter.convert(agentDTO);
-        agentToSave.setLozinka(getSaltString());
+       // agentToSave.setLozinka(getSaltString());
         Agent saved = agentService.save(agentToSave);
         
         emailService.getMail().setTo(agentToSave.getEmail());

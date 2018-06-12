@@ -6,17 +6,14 @@ public class RegisterDTO {
 	private String prezime;
 	private String email;
 	private String kontakt;
-	private String password;
-	private String passwordConfirm;
 	
-	public RegisterDTO(String ime, String prezime, String email, String kontakt, String password,
-			String passwordConfirm) {
+	
+	public RegisterDTO(String ime, String prezime, String email, String kontakt) {
 		this.ime = ime;
 		this.prezime = prezime;
 		this.email = email;
 		this.kontakt = kontakt;
-		this.password = password;
-		this.passwordConfirm = passwordConfirm;
+		
 	}
 	
 	public RegisterDTO() {
@@ -55,20 +52,6 @@ public class RegisterDTO {
 		this.kontakt = kontakt;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPasswordConfirm() {
-		return passwordConfirm;
-	}
-
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
-	}
+	
 
 }

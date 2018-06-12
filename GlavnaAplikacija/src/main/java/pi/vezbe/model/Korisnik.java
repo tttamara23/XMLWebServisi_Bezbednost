@@ -115,6 +115,8 @@ public abstract class Korisnik {
     protected String lozinka;
     @XmlElement(required = true)
     protected String kontakt;
+    @XmlElement(required = true)
+	private byte[] salt;
     
     @Enumerated(EnumType.STRING)
     protected Role role;
@@ -288,5 +290,14 @@ public abstract class Korisnik {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	public byte[] getSalt() {
+		return salt;
+	}
+
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
+	}
+	
 
 }
