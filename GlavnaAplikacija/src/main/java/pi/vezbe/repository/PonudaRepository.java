@@ -32,10 +32,21 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 			@Param("idTipSmestaja") Long idTipSmestaja, 
 			@Param("idKategorijaSmestaja") Long idKategorijaSmestaja);*/
 	
-	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotIn  
+	//napredna
+	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotInOrderByCena  
 		(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> ponudaUsluga);
 	
-	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezaja
+	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotInOrderBySmestajKategorijaSmestajaId
+	(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> ponudaUsluga);
+	
+	
+	
+	//nije napredna
+	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderByCena
 	(Date dateFrom, Date dateTo, String naziv, int brojLezaja);
+	
+	List<Ponuda> findPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderBySmestajKategorijaSmestajaId
+	(Date dateFrom, Date dateTo, String naziv, int brojLezaja);
+	
 
 }

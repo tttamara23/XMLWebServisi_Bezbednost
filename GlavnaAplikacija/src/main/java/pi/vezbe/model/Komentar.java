@@ -60,11 +60,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlType(name = "", propOrder = {
     "id",
     
-    //"smestaj",
+    "smestaj",
     "datumKomentara",
     "opis",
-    "objavljen"
-  //  "autor"
+    "objavljen",
+    "autor"
 })
 @XmlRootElement(name = "Komentar")
 @Entity
@@ -74,10 +74,10 @@ public class Komentar {
 	@GeneratedValue(strategy=GenerationType.AUTO)
     protected long id;
    
-	/*@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_smestaja", nullable = false)
     @XmlElement(name = "Smestaj", required = true)
-    protected Smestaj smestaj;*/
+    protected Smestaj smestaj;
 	
 	@XmlElement(required = true)
     @XmlSchemaType(name = "date")
@@ -89,8 +89,10 @@ public class Komentar {
     protected boolean objavljen;
     
    
-    /*@XmlElement(required = true)
-    protected KrajnjiKorisnik autor;*/
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_autor", nullable = false)
+    @XmlElement(name = "Autor", required = true)
+    protected KrajnjiKorisnik autor;
 
     /**
      * Gets the value of the id property.
@@ -181,6 +183,22 @@ public class Komentar {
     public void setObjavljen(boolean value) {
         this.objavljen = value;
     }
+
+	public Smestaj getSmestaj() {
+		return smestaj;
+	}
+
+	public void setSmestaj(Smestaj smestaj) {
+		this.smestaj = smestaj;
+	}
+
+	public KrajnjiKorisnik getAutor() {
+		return autor;
+	}
+
+	public void setAutor(KrajnjiKorisnik autor) {
+		this.autor = autor;
+	}
 
     /**
      * Gets the value of the autor property.

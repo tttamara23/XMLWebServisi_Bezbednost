@@ -205,7 +205,7 @@ function comments() {
                
                for (var i=0; i<data.length; i++){
                    var td;
-                   var td1,td2,td3,td4,td5,td6,td7;
+                   var td1,td2,td3,td4,td5,td6,td7,td8;
                    var tr=document.createElement('tr');
                   
                   td1 = document.createElement('td');
@@ -220,7 +220,15 @@ function comments() {
                    tr.appendChild(td1);  
                     tr.appendChild(td2);  
                    tr.appendChild(td3);              
-                  
+                   td7 = document.createElement('td');
+                   td7.innerHTML = data[i].imeAutora + " " + data[i].prezimeAutora;
+                   
+                   td8 = document.createElement('td');
+                   td8.innerHTML = data[i].smestajDTO.naziv + ", " + data[i].smestajDTO.lokacija;
+                   
+                   tr.appendChild(td7);
+                   tr.appendChild(td8);
+                   
                    td6 = document.createElement('td');
                    td6.innerHTML= "<button class=\"btn btn-success\" onclick=\"return objavi('" + data[i].id + "')\">Objavi</button>";
                    tr.appendChild(td6);

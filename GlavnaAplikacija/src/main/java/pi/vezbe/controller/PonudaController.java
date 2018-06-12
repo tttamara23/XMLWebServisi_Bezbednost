@@ -48,10 +48,10 @@ public class PonudaController {
 	
 	@CrossOrigin
 	@RequestMapping(
-			value = "/search/{advanced}",
+			value = "/search/{advanced}/{sort}",
 			method = RequestMethod.POST
 	)
-	public ResponseEntity<?> search(@PathVariable("advanced") int advanced, @RequestBody SearchDTO searchDTO) {
+	public ResponseEntity<?> search(@PathVariable("advanced") int advanced, @PathVariable("sort") int sort, @RequestBody SearchDTO searchDTO) {
 		int numberOfPersons;
 		try{
 			numberOfPersons = Integer.parseInt(searchDTO.getNumberOfPersons());
@@ -76,11 +76,19 @@ public class PonudaController {
 			
 			List<Ponuda> ponude = new ArrayList<Ponuda>();
 			if(advanced == 0) {
-				ponude = ponudaService.searchNotAdvanced(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
+				if(sort == 1) { //cena
+					ponude = ponudaService.searchNotAdvancedOrderByCena(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
+				} else if(sort == 3) {  //kategorija
+					ponude = ponudaService.searchNotAdvancedOrderByCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
+				}
 			} else {
 				List<Usluga> usl = uslugaService.findByIdNotIn(searchDTO.getSearchServices());
-			
-				ponude = ponudaService.searchAdvanced(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory(), usl);
+				
+				if(sort == 1) {
+					ponude = ponudaService.searchAdvancedOrderByCena(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory(), usl);
+				} else if(sort == 3) {
+					ponude = ponudaService.searchAdvancedOrderByCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory(), usl);
+				}
 			}
 			return new ResponseEntity<>(ponudaToPonudaDtoConverter.convert(ponude), HttpStatus.OK);
 		} catch (ParseException e) {

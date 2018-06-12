@@ -8,9 +8,9 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import pi.vezbe.dto.ChatDTO;
-import pi.vezbe.dto.KorisnikDTO;
 import pi.vezbe.model.Chat;
-import pi.vezbe.model.Korisnik;
+import pi.vezbe.service.PorukaService;
+import pi.vezbe.service.UserService;
 
 @Component
 public class ChatToChatDTOConverter implements Converter<Chat, ChatDTO>{
@@ -19,7 +19,13 @@ public class ChatToChatDTOConverter implements Converter<Chat, ChatDTO>{
 	private KorisnikToKorisnikDTOConverter korisnikConverter;
 	
 	@Autowired
-	private PorukaToPorukaDTOConverter  porukaToPorukaDTOConverter; 
+	private PorukaToPorukaDTOConverter  porukaToPorukaDTOConverter;
+	
+	@Autowired
+	private PorukaService porukaService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Override
 	public ChatDTO convert(Chat source) {
@@ -30,6 +36,7 @@ public class ChatToChatDTOConverter implements Converter<Chat, ChatDTO>{
 		ret.setId(source.getId());
 		ret.setKorisnici(korisnikConverter.convert(source.getKorisnici()));
 		ret.setPoruke(porukaToPorukaDTOConverter.convert(source.getPoruke()));
+		ret.setUnseen(porukaService.countUnseen(source.getId(), userService.getCurrentUser().getId()));
 		return ret;
 	}
 	

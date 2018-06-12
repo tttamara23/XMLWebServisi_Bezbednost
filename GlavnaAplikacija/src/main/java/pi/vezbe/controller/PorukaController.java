@@ -116,6 +116,11 @@ public class PorukaController {
 	public ResponseEntity<?> posaljiPorukuUChat(@PathVariable Long idChat, @RequestBody String sadrzaj) {
 		Chat chat = chatService.findById(idChat);
 		Korisnik ulogovani = userService.getCurrentUser();
+		
+		if(!chat.findKorisnik(ulogovani)) {
+			return new ResponseEntity<>("You are not in this chat!", HttpStatus.BAD_REQUEST);
+		}
+		
 		Poruka poruka = new Poruka();
 		poruka.setPosiljalac(ulogovani);
 		poruka.setSadrzaj(sadrzaj);
@@ -131,6 +136,20 @@ public class PorukaController {
 		
 		return new ResponseEntity<>(porukaToPorukaDTOConverter.convert(saved), HttpStatus.OK);
 		
+	}
+	
+	@CrossOrigin
+	@RequestMapping(
+            value = "/seen/{idChat}",
+            method = RequestMethod.PUT
+    )
+	public ResponseEntity<?> seen(@PathVariable Long idChat) {
+		List<Poruka> poruke = porukaService.seen(idChat, userService.getCurrentUser().getId());
+		for(Poruka poruka : poruke) {
+			poruka.setSeen(true);
+			porukaService.save(poruka);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

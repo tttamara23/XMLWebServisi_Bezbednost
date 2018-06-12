@@ -180,18 +180,18 @@ public class Smestaj {
    
     
    // @XmlElement(name = "Komentari", required = true)
-   // @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
-	//protected List<Komentar> komentari;
+    @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
+	protected List<Komentar> komentari;
     
     
 
-   /* public List<Komentar> getKomentari() {
+    public List<Komentar> getKomentari() {
 		return komentari;
 	}
 
 	public void setKomentari(List<Komentar> komentari) {
 		this.komentari = komentari;
-	}*/
+	}
 
 	/**
      * Gets the value of the naziv property.

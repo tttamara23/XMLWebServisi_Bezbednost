@@ -62,6 +62,7 @@ public class ChatController {
 		for(Chat chat : chats){
 			ChatDTO chatDTO = new ChatDTO();
 			chatDTO.setId(chat.getId());
+			chatDTO.setUnseen(porukaService.countUnseen(chat.getId(), korisnik.getId()));
 			for(Korisnik toAdd : chat.getKorisnici()){
 				if(!toAdd.getId().equals(korisnik.getId())){
 					chatDTO.getKorisnici().add(korisnikToKorisnikDTOConverter.convert(toAdd));				
