@@ -272,5 +272,25 @@ public class UserController {
 		List<RezervacijaDTO> korisnickeRezervacijeDTO = rezervacijaToRezervacijaDTO.convert(korisnickeRezervacije);
         return new ResponseEntity<>(korisnickeRezervacijeDTO, HttpStatus.OK);
     }
+	
+	/*@CrossOrigin()
+	@PreAuthorize("isAuthenticated()")
+    @RequestMapping(
+            value = "/hashPasswords",
+            method = RequestMethod.GET)
+    public ResponseEntity<?> hashPasswords() {
+		List<KrajnjiKorisnik> users = userService.findAll();
+		for(KrajnjiKorisnik k : users){
+			k.setSalt(userService.salt());
+			String pass = k.getLozinka();
+			byte[] hashedPassword = userService.hashPassword(pass, k.getSalt());
+			String hashPass = new String(hashedPassword);
+			k.setLozinka(hashPass);
+			Korisnik saved = userService.save(k);
+		
+			
+		}
+		return new ResponseEntity<>( HttpStatus.OK);
+    }*/
 
 }

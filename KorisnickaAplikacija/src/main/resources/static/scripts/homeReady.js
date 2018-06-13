@@ -29,6 +29,23 @@ $(document).ready(function () {
 	    return false;
 	});
 	
+	/*$.ajax({
+		async: false,
+		url: "https://localhost:1234/user/hashPasswords",
+        type: "GET",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function () {
+        	top.location.href = "index.html";
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+            top.location.href = "index.html";
+        }
+	});*/
+	
 	$.ajax({
 		async: false,
 		url: "https://localhost:1234/smestaj/getLocations",
