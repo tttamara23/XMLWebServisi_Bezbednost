@@ -26,7 +26,9 @@ $(document).ready(function () {
         	         },
         	        headers: {  'Access-Control-Allow-Origin': '*' },
         	        success: function (data) {
+        	        	$('#divAllChats').append("<h3 class=\"textTag\">All chats:</h3>");
         	        	for(i=0; i<data.length; i++){
+        	        		
         	        		newChat = "<div class=\"divSearchInput\"><a class=\"aTagChat\" onclick=\"return showChat(" + data[i].id + ")\"><h4 style=\"padding-left:6%;\" class=\"row\">";
         	        		for(j=0; j<data[i].korisnici.length; j++) {
         	        			newChat += data[i].korisnici[j].ime + " " + data[i].korisnici[j].prezime;
@@ -42,6 +44,10 @@ $(document).ready(function () {
                 		var idChat = url.searchParams.get("idChat");
                 		if(idChat != null) {
                 			showChat(idChat);
+                		} else {
+                			if(data.length != 0) {
+                				showChat(1);
+                			}
                 		}
         	        },
         	        error: function (jqxhr, textStatus, errorThrown) {

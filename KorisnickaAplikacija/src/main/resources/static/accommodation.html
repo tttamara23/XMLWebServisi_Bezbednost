@@ -11,6 +11,7 @@
 	<script src="scripts/accommodation.js"></script>
 	<script src="scripts/reservation.js"></script>
 	<script src="scripts/chat.js"></script>
+	<script src="scripts/comment.js"></script>
 	<script src="scripts/accommodationReady.js"></script>
 	<link rel="shortcut icon" href="assets/ico/favicon.png">
 	<link rel="stylesheet" href="homeStyle/css/myStyle.css">
@@ -61,19 +62,39 @@
 	    </div>
 	    <div class="tab-pane active" id="mainDiv">
 	        <div class="homeDiv" id="homeDivID">
-	      		<div class="searchDiv">
-	        		<h4 id="nazivSmestaja" style="padding-left: 1.5%"></h4>
-	        		<div class="divSearchInput" id="vlasnikSmestaja">
-	        		</div><br/>
-	        		<div class="divSearchInput" id="opisSmestaja">
-	        		</div>
-	        		<div class="divSearchInput" id="tipSmestaja" style="margin-top: 3%">
-	        		</div>
-	        		<div class="divSearchInput" id="ocenaSmestaja" style="margin-top: 3%">
-	        		</div>
+	        	<div class="row">
+	        		<div class="col-lg-7">
+			      		<div class="searchDiv">
+			        		<h4 id="nazivSmestaja" style="padding-left: 1.5%"></h4>
+			        		<div class="divSearchInput" id="vlasnikSmestaja">
+			        		</div><br/>
+			        		<div class="divSearchInput" id="opisSmestaja">
+			        		</div>
+			        		<div class="divSearchInput" id="tipSmestaja" style="margin-top: 3%">
+			        		</div>
+			        		<div class="divSearchInput" id="ocenaSmestaja" style="margin-top: 3%">
+			        		</div>
+			        	</div>
+		        	</div>
+		        	<div class="col-lg-5" id="divImages"></div>
 	        	</div>
-	      		<div class="row" style="margin-top:5%" id="ponudaDiv"></div>
 	        </div>
+	        
+	        <div class="homeDiv">
+		        <div class="row">
+		        	<h2 class="textTag" style="padding-bottom:3%;">What we offer:</h2>
+		        	<div id="ponudaDiv"></div>
+	      		</div>
+      		</div>
+	        
+	        <div class="homeDiv">
+	        	<div class="row">
+		        	<h2 class="textTag" style="padding-bottom:3%;">Comments:</h2>
+		        	<div id="newCommentDiv"></div>
+		        	<div id="commentsDiv"></div>
+	        	</div>
+      		</div>
+        	
 	    </div>
 	    
 	</div>

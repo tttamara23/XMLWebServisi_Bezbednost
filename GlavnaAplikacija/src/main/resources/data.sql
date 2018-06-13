@@ -1,5 +1,5 @@
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka,salt) values 
-	('Admin', 'Tamara', 'Perlinac', 'markovuckovic1808@gmail.com', '123456', 'ADMIN', 's#�p�    \�תqi�Oo���dL7��QX�a','948b19610bfdfb85b5b540307da9dadfa37d88c03a5c2a0050492650bc6c0d31c9a3d41504c85e907a9132f800f8387eeb3de3ea585d7e5eb7c8d71cc225dcf0');
+	('Administrator', 'Tamara', 'Perlinac', 'markovuckovic1808@gmail.com', '123456', 'ADMIN', 's#�p�    \�תqi�Oo���dL7��QX�a','948b19610bfdfb85b5b540307da9dadfa37d88c03a5c2a0050492650bc6c0d31c9a3d41504c85e907a9132f800f8387eeb3de3ea585d7e5eb7c8d71cc225dcf0');
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, blokiran,salt) values 
 	('KrajnjiKorisnik', 'Smiljana', 'Dragoljevic', 'smiljana@gmail.com', '123456', 'REGISTERED', 'J�Ɂ��������o)O��;c����0�x簱', false,'8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, poslovni_maticni_broj,salt) values 
@@ -52,6 +52,9 @@ insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda,
 	('2018-01-28 21:00:00', '2018-01-29 21:00:00', 100, 1, 1, 2);
 	
 insert into Komentar(datum_komentara,objavljen, opis,id_autor,id_smestaja) values ('2018-01-28 21:00:00',false,'Dobar kom',2,2);
+insert into Komentar(datum_komentara,objavljen, opis,id_autor,id_smestaja) values ('2018-05-18 21:00:00',true,'Super mesto...',2,1);
+insert into Komentar(datum_komentara,objavljen, opis,id_autor,id_smestaja) values ('2018-04-23 21:00:00',true,'Bezveze komentar',2,1);
+insert into Komentar(datum_komentara,objavljen, opis,id_autor,id_smestaja) values ('2017-07-08 21:00:00',true,'nfowrnfowurgnfrmcveklvnwrljvnrnvrwovnrwovnrwnvrejnvrjwbnejkbnerkjnljvnerljvnrjkvnrwjvnrwjvnverluvnreoivneriowofnwrofnrwofwrn',2,1);
 
 insert into Usluga(naziv) values('wifi');
 insert into Usluga(naziv) values('kitchen');
