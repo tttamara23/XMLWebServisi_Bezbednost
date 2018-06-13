@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +30,7 @@ import pi.vezbe.model.Rezervacija;
 import pi.vezbe.model.Role;
 import pi.vezbe.service.EmailService;
 import pi.vezbe.service.RandomString;
+import pi.vezbe.service.SmestajService;
 import pi.vezbe.service.UserService;
 
 @RestController
@@ -43,6 +45,7 @@ public class UserController {
 	
 	@Autowired
 	private EmailService emailService;
+	
 	
 	
 	/*@CrossOrigin
@@ -271,6 +274,23 @@ public class UserController {
 		List<Rezervacija> korisnickeRezervacije = ((KrajnjiKorisnik)loggedIn).getRezervacije();
 		List<RezervacijaDTO> korisnickeRezervacijeDTO = rezervacijaToRezervacijaDTO.convert(korisnickeRezervacije);
         return new ResponseEntity<>(korisnickeRezervacijeDTO, HttpStatus.OK);
+    }
+	
+	@CrossOrigin()
+	@PreAuthorize("isAuthenticated()")
+    @RequestMapping(
+            value = "/checkReservations/{idSmestaja}",
+            method = RequestMethod.POST)
+    public ResponseEntity<?> checkReservations(@PathVariable Long idSmestaja) {
+		Korisnik loggedIn = userService.getCurrentUser();
+		List<Rezervacija> rezervacije = ((KrajnjiKorisnik)loggedIn).getRezervacije();
+		
+		for(Rezervacija rezervacija : rezervacije){
+			if(rezervacija.getPonuda().getSmestaj().getId() == idSmestaja){
+				return new ResponseEntity<>(true, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(false, HttpStatus.OK);
     }
 	
 	/*@CrossOrigin()
