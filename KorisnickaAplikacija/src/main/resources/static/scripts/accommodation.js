@@ -121,20 +121,15 @@ function ucitajSmestaj(idSmestaja){
 		                	$('#ocenaSmestaja').empty();
 		                	
 					                	if(dataRejting == true){
-					                		divOcena = "<form method=\"post\" id=\"formOcena\" >"
-					                			+"<h4>Please rate "+data.naziv+":</h4>"
+					                		divOcena = "<h4>Please rate "+data.naziv+":</h4>"
 					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"1\" onclick =\"uncheckAll(btn1)\"  name=\"radioButtons\" id=\"btn1\" style=\"width:3%\"/>1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
 					                			+"<input type=\"checkbox\"  class=\"boxes\" value=\"2\" onclick =\"uncheckAll(btn2)\" name=\"radioButtons\" id=\"btn2\" style=\"width:3%\"/>2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
 					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"3\" onclick =\"uncheckAll(btn3)\" name=\"radioButtons\" id=\"btn3\"/ style=\"width:3%\">3&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
 					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"4\" onclick =\"uncheckAll(btn4)\" name=\"radioButtons\" id=\"btn4\"/ style=\"width:3%\">4&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
 					                			+"<input type=\"checkbox\"  class=\"boxes\" value=\"5\" onclick =\"uncheckAll(btn5)\" name=\"radioButtons\" id=\"btn5\"/ style=\"width:3%\">5&nbsp&nbsp&nbsp&nbsp"
-					                			+"<button type=\"submit\" style=\"float:right;\" class=\"btn btn-light buttonSearch\" onclick=\"oceni("+idSmestaja+")\"  id=\"btnOceni\" >Submit</button>"
-					                			+"</form><br/>"
+					                			+"<button style=\"float:right;\" class=\"btn btn-light buttonSearch\" onclick=\"oceni("+idSmestaja+")\"  id=\"btnOceni\" >Submit</button>"
+					                			+"<br/><br/>"
 					                		$('#ocenaSmestaja').append(divOcena);
-					                	
-					                	
-					                	
-					                	
 					                	
 						                	$('#vlasnikSmestaja').append("<h4>Owners:</h4>")
 						                	for(j=0;j<dataVlasnik.length;j++){
@@ -199,11 +194,11 @@ function oceni(idSmestaja){
 			value=elements[i].value;
 		}
 	}
-	
+	var url = "https://localhost:1234/ocena/oceniSmestaj/"+idSmestaja;
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/ocena/oceniSmestaj/"+idSmestaja,
-        type: "GET",
+		url: url,
+        type: "POST",
         contentType:"text/plain",
         data:value,
         crossDomain: true,
@@ -212,6 +207,10 @@ function oceni(idSmestaja){
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
+        	var elements = document.getElementsByClassName('boxes');
+        	for(i=0;i<elements.length;i++){
+        		elements[i].checked=false;
+        	}
         		toastr['success']('Rating successfull');
         },
         error: function (jqxhr, textStatus, errorThrown) {

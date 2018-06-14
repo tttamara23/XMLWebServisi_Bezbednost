@@ -38,7 +38,7 @@ public class OcenaController {
 	
 	@CrossOrigin
 	@RequestMapping(
-			value = "/oceniSmestaj/{idSmestaj}/{value}",
+			value = "/oceniSmestaj/{idSmestaj}",
 			method = RequestMethod.POST
 	)
 	public ResponseEntity<?> oceniSmestaj(@PathVariable Long idSmestaj, @RequestBody String value) {
