@@ -80,5 +80,52 @@ $(document).ready(function () {
         }
     });
 	
+	
+	$.ajax({
+		async: false,
+		url: "https://localhost:1234/slika/getBySmestaj/" + idSmestaja,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	imageContent = "<div class=\"container\">";
+        	
+        	for(i=0; i<data.length; i++) {
+        		number = i+1;
+        		imageContent += "<div class=\"mySlides\">"
+        			+ "<div class=\"numbertext\">" + number + " / " + data.length + "</div>"
+        			+ "<img src=\"" + data[i].url + "\" style=\"width:100%;height:290px;\">"
+        			+ "</div>";
+        	}
+        	imageContent += "<a class=\"prev\" onclick=\"plusSlides(-1)\">&#10094;</a>";
+        	imageContent += "<a class=\"next\" onclick=\"plusSlides(1)\">&#10095;</a>";
+        	imageContent += "<div class=\"caption-container\">";
+        	imageContent += "<p id=\"caption\"></p>";
+        	imageContent += "</div>";
+        	
+        	imageContent += "<div class=\"row\" style=\"padding-left:5%;padding-right:5%;\">";
+        	for(i=0; i<data.length; i++) {
+        		number = i+1;
+        		imageContent += "<div class=\"column\">"
+        			+ "<img class=\"demo cursor\" src=\"" + data[i].url +"\" style=\"width:100%;height:50px;\" onclick=\"currentSlide(" + number + ")\">"
+        			+ "</div>";
+        	}
+        	
+        	imageContent += "</div>";
+        	imageContent += "</div>";
+        	$('#divImages').append(imageContent);
+        	if(data.length != 0) {
+        		showSlides(1);
+        	}
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+            
+        }
+    });
+	
 			
 })

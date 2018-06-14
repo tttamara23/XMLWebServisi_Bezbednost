@@ -35,6 +35,12 @@ insert into Smestaj (naziv, id_tip_smestaja, id_kategorija_smestaja, lokacija, o
 insert into Smestaj (naziv, id_tip_smestaja, id_kategorija_smestaja, lokacija, opis) values 
 	('HotelRim', 1, 3, 'Rim', 'opis...');
 	
+insert into Slika (url, id_smestaj) values ('https://t-ec.bstatic.com/images/hotel/max1024x768/109/109456311.jpg', 1);
+insert into Slika (url, id_smestaj) values ('https://q-xx.bstatic.com/images/hotel/max500/109/109192645.jpg', 1);
+insert into Slika (url, id_smestaj) values ('https://q-xx.bstatic.com/images/hotel/840x460/109/109192573.jpg', 1);
+insert into Slika (url, id_smestaj) values ('https://media-cdn.tripadvisor.com/media/photo-s/13/22/ec/96/stay-hybrid-hostel.jpg', 1);
+insert into Slika (url, id_smestaj) values ('https://aff.bstatic.com/images/hotel/max500/109/109192580.jpg', 1);
+
 insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
 	('2018-11-28 21:00:00', '2018-11-29 21:00:00', 100, 2, 3, 1);
 insert into Ponuda(datum_od, datum_do, cena, broj_lezaja, broj_slobodnih_ponuda, id_smestaj) values
