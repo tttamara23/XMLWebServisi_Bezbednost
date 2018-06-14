@@ -178,6 +178,9 @@ public class Smestaj {
     @OneToMany(mappedBy = "smestaj",cascade = CascadeType.REMOVE)
 	private List<SmestajVlasnik> smestajVlasnik;
    
+    @OneToMany(mappedBy = "smestaj",cascade = CascadeType.REMOVE)
+	private List<Ocena> ocene;
+   
     
    // @XmlElement(name = "Komentari", required = true)
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)

@@ -68,6 +68,9 @@ public class KrajnjiKorisnik
     @OneToMany(mappedBy="korisnik", cascade = CascadeType.REMOVE)
 	private List<Rezervacija> rezervacije;
     
+    @OneToMany(mappedBy="autor", cascade = CascadeType.REMOVE)
+   	private List<Ocena> ocene;
+    
     
 
     public List<Komentar> getKomentari() {
