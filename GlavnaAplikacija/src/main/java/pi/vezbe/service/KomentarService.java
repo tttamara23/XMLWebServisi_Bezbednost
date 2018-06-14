@@ -31,4 +31,8 @@ public class KomentarService {
 	public Komentar save(Komentar komentar) {
 		return komentarRepository.save(komentar);
 	}
+	
+	public List<Komentar> findBySmestajAndObjavljen(Long idSmestaja) {
+		return komentarRepository.findBySmestajIdAndObjavljenOrderByDatumKomentaraDesc(idSmestaja, true);
+	}
 }

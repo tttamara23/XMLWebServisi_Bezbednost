@@ -12,4 +12,5 @@ public interface KomentarRepository extends JpaRepository<Komentar, Long> {
 	
 	public List<Komentar> findAll();
 	public Komentar findById(Long id);
+	public List<Komentar> findBySmestajIdAndObjavljenOrderByDatumKomentaraDesc(Long idSmestaj, boolean isObjavljen);
 }
