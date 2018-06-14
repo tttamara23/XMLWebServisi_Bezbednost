@@ -123,11 +123,11 @@ function ucitajSmestaj(idSmestaja){
 					                	if(dataRejting == true){
 					                		divOcena = "<form method=\"post\" id=\"formOcena\" >"
 					                			+"<h4>Please rate "+data.naziv+":</h4>"
-					                			+"<input type=\"radio\"  onclick=\"checkButton(btn1)\" name=\"radioButtons\" id=\"btn1\" style=\"width:3%\"/>1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-					                			+"<input type=\"radio\" onclick=\"checkButton(btn2)\" name=\"radioButtons\" id=\"btn2\" style=\"width:3%\"/>2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-					                			+"<input type=\"radio\" onclick=\"checkButton(btn3)\" name=\"radioButtons\" id=\"btn3\"/ style=\"width:3%\">3&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-					                			+"<input type=\"radio\" onclick=\"checkButton(btn4)\" name=\"radioButtons\" id=\"btn4\"/ style=\"width:3%\">4&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-					                			+"<input type=\"radio\" onclick=\"checkButton(btn5)\" name=\"radioButtons\" id=\"btn5\"/ style=\"width:3%\">5&nbsp&nbsp&nbsp&nbsp"
+					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"1\" onclick =\"uncheckAll(btn1)\"  name=\"radioButtons\" id=\"btn1\" style=\"width:3%\"/>1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+					                			+"<input type=\"checkbox\"  class=\"boxes\" value=\"2\" onclick =\"uncheckAll(btn2)\" name=\"radioButtons\" id=\"btn2\" style=\"width:3%\"/>2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"3\" onclick =\"uncheckAll(btn3)\" name=\"radioButtons\" id=\"btn3\"/ style=\"width:3%\">3&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"4\" onclick =\"uncheckAll(btn4)\" name=\"radioButtons\" id=\"btn4\"/ style=\"width:3%\">4&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+					                			+"<input type=\"checkbox\"  class=\"boxes\" value=\"5\" onclick =\"uncheckAll(btn5)\" name=\"radioButtons\" id=\"btn5\"/ style=\"width:3%\">5&nbsp&nbsp&nbsp&nbsp"
 					                			+"<button type=\"submit\" style=\"float:right;\" class=\"btn btn-light buttonSearch\" onclick=\"oceni("+idSmestaja+")\"  id=\"btnOceni\" >Submit</button>"
 					                			+"</form><br/>"
 					                		$('#ocenaSmestaja').append(divOcena);
@@ -191,12 +191,44 @@ function ucitajSmestaj(idSmestaja){
 	});
 }
 
-
-function checkButton(id){
-	if(id.checked == true){
-		id.checked == false;
-	}else{
-		id.checked == true;
+function oceni(idSmestaja){
+	var elements=document.getElementsByClassName('boxes');
+	var value = null;
+	for(i=0;i<elements.length;i++){
+		if(elements[i].checked==true){
+			value=elements[i].value;
+		}
 	}
 	
+	$.ajax({
+		async: false,
+		url: "https://localhost:1234/ocena/oceniSmestaj/"+idSmestaja,
+        type: "GET",
+        contentType:"text/plain",
+        data:value,
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function () {
+        		toastr['success']('Rating successfull');
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+            alert('error');
+        }
+	});
+	
 }
+function uncheckAll(id){
+	var elements = document.getElementsByClassName('boxes');
+	for(i=0;i<elements.length;i++){
+		if(elements[i].id==id.id){
+			continue;
+		}else{
+			elements[i].checked=false;
+		}
+	}
+}
+
+
