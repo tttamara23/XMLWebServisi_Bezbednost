@@ -181,8 +181,6 @@ public class AdminisrtatorController {
     public List<KrajnjiKorisnikDTO> showUsers() {
 		List<KrajnjiKorisnik> lista = userService.findAll();
 		List<KrajnjiKorisnikDTO> listaDTO = krajnjiKorisnikToKrajnjiKorisnikDTO.convert(lista);
-		Agent agent = agentService.findOne(3L);
-		
 		
 		return listaDTO;
     }
