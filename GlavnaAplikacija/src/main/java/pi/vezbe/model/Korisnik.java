@@ -122,7 +122,7 @@ public abstract class Korisnik {
     protected Role role;
     
     @XmlElement(required = true)
-	@ManyToMany(mappedBy = "korisnici", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "korisnici", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     protected List<Chat> chats;
     
     

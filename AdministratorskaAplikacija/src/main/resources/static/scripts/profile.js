@@ -92,15 +92,15 @@ function users() {
                    var tr=document.createElement('tr');
                   
                    td = document.createElement('td');
-                   td.innerHTML=data[i].ime;
+                   td.innerHTML=data[i].korisnikDTO.ime;
                    td1 = document.createElement('td');
                    td1.innerHTML= i+1;
                    td2 = document.createElement('td');
-                   td2.innerHTML= data[i].prezime;
+                   td2.innerHTML= data[i].korisnikDTO.prezime;
                    td3 = document.createElement('td');
-                   td3.innerHTML= data[i].email;
+                   td3.innerHTML= data[i].korisnikDTO.email;
                    td4 = document.createElement('td');
-                   td4.innerHTML= data[i].kontakt;
+                   td4.innerHTML= data[i].korisnikDTO.kontakt;
                    td5 = document.createElement('td');
                    td5.innerHTML= data[i].blokiran;
                    
@@ -113,12 +113,12 @@ function users() {
                    
                    td6 = document.createElement('td');
                    if(data[i].blokiran == false)
-                	   td6.innerHTML= "<button class=\"btn btn-warning\" onclick=\"return blokiraj('" + data[i].email + "')\">Blokiraj</button>";
+                	   td6.innerHTML= "<button class=\"btn btn-warning\" onclick=\"return blokiraj('" + data[i].korisnikDTO.email + "')\">Blokiraj</button>";
                    else 
-                	   td6.innerHTML= "<button class=\"btn btn-success\" onclick=\"return aktiviraj('" + data[i].email + "')\">Aktiviraj</button>";
+                	   td6.innerHTML= "<button class=\"btn btn-success\" onclick=\"return aktiviraj('" + data[i].korisnikDTO.email + "')\">Aktiviraj</button>";
                    tr.appendChild(td6);
                    td7 = document.createElement('td');
-                   td7.innerHTML = "<button class=\"btn btn-danger\" onclick=\"return ukloni('" + data[i].email + "')\">Ukloni</button>";
+                   td7.innerHTML = "<button class=\"btn btn-danger\" onclick=\"return ukloniKorisnika('" + data[i].korisnikDTO.email + "')\">Ukloni</button>";
                    tr.appendChild(td7);
                    $('#tableUsers').append(tr);
                    
@@ -171,7 +171,7 @@ function aktiviraj(id){
         }
     });
 }
-function ukloni(id){
+function ukloniKorisnika(id){
 	$.ajax({
     	url: "https://localhost:1234/administrator/ukloni",
         type: "POST",

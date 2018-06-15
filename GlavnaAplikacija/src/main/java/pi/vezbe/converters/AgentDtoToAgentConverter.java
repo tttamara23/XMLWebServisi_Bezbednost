@@ -7,10 +7,12 @@ import org.springframework.stereotype.Component;
 
 import pi.vezbe.dto.AgentDTO;
 import pi.vezbe.model.Agent;
+import pi.vezbe.service.Encryptor;
 
 @Component
 public class AgentDtoToAgentConverter implements Converter<AgentDTO, Agent> {
 
+	
 	@Override
 	public Agent convert(AgentDTO source) {
 		Agent agent = new Agent();
@@ -19,7 +21,8 @@ public class AgentDtoToAgentConverter implements Converter<AgentDTO, Agent> {
 		agent.setEmail(source.getEmail());
 		agent.setKontakt(source.getKontakt());
 		agent.setLozinka(source.getLozinka());
-		agent.setPoslovniMaticniBroj(source.getPoslovniMaticniBroj());
+	   
+		agent.setPoslovniMaticniBroj(Encryptor.encrypt(source.getPoslovniMaticniBroj()));
 		
 		return agent;
 	}

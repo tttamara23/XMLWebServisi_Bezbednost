@@ -6,6 +6,7 @@ public class KorisnikDTO {
 	private String email;
 	private String ime;
 	private String prezime;
+	private String kontakt;
 	
 	public KorisnikDTO() {
 		// TODO Auto-generated constructor stub
@@ -46,6 +47,14 @@ public class KorisnikDTO {
 
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
+	}
+
+	public String getKontakt() {
+		return kontakt;
+	}
+
+	public void setKontakt(String kontakt) {
+		this.kontakt = kontakt;
 	}
 	
 	

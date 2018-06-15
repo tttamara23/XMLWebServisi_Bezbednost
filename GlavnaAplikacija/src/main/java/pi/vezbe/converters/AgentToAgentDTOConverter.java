@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import pi.vezbe.dto.AgentDTO;
 import pi.vezbe.model.Agent;
+import pi.vezbe.service.Encryptor;
 
 @Component
 public class AgentToAgentDTOConverter implements Converter<Agent, AgentDTO>{
@@ -25,7 +26,11 @@ public class AgentToAgentDTOConverter implements Converter<Agent, AgentDTO>{
 		agentDTO.setEmail(arg0.getEmail());
 		agentDTO.setKontakt(arg0.getKontakt());
 		agentDTO.setLozinka(arg0.getLozinka());
-		agentDTO.setPoslovniMaticniBroj(arg0.getPoslovniMaticniBroj());
+		String key = "Bar12345Bar12345"; // 128 bit key
+	     String initVector = "RandomInitVector"; // 16 bytes IV
+	        
+		agentDTO.setPoslovniMaticniBroj(Encryptor.decrypt(arg0.getPoslovniMaticniBroj()));
+		
 		agentDTO.setId(arg0.getId());
 		
 		return agentDTO;

@@ -22,6 +22,7 @@ public class KorisnikToKorisnikDTOConverter implements Converter<Korisnik, Koris
 		korisnikDTO.setEmail(source.getEmail());
 		korisnikDTO.setIme(source.getIme());
 		korisnikDTO.setPrezime(source.getPrezime());
+		korisnikDTO.setKontakt(source.getKontakt());
 		return korisnikDTO;
 	}
 	

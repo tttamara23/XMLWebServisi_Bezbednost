@@ -1,6 +1,5 @@
 package pi.vezbe.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -16,14 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import pi.vezbe.converters.AgentDtoToAgentConverter;
+import pi.vezbe.converters.AgentToAgentDTOConverter;
 import pi.vezbe.converters.KategorijaSmestajaDTOToKategorijaSmestajaConverter;
 import pi.vezbe.converters.KomentarToKomentarDTOConverter;
+import pi.vezbe.converters.KrajnjiKorisnikToKrajnjiKorisnikDTO;
 import pi.vezbe.converters.TipSmestajaDTOToTipSmestajaConverter;
 import pi.vezbe.converters.UslugaDTOToUslugaConverter;
 import pi.vezbe.converters.UslugaToUslugaDtoConverter;
 import pi.vezbe.dto.AgentDTO;
 import pi.vezbe.dto.KategorijaSmestajaDTO;
 import pi.vezbe.dto.KomentarDTO;
+import pi.vezbe.dto.KrajnjiKorisnikDTO;
 import pi.vezbe.dto.TipSmestajaDTO;
 import pi.vezbe.dto.UslugaDTO;
 import pi.vezbe.model.Agent;
@@ -45,6 +47,9 @@ import pi.vezbe.service.UslugaService;
 public class AdminisrtatorController {
 	
 	@Autowired
+	private KrajnjiKorisnikToKrajnjiKorisnikDTO krajnjiKorisnikToKrajnjiKorisnikDTO;
+	
+	@Autowired
 	private AgentDtoToAgentConverter agentDtoToAgentConverter;
 	
 	@Autowired
@@ -55,6 +60,9 @@ public class AdminisrtatorController {
 	
 	@Autowired
 	private UslugaDTOToUslugaConverter dodatneUslugeDTOToDodatneUslugeConverter;
+	
+	@Autowired
+	private AgentToAgentDTOConverter agentToAgentDTOConverter;
 	
 	@Autowired
 	private AgentService agentService;
@@ -96,6 +104,7 @@ public class AdminisrtatorController {
 				agentDTO.getPoslovniMaticniBroj().equals("") || agentDTO.getPoslovniMaticniBroj() == null) {
 			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
 		}
+		
         Agent agentToSave = agentDtoToAgentConverter.convert(agentDTO);
        // agentToSave.setLozinka(getSaltString());
         Agent saved = agentService.save(agentToSave);
@@ -169,10 +178,13 @@ public class AdminisrtatorController {
             value = "showUsers",
             method = RequestMethod.GET
     )
-    public List<KrajnjiKorisnik> showUsers() {
+    public List<KrajnjiKorisnikDTO> showUsers() {
 		List<KrajnjiKorisnik> lista = userService.findAll();
+		List<KrajnjiKorisnikDTO> listaDTO = krajnjiKorisnikToKrajnjiKorisnikDTO.convert(lista);
+		Agent agent = agentService.findOne(3L);
 		
-		return lista;
+		
+		return listaDTO;
     }
 	
 	@CrossOrigin
