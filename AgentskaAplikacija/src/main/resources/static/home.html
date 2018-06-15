@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Booking</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<link rel="shortcut icon" href="assets/ico/favicon.png">
+	<link rel="stylesheet" href="homeStyle/css/myStyle.css">
+	<script src="toastr/toastr.min.js"></script>
+	<script src="scripts/sifarnici.js"></script>
+    	<link href="toastr/toastr.min.css" rel="stylesheet"/>
+</head>
+<body>
+ <div class="tab-pane active" id="mainDiv">
+	        <div class="homeDiv">
+	        	<div class="searchDiv">
+	        		<h4 style="padding-left: 1.5%">Dodaj novu smestajnu jedinicu</h4>
+	        		<div class="divSearchInput">
+		        		<label class="searchLabel">Lokacija</label>
+		        		<input class="form-control" type="text" id="inputLokacija" placeholder="Lokacija.."><br>
+		        		<div class="row">
+		        			<div class="col-lg-6">
+				        		<label class="searchLabel">Naziv smestaja</label>
+				        		<input class="form-control" type="text" id="inputNazivSmestaja">
+			        		</div>
+		        			<div class="col-lg-6">
+				        		<label class="searchLabel">Tip smestaja</label>
+				        		<input class="form-control" type="text" id="inputTipSmestaja">
+			        		</div>
+			        		<div class="col-lg-6">
+				        		<label class="searchLabel">Opis</label>
+				        		<input class="form-control" type="text" id="inputOpis" placeholder="Opis..">
+			        		</div>
+		        		</div>
+		        		<div class="row">
+		        			<div class="col-lg-6">
+				        		<br><label class="searchLabel">Broj osoba</label>
+				        		<select class="form-control" id="selectBrojOsoba">
+							        <option selected value="1">1 osoba</option>
+							        <option value="2">2 osobe</option>
+							        <option value="3">3 osobe</option>
+							        <option value="4">4 osobe</option>
+							        <option value="5">5 osoba</option>
+							        <option value="6">6 osoba</option>
+							        <option value="7">7 osoba</option>
+							        <option value="8">8 osobe</option>
+							        <option value="9">9 osoba</option>
+							        <option value="10">10 osoba</option>
+							        <option value="11">11 osoba</option>
+							        <option value="12">12 osoba</option>
+
+	      						</select>
+			        		</div>
+			        		<div class="col-lg-6">
+			        		
+			        		</div>
+			        		
+		        		</div>
+		    </div>
+		    <button class="btn btn-info" id="dodajSmestajnuJedinicuButton" onclick="return dodajSmestajnuJedinicu()">Dodaj</button>
+  		</div>
+  		
+  	</div>
+  	
+</div>
