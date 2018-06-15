@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<smestajRequest xmlns="http://booking.xml.com/backendmain/ws-classes">
+    <naziv>NS</naziv>
+    <tip>Ps</tip>
+    <opis>KS</opis>
+    <lokacija>DS</lokacija>
+</smestajRequest>
