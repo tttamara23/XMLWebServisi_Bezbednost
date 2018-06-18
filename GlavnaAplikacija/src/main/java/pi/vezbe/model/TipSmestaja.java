@@ -1,9 +1,13 @@
 package pi.vezbe.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -23,6 +27,17 @@ public class TipSmestaja {
 	
 	@XmlElement(required = true)
     protected String naziv;
+	
+	@OneToMany(mappedBy = "tipSmestaja", cascade = CascadeType.REMOVE)
+    protected List<Smestaj> smestaji;
+
+	public List<Smestaj> getSmestaji() {
+		return smestaji;
+	}
+
+	public void setSmestaji(List<Smestaj> smestaji) {
+		this.smestaji = smestaji;
+	}
 
 	public Long getId() {
 		return id;

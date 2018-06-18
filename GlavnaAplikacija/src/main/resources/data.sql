@@ -1,11 +1,11 @@
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka,salt) values 
-	('Administrator', 'Tamara', 'Perlinac', 'markovuckovic1808@gmail.com', '123456', 'ADMIN', '�i����6�F�{�0�z�b,�v�S�\��','ef94e4d4a60d73cba091e97072b63c52f0e78e87d044e0c5a602f37152e43d1de638f0281dccae9097f3b001ba7b3a32b6a3863be5186c3bc072fd106a45128c');
+	('Administrator', 'Tamara', 'Perlinac', 'markovuckovic1808@gmail.com', '123456', 'ADMIN', '8��e�A�F��$|��l���A�b&��^�B','ef94e4d4a60d73cba091e97072b63c52f0e78e87d044e0c5a602f37152e43d1de638f0281dccae9097f3b001ba7b3a32b6a3863be5186c3bc072fd106a45128c');
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, blokiran,salt) values 
-	('KrajnjiKorisnik', 'Smiljana', 'Dragoljevic', 'smiljana@gmail.com', '123456', 'REGISTERED', 'J�Ɂ��������o)O��;c����0�x簱', false,'8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
+	('KrajnjiKorisnik', 'Smiljana', 'Dragoljevic', 'smiljana@gmail.com', '123456', 'REGISTERED', '8��e�A�F��$|��l���A�b&��^�B', false,'8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, poslovni_maticni_broj,salt) values 
-	('Agent', 'Marko', 'Vuckovic', 'marko@gmail.com', '123456', 'AGENT', '�i����6�F�{�0�z�b,�v�S�\��', '1234567','ef94e4d4a60d73cba091e97072b63c52f0e78e87d044e0c5a602f37152e43d1de638f0281dccae9097f3b001ba7b3a32b6a3863be5186c3bc072fd106a45128c');
+	('Agent', 'Marko', 'Vuckovic', 'marko@gmail.com', '123456', 'AGENT', '8��e�A�F��$|��l���A�b&��^�B', '1234567','ef94e4d4a60d73cba091e97072b63c52f0e78e87d044e0c5a602f37152e43d1de638f0281dccae9097f3b001ba7b3a32b6a3863be5186c3bc072fd106a45128c');
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, poslovni_maticni_broj,salt) values 
-	('Agent', 'Jelena', 'Stanarevic', 'jelena@gmail.com', '123456', 'AGENT', '�.��[�O�х��!���`�:� �0��', '1234567','2aa3e6c6d34e6a89ce4c9b4437aca4799b7470edeea7d90430afb0ea76395f395a271fbe70e8533b42ac21bd14b305e4e4663156d4d4ac17b525108fe0754acc');
+	('Agent', 'Jelena', 'Stanarevic', 'jelena@gmail.com', '123456', 'AGENT', '8��e�A�F��$|��l���A�b&��^�B', '1234567','2aa3e6c6d34e6a89ce4c9b4437aca4799b7470edeea7d90430afb0ea76395f395a271fbe70e8533b42ac21bd14b305e4e4663156d4d4ac17b525108fe0754acc');
 	
 insert into Kategorija_Smestaja(id,kategorija) values (1,'nekategorizovan');
 insert into Kategorija_Smestaja(id,kategorija) values (2,'*');

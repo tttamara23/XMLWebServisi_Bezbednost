@@ -29,7 +29,7 @@ public class AgentToAgentDTOConverter implements Converter<Agent, AgentDTO>{
 		String key = "Bar12345Bar12345"; // 128 bit key
 	     String initVector = "RandomInitVector"; // 16 bytes IV
 	        
-		agentDTO.setPoslovniMaticniBroj(Encryptor.decrypt(arg0.getPoslovniMaticniBroj()));
+		agentDTO.setPoslovniMaticniBroj(arg0.getPoslovniMaticniBroj());
 		
 		agentDTO.setId(arg0.getId());
 		

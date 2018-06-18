@@ -4,14 +4,24 @@ public class LoggedInUserDTO {
 	
 	private String name;
 	private String role;
+	private Long id;
 	
 	public LoggedInUserDTO() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LoggedInUserDTO(String name, String role) {
+	public LoggedInUserDTO(String name, String role, Long id) {
 		this.name = name;
 		this.role = role;
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

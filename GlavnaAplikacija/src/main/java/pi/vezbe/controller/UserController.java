@@ -1,5 +1,6 @@
 package pi.vezbe.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -95,7 +96,12 @@ public class UserController {
 			byte[] salt = userService.salt();
 			krajnjiKorisnik.setSalt(salt);
 			byte[] hashedPassword = userService.hashPassword(newPassword, salt);
-			krajnjiKorisnik.setLozinka(new String(hashedPassword));
+			try {
+				krajnjiKorisnik.setLozinka(new String(hashedPassword, "UTF-8"));
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			krajnjiKorisnik.setBlokiran(false);
 			
@@ -135,10 +141,29 @@ public class UserController {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
 			
+			
+			/*List<KrajnjiKorisnik> users = userService.findAll();
+			for(KrajnjiKorisnik k : users){
+				k.setSalt(userService.salt());
+				String pass = k.getLozinka();
+				byte[] hashedPassword = userService.hashPassword(pass, k.getSalt());
+				String hashPass="";
+				try {
+					hashPass = new String(hashedPassword,"UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				k.setLozinka(hashPass);
+				Korisnik saved = userService.save(k);
+			}*/
+			
 			String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
-			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
+			String str = new String(hashForEnteredPassword, "UTF-8");
+			String str2 = korisnik.getLozinka();
+			if(!str2.equals(str)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			//response.addCookie(request.getCookies()[0]);
@@ -163,7 +188,10 @@ public class UserController {
 			String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
-			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
+			
+			String str = new String(hashForEnteredPassword);
+			String str2 = korisnik.getLozinka();
+			if(!str2.equals(str)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			userService.setCurrentUser(korisnik);
@@ -257,7 +285,7 @@ public class UserController {
 		} else if(loggedIn.getRole().equals(Role.REGISTERED)) {
 			role = "REGISTERED";
 		}
-        return new ResponseEntity<>(new LoggedInUserDTO(loggedIn.getIme(), role), HttpStatus.OK);
+        return new ResponseEntity<>(new LoggedInUserDTO(loggedIn.getIme(), role, loggedIn.getId()), HttpStatus.OK);
     }
 	
 	@CrossOrigin()
@@ -293,7 +321,7 @@ public class UserController {
 		return new ResponseEntity<>(false, HttpStatus.OK);
     }
 	
-	/*@CrossOrigin()
+	@CrossOrigin()
 	@PreAuthorize("isAuthenticated()")
     @RequestMapping(
             value = "/hashPasswords",
@@ -304,13 +332,19 @@ public class UserController {
 			k.setSalt(userService.salt());
 			String pass = k.getLozinka();
 			byte[] hashedPassword = userService.hashPassword(pass, k.getSalt());
-			String hashPass = new String(hashedPassword);
+			String hashPass="";
+			try {
+				hashPass = new String(hashedPassword,"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			k.setLozinka(hashPass);
 			Korisnik saved = userService.save(k);
 		
 			
 		}
 		return new ResponseEntity<>( HttpStatus.OK);
-    }*/
+    }
 
 }

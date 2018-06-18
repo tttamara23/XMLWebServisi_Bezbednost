@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import pi.vezbe.converters.AgentDtoToAgentConverter;
 import pi.vezbe.converters.AgentToAgentDTOConverter;
 import pi.vezbe.converters.KategorijaSmestajaDTOToKategorijaSmestajaConverter;
+import pi.vezbe.converters.KategorijaSmestajaToKategorijaSmestajaDTOConverter;
 import pi.vezbe.converters.KomentarToKomentarDTOConverter;
 import pi.vezbe.converters.KrajnjiKorisnikToKrajnjiKorisnikDTO;
 import pi.vezbe.converters.TipSmestajaDTOToTipSmestajaConverter;
+import pi.vezbe.converters.TipSmestajaToTipSmestajaDTO;
 import pi.vezbe.converters.UslugaDTOToUslugaConverter;
 import pi.vezbe.converters.UslugaToUslugaDtoConverter;
 import pi.vezbe.dto.AgentDTO;
@@ -56,7 +58,13 @@ public class AdminisrtatorController {
 	private TipSmestajaDTOToTipSmestajaConverter tipSmestajaDTOToTipSmestajaConverter;
 	
 	@Autowired
+	private TipSmestajaToTipSmestajaDTO tipSmestajaToTipSmestajaDTOConverter;
+	
+	@Autowired
 	private KategorijaSmestajaDTOToKategorijaSmestajaConverter kategorijaSmestajaDTOToKategorijaSmestajaConverter;
+	
+	@Autowired
+	private KategorijaSmestajaToKategorijaSmestajaDTOConverter kategorijaSmestajaToKategorijaSmestajaDTOConverter;
 	
 	@Autowired
 	private UslugaDTOToUslugaConverter dodatneUslugeDTOToDodatneUslugeConverter;
@@ -298,7 +306,7 @@ public class AdminisrtatorController {
 		TipSmestaja zaIzmenu = tipSmestajaService.findById(id);
 		if(zaIzmenu!=null){
 			//tipSmestajaService.delete(zaBrisanje);
-			return new ResponseEntity<>(zaIzmenu, HttpStatus.OK);
+			return new ResponseEntity<>(tipSmestajaToTipSmestajaDTOConverter.convert(zaIzmenu), HttpStatus.OK);
 		}
 		
 		return null;
@@ -315,7 +323,7 @@ public class AdminisrtatorController {
 		KategorijaSmestaja zaIzmenu = kategorijaSmestajaService.findById(id);
 		if(zaIzmenu!=null){
 			
-			return new ResponseEntity<>(zaIzmenu, HttpStatus.OK);
+			return new ResponseEntity<>(kategorijaSmestajaToKategorijaSmestajaDTOConverter.convert(zaIzmenu), HttpStatus.OK);
 		}
 		
 		return null;
@@ -354,10 +362,10 @@ public class AdminisrtatorController {
             value = "tipSmestaja",
             method = RequestMethod.GET
     )
-    public List<TipSmestaja> showTipSmestaja() {
+    public List<TipSmestajaDTO> showTipSmestaja() {
 		List<TipSmestaja> lista = tipSmestajaService.findAllTipS();
 		
-		return lista;
+		return tipSmestajaToTipSmestajaDTOConverter.convert(lista);
     }
 	
 	@CrossOrigin
@@ -366,8 +374,8 @@ public class AdminisrtatorController {
             value = "kategorijaSmestaja",
             method = RequestMethod.GET
     )
-    public List<KategorijaSmestaja> showKategorijaSmestaja() {		
-		return kategorijaSmestajaService.findAllKS();
+    public List<KategorijaSmestajaDTO> showKategorijaSmestaja() {		
+		return kategorijaSmestajaToKategorijaSmestajaDTOConverter.convert(kategorijaSmestajaService.findAllKS());
     }
 	@CrossOrigin
 	@PreAuthorize("hasAuthority('ADMIN')")
