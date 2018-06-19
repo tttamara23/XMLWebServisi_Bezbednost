@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.RezervacijaToRezervacijaDTO;
 import pi.vezbe.dto.ChangePasswordDTO;
 import pi.vezbe.dto.LoggedInUserDTO;
@@ -31,6 +32,7 @@ import pi.vezbe.model.Rezervacija;
 import pi.vezbe.model.Role;
 import pi.vezbe.service.EmailService;
 import pi.vezbe.service.RandomString;
+import pi.vezbe.service.RoleService;
 import pi.vezbe.service.SmestajService;
 import pi.vezbe.service.UserService;
 
@@ -46,6 +48,9 @@ public class UserController {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private RoleService roleService;
 	
 	
 	
@@ -137,7 +142,7 @@ public class UserController {
     public ResponseEntity<?> loginRegistered(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.REGISTERED)) {
+			if(!korisnik.getRole().equals(roleService.findById(1L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
 			
@@ -182,7 +187,7 @@ public class UserController {
     public ResponseEntity<?> loginAdmin(@RequestBody LoginDTO loginDTO) {
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.ADMIN)) {
+			if(!korisnik.getRole().equals(roleService.findById(2L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
 			String enteredPassword = loginDTO.getPassword();
@@ -209,7 +214,7 @@ public class UserController {
     public ResponseEntity<?> loginAgent(@RequestBody LoginDTO loginDTO) {
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.AGENT)) {
+			if(!korisnik.getRole().equals(roleService.findById(3L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
 			String enteredPassword = loginDTO.getPassword();
@@ -278,18 +283,18 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.MOVED_PERMANENTLY);
 		}
 		String role = "";
-		if(loggedIn.getRole().equals(Role.ADMIN)) {
+		if(loggedIn.getRole().getId().equals(2L)) {
 			role = "ADMIN";
-		} else if(loggedIn.getRole().equals(Role.AGENT)) {
+		} else if(loggedIn.getRole().getId().equals(3L)) {
 			role = "AGENT";
-		} else if(loggedIn.getRole().equals(Role.REGISTERED)) {
+		} else if(loggedIn.getRole().getId().equals(1L)) {
 			role = "REGISTERED";
 		}
         return new ResponseEntity<>(new LoggedInUserDTO(loggedIn.getIme(), role, loggedIn.getId()), HttpStatus.OK);
     }
 	
+	@PermissionAnnotation(name = "GET_RESERVATIONS")
 	@CrossOrigin()
-	@PreAuthorize("isAuthenticated()")
     @RequestMapping(
             value = "/getReservations",
             method = RequestMethod.GET)
@@ -304,6 +309,7 @@ public class UserController {
         return new ResponseEntity<>(korisnickeRezervacijeDTO, HttpStatus.OK);
     }
 	
+	@PermissionAnnotation(name = "CHECK_RESERVATIONS")
 	@CrossOrigin()
 	@PreAuthorize("isAuthenticated()")
     @RequestMapping(

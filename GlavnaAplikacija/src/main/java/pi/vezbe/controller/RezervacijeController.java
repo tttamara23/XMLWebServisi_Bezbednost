@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.PonudaToPonudaDtoConverter;
 import pi.vezbe.dto.PonudaDTO;
 import pi.vezbe.model.KrajnjiKorisnik;
@@ -37,6 +38,7 @@ public class RezervacijeController {
 	@Autowired
 	private PonudaToPonudaDtoConverter ponudaToPonudaDtoConverter;
 	
+	@PermissionAnnotation(name = "CREATE_RESERVATIONS")
 	@CrossOrigin
 	@RequestMapping(
             value = "/reserve/{idPonuda}",
@@ -66,7 +68,7 @@ public class RezervacijeController {
 	}
 
 	
-	
+	@PermissionAnnotation(name = "CANCEL_RESERVATIONS")
 	@CrossOrigin
 	@RequestMapping(
             value = "/cancelReservation/{idRezervacije}",

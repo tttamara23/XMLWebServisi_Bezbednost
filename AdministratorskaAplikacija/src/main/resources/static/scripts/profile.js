@@ -65,6 +65,7 @@ function logout() {
         xhrFields: {
             withCredentials: true
          },
+         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
                 top.location.href = "index.html";
 
@@ -80,6 +81,7 @@ function users() {
     	url: "https://localhost:1234/administrator/showUsers",
         type: "GET",
         crossDomain: true,
+        headers: {  'Access-Control-Allow-Origin': '*' },
         xhrFields: {
             withCredentials: true
          },
@@ -141,6 +143,7 @@ function blokiraj(id){
         xhrFields: {
             withCredentials: true
          },
+         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$("#tableUsers").find("tr:gt(0)").remove();
         	
@@ -161,6 +164,7 @@ function aktiviraj(id){
         xhrFields: {
             withCredentials: true
          },
+         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$("#tableUsers").find("tr:gt(0)").remove();
         	
@@ -181,8 +185,9 @@ function ukloniKorisnika(id){
         xhrFields: {
             withCredentials: true
          },
+         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
-        	$("#tableUsers").find("tr:gt(0)").remove();
+        	//$("#tableUsers").find("tr:gt(0)").remove();
         	
             users();
 
@@ -200,6 +205,7 @@ function comments() {
         xhrFields: {
             withCredentials: true
          },
+         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function (data) {
         	
                
@@ -251,6 +257,7 @@ function objavi(id){
         xhrFields: {
             withCredentials: true
          },
+         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$("#tableComments").find("tr:gt(0)").remove();
         	

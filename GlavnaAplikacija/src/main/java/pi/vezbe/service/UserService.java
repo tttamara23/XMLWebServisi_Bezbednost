@@ -56,7 +56,7 @@ public class UserService {
 	
 	public void setCurrentUser(Korisnik user) {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         Authentication authentication = new PreAuthenticatedAuthenticationToken(user.getId(), null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

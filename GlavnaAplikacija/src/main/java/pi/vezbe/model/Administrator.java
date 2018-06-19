@@ -37,11 +37,11 @@ public class Administrator
     extends Korisnik
 {
 	public Administrator() {
-		this.setRole(Role.ADMIN);
+		
 	}
 
-	public Administrator(Long id, String ime, String prezime, String email, String lozinka, String kontakt) {
-		super(id, ime, prezime, email, lozinka, kontakt, Role.ADMIN);
+	public Administrator(Long id, String ime, String prezime, String email, String lozinka, String kontakt, Role role) {
+		super(id, ime, prezime, email, lozinka, kontakt, role);
 	}
 
 }

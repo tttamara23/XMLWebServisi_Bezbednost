@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.KategorijaSmestajaToKategorijaSmestajaDTOConverter;
 import pi.vezbe.service.KategorijaSmestajaService;
 
@@ -21,6 +22,7 @@ public class KategorijaSmestajaController {
 	@Autowired
 	private KategorijaSmestajaToKategorijaSmestajaDTOConverter kategorijaSmestajaToKategorijaSmestajaDTOConverter;
 	
+	@PermissionAnnotation(name = "GET_KATEGORIJA_SMESTAJA")
 	@CrossOrigin
 	@RequestMapping(
             value = "getSveKategorije",

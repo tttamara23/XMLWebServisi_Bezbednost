@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.SmestajToSmestajDtoConverter;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
@@ -36,6 +37,7 @@ public class OcenaController {
 	@Autowired
 	private SmestajToSmestajDtoConverter converter;
 	
+	@PermissionAnnotation(name = "ADD_RATING")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/oceniSmestaj/{idSmestaj}",

@@ -1,11 +1,106 @@
-insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka,salt) values 
-	('Administrator', 'Tamara', 'Perlinac', 'markovuckovic1808@gmail.com', '123456', 'ADMIN', '8��e�A�F��$|��l���A�b&��^�B','ef94e4d4a60d73cba091e97072b63c52f0e78e87d044e0c5a602f37152e43d1de638f0281dccae9097f3b001ba7b3a32b6a3863be5186c3bc072fd106a45128c');
-insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, blokiran,salt) values 
-	('KrajnjiKorisnik', 'Smiljana', 'Dragoljevic', 'smiljana@gmail.com', '123456', 'REGISTERED', '8��e�A�F��$|��l���A�b&��^�B', false,'8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
-insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, poslovni_maticni_broj,salt) values 
-	('Agent', 'Marko', 'Vuckovic', 'marko@gmail.com', '123456', 'AGENT', '8��e�A�F��$|��l���A�b&��^�B', '1234567','ef94e4d4a60d73cba091e97072b63c52f0e78e87d044e0c5a602f37152e43d1de638f0281dccae9097f3b001ba7b3a32b6a3863be5186c3bc072fd106a45128c');
-insert into Korisnik (DTYPE, ime, prezime, email, kontakt, role, lozinka, poslovni_maticni_broj,salt) values 
-	('Agent', 'Jelena', 'Stanarevic', 'jelena@gmail.com', '123456', 'AGENT', '8��e�A�F��$|��l���A�b&��^�B', '1234567','2aa3e6c6d34e6a89ce4c9b4437aca4799b7470edeea7d90430afb0ea76395f395a271fbe70e8533b42ac21bd14b305e4e4663156d4d4ac17b525108fe0754acc');
+insert into role (name) values ('REGISTERED');
+insert into role (name) values ('ADMIN');
+insert into role (name) values ('AGENT');
+
+--ADMIN
+insert into permission (name) values ('INSERT_AGENT');
+insert into permission (name) values ('INSERT_TIP_SMESTAJA');
+insert into permission (name) values ('INSERT_KATEGORIJA_SMESTAJA');
+insert into permission (name) values ('INSERT_DODATNA_USLUGA');
+insert into permission (name) values ('GET_USERS');
+insert into permission (name) values ('BLOCK_UNBLOCK_USER');
+insert into permission (name) values ('DELETE_USER');
+insert into permission (name) values ('DELETE_TIP_SMESTAJA');
+insert into permission (name) values ('DELETE_KATEGORIJA_SMESTAJA');
+insert into permission (name) values ('DELETE_DODATNA_USLUGA');
+insert into permission (name) values ('UPDATE_TIP_SMESTAJA');
+insert into permission (name) values ('UPDATE_KATEGORIJA_SMESTAJA');
+insert into permission (name) values ('UPDATE_DODATNA_USLUGA');
+insert into permission (name) values ('GET_ALL_COMMENTS');
+insert into permission (name) values ('PUBLISH_COMMENTS');
+
+INSERT INTO role_permission (role_id, permission_id) values (2, 1);
+INSERT INTO role_permission (role_id, permission_id) values (2, 2);
+INSERT INTO role_permission (role_id, permission_id) values (2, 3);
+INSERT INTO role_permission (role_id, permission_id) values (2, 4);
+INSERT INTO role_permission (role_id, permission_id) values (2, 5);
+INSERT INTO role_permission (role_id, permission_id) values (2, 6);
+INSERT INTO role_permission (role_id, permission_id) values (2, 7);
+INSERT INTO role_permission (role_id, permission_id) values (2, 8);
+INSERT INTO role_permission (role_id, permission_id) values (2, 9);
+INSERT INTO role_permission (role_id, permission_id) values (2, 10);
+INSERT INTO role_permission (role_id, permission_id) values (2, 11);
+INSERT INTO role_permission (role_id, permission_id) values (2, 12);
+INSERT INTO role_permission (role_id, permission_id) values (2, 13);
+INSERT INTO role_permission (role_id, permission_id) values (2, 14);
+INSERT INTO role_permission (role_id, permission_id) values (2, 15);
+
+--ADMIN I KRAJNJI KORISNICI
+insert into permission (name) values ('GET_TIP_SMESTAJA');
+insert into permission (name) values ('GET_KATEGORIJA_SMESTAJA');
+insert into permission (name) values ('GET_DODATNA_USLUGA');
+
+INSERT INTO role_permission (role_id, permission_id) values (1, 16);
+INSERT INTO role_permission (role_id, permission_id) values (1, 17);
+INSERT INTO role_permission (role_id, permission_id) values (1, 18);
+INSERT INTO role_permission (role_id, permission_id) values (2, 16);
+INSERT INTO role_permission (role_id, permission_id) values (2, 17);
+INSERT INTO role_permission (role_id, permission_id) values (2, 18);
+
+--KRAJNJI KORISNIK I AGENT
+insert into permission (name) values ('GET_CHATS');
+insert into permission (name) values ('SEND_MESSAGE');
+insert into permission (name) values ('GET_MESSAGES');
+insert into permission (name) values ('SEEN_MESSAGES');
+insert into permission (name) values ('GET_SMESTAJ');
+insert into permission (name) values ('GET_VLASNIK_SMESTAJ');
+
+INSERT INTO role_permission (role_id, permission_id) values (1, 19);
+INSERT INTO role_permission (role_id, permission_id) values (1, 20);
+INSERT INTO role_permission (role_id, permission_id) values (1, 21);
+INSERT INTO role_permission (role_id, permission_id) values (1, 22);
+INSERT INTO role_permission (role_id, permission_id) values (1, 23);
+INSERT INTO role_permission (role_id, permission_id) values (1, 24);
+INSERT INTO role_permission (role_id, permission_id) values (3, 19);
+INSERT INTO role_permission (role_id, permission_id) values (3, 20);
+INSERT INTO role_permission (role_id, permission_id) values (3, 21);
+INSERT INTO role_permission (role_id, permission_id) values (3, 22);
+INSERT INTO role_permission (role_id, permission_id) values (3, 23);
+INSERT INTO role_permission (role_id, permission_id) values (3, 24);
+
+--KRAJNJI KORISNIK
+insert into permission (name) values ('GET_PUBLISHED_COMMENTS');
+insert into permission (name) values ('ADD_COMMENT');
+insert into permission (name) values ('ADD_RATING');
+insert into permission (name) values ('GET_PONUDA');
+insert into permission (name) values ('SEARCH_PONUDA');
+insert into permission (name) values ('GET_PONUDA_USLUGA');
+insert into permission (name) values ('CREATE_RESERVATIONS');
+insert into permission (name) values ('CANCEL_RESERVATIONS');
+insert into permission (name) values ('GET_IMAGES');
+insert into permission (name) values ('GET_RESERVATIONS');
+insert into permission (name) values ('CHECK_RESERVATIONS');
+
+INSERT INTO role_permission (role_id, permission_id) values (1, 25);
+INSERT INTO role_permission (role_id, permission_id) values (1, 26);
+INSERT INTO role_permission (role_id, permission_id) values (1, 27);
+INSERT INTO role_permission (role_id, permission_id) values (1, 28);
+INSERT INTO role_permission (role_id, permission_id) values (1, 29);
+INSERT INTO role_permission (role_id, permission_id) values (1, 30);
+INSERT INTO role_permission (role_id, permission_id) values (1, 31);
+INSERT INTO role_permission (role_id, permission_id) values (1, 32);
+INSERT INTO role_permission (role_id, permission_id) values (1, 33);
+INSERT INTO role_permission (role_id, permission_id) values (1, 34);
+INSERT INTO role_permission (role_id, permission_id) values (1, 35);
+
+insert into Korisnik (DTYPE, ime, prezime, email, kontakt, id_rola, lozinka,salt) values 
+	('Administrator', 'Tamara', 'Perlinac', 'markovuckovic1808@gmail.com', '123456', 2, '8��e�A�F��$|��l���A�b&��^�B','8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
+insert into Korisnik (DTYPE, ime, prezime, email, kontakt, id_rola, lozinka, blokiran,salt) values 
+	('KrajnjiKorisnik', 'Smiljana', 'Dragoljevic', 'smiljana@gmail.com', '123456', 1, '8��e�A�F��$|��l���A�b&��^�B', false,'8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
+insert into Korisnik (DTYPE, ime, prezime, email, kontakt, id_rola, lozinka, poslovni_maticni_broj,salt) values 
+	('Agent', 'Marko', 'Vuckovic', 'marko@gmail.com', '123456', 3, '8��e�A�F��$|��l���A�b&��^�B', '1234567','8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
+insert into Korisnik (DTYPE, ime, prezime, email, kontakt, id_rola, lozinka, poslovni_maticni_broj,salt) values 
+	('Agent', 'Jelena', 'Stanarevic', 'jelena@gmail.com', '123456', 3, '8��e�A�F��$|��l���A�b&��^�B', '1234567','8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
 	
 insert into Kategorija_Smestaja(id,kategorija) values (1,'nekategorizovan');
 insert into Kategorija_Smestaja(id,kategorija) values (2,'*');

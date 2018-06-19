@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.PonudaToPonudaDtoConverter;
 import pi.vezbe.dto.SearchDTO;
 import pi.vezbe.model.Ponuda;
@@ -37,6 +38,7 @@ public class PonudaController {
 	@Autowired
 	private PonudaToPonudaDtoConverter ponudaToPonudaDtoConverter;
 	
+	@PermissionAnnotation(name = "GET_PONUDA")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getBySmestaj/{idSmestaj}",
@@ -46,6 +48,7 @@ public class PonudaController {
 		return new ResponseEntity<>(ponudaToPonudaDtoConverter.convert(ponudaService.getBySmestaj(idSmestaj)), HttpStatus.OK);
 	}
 	
+	@PermissionAnnotation(name = "SEARCH_PONUDA")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/search/{advanced}/{sort}",

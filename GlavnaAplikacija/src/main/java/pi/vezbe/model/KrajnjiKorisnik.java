@@ -103,13 +103,13 @@ public class KrajnjiKorisnik
         this.blokiran = value;
     }
 
-	public KrajnjiKorisnik(Long id, String ime, String prezime, String email, String lozinka, String kontakt, Boolean blokiran) {
-		super(id, ime, prezime, email, lozinka, kontakt, Role.REGISTERED);
+	public KrajnjiKorisnik(Long id, String ime, String prezime, String email, String lozinka, String kontakt, Boolean blokiran, Role role) {
+		super(id, ime, prezime, email, lozinka, kontakt, role);
 		this.blokiran = blokiran;
 	}
     
 	public KrajnjiKorisnik() {
-		this.setRole(Role.REGISTERED);
+		
 	}
 
 
