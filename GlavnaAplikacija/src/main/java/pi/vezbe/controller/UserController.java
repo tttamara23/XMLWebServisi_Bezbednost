@@ -1,6 +1,7 @@
 package pi.vezbe.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -95,18 +96,18 @@ public class UserController {
 			krajnjiKorisnik.setPrezime(registerDTO.getPrezime());
 			krajnjiKorisnik.setEmail(registerDTO.getEmail());
 			krajnjiKorisnik.setKontakt(registerDTO.getKontakt());
-			
+			krajnjiKorisnik.setRole(roleService.findById(1L));
 			//deo sa hesiranjem lozinke
 			
 			byte[] salt = userService.salt();
 			krajnjiKorisnik.setSalt(salt);
 			byte[] hashedPassword = userService.hashPassword(newPassword, salt);
-			try {
-				krajnjiKorisnik.setLozinka(new String(hashedPassword, "UTF-8"));
-			} catch (UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			String lozinkaUneta = "";
+			
+			for(int i=0; i<hashedPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashedPassword[i]));
 			}
+			krajnjiKorisnik.setLozinka(lozinkaUneta);
 			
 			krajnjiKorisnik.setBlokiran(false);
 			
@@ -145,33 +146,18 @@ public class UserController {
 			if(!korisnik.getRole().equals(roleService.findById(1L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
-			
-			
-			/*List<KrajnjiKorisnik> users = userService.findAll();
-			for(KrajnjiKorisnik k : users){
-				k.setSalt(userService.salt());
-				String pass = k.getLozinka();
-				byte[] hashedPassword = userService.hashPassword(pass, k.getSalt());
-				String hashPass="";
-				try {
-					hashPass = new String(hashedPassword,"UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				k.setLozinka(hashPass);
-				Korisnik saved = userService.save(k);
-			}*/
-			
 			String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
-			String str = new String(hashForEnteredPassword, "UTF-8");
-			String str2 = korisnik.getLozinka();
-			if(!str2.equals(str)) {
+			String lozinkaIzBaze = korisnik.getLozinka();
+			String lozinkaUneta = "";
+			
+			for(int i=0; i<hashForEnteredPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
+			}
+			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
-			//response.addCookie(request.getCookies()[0]);
 			userService.setCurrentUser(korisnik);
 		} catch(Exception e) {
 			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
@@ -193,10 +179,12 @@ public class UserController {
 			String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
-			
-			String str = new String(hashForEnteredPassword);
-			String str2 = korisnik.getLozinka();
-			if(!str2.equals(str)) {
+			String lozinkaIzBaze = korisnik.getLozinka();
+			String lozinkaUneta = "";
+			for(int i=0; i<hashForEnteredPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
+			}
+			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			userService.setCurrentUser(korisnik);
@@ -220,7 +208,12 @@ public class UserController {
 			String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
-			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
+			String lozinkaIzBaze = korisnik.getLozinka();
+			String lozinkaUneta = "";
+			for(int i=0; i<hashForEnteredPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
+			}
+			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			userService.setCurrentUser(korisnik);
@@ -241,8 +234,11 @@ public class UserController {
 		String oldPassword = changePasswordDTO.getOldPassword();
 		byte[] salt = loggedIn.getSalt();
 		byte[] hashedOldPassword = userService.hashPassword(oldPassword, salt);
-		
-		if(!loggedIn.getLozinka().equals(new String(hashedOldPassword))) {
+		String lozinkaStara = "";
+		for(int i=0; i<hashedOldPassword.length; i++) {
+			lozinkaStara = lozinkaStara.concat(Byte.toString(hashedOldPassword[i]));
+		}
+		if(!loggedIn.getLozinka().equals(lozinkaStara)) {
 			return new ResponseEntity<>("Incorrect old password!", HttpStatus.BAD_REQUEST);
 		}
 		
@@ -256,7 +252,14 @@ public class UserController {
 			return new ResponseEntity<>("Passwords don't match!", HttpStatus.BAD_REQUEST);
 		}
 		
-		loggedIn.setLozinka(new String((userService.hashPassword(changePasswordDTO.getNewPassword(), loggedIn.getSalt()))));
+		String newPassword = changePasswordDTO.getNewPassword();
+		byte[] hashedNewPassword = userService.hashPassword(newPassword, salt);
+		String lozinkaNova = "";
+		for(int i=0; i<hashedNewPassword.length; i++) {
+			lozinkaNova = lozinkaNova.concat(Byte.toString(hashedNewPassword[i]));
+		}
+		
+		loggedIn.setLozinka(lozinkaNova);
 		userService.save(loggedIn);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -327,7 +330,7 @@ public class UserController {
 		return new ResponseEntity<>(false, HttpStatus.OK);
     }
 	
-	@CrossOrigin()
+	/*@CrossOrigin()
 	@PreAuthorize("isAuthenticated()")
     @RequestMapping(
             value = "/hashPasswords",
@@ -351,6 +354,6 @@ public class UserController {
 			
 		}
 		return new ResponseEntity<>( HttpStatus.OK);
-    }
+    }*/
 
 }

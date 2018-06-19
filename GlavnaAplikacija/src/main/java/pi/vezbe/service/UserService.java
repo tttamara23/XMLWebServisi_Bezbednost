@@ -1,5 +1,6 @@
 package pi.vezbe.service;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import org.omg.IOP.Encoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -80,7 +82,17 @@ public class UserService {
 		PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 1000, 256);
 	    try {
 	      SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-	      return skf.generateSecret(spec).getEncoded();
+	      byte[] byt = skf.generateSecret(spec).getEncoded();
+	      String str;
+		try {
+			str = new String(byt, "UTF-8");
+			byte[] byt2 = str.getBytes("UTF-8");
+		      return byt2;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      return null;
 	    } catch (NoSuchAlgorithmException e) {
 	    	e.printStackTrace();
 	    } catch (InvalidKeySpecException e) {
@@ -92,21 +104,5 @@ public class UserService {
 	public byte[] salt() {
 		return new SecureRandom().generateSeed(64);
 	}
-	
-public boolean authenticate(String attemptedPassword, byte[] storedPassword, byte[] salt) {
-		
-		byte[] tmpHash = hashPassword(attemptedPassword, salt);
-		
-		if (tmpHash.length != storedPassword.length)
-			return false;
-		
-	    for (int i = 0; i < tmpHash.length; i++) {
-	      if (tmpHash[i] != storedPassword[i])
-	    	  return false;
-	    }
-
-	    return true;
-	}
-	
 
 }

@@ -25,7 +25,7 @@ public class AgentToAgentDTOConverter implements Converter<Agent, AgentDTO>{
 		agentDTO.setPrezime(arg0.getPrezime());
 		agentDTO.setEmail(arg0.getEmail());
 		agentDTO.setKontakt(arg0.getKontakt());
-		agentDTO.setLozinka(arg0.getLozinka());
+		//agentDTO.setLozinka(arg0.getLozinka());
 		String key = "Bar12345Bar12345"; // 128 bit key
 	     String initVector = "RandomInitVector"; // 16 bytes IV
 	        
