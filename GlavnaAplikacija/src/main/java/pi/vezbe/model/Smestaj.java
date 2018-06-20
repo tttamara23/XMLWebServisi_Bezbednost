@@ -8,6 +8,7 @@
 
 package pi.vezbe.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -152,12 +153,15 @@ public class Smestaj {
     @GeneratedValue(strategy=GenerationType.AUTO)
     protected Long id;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.MERGE})
     @JoinColumn(name = "id_tip_smestaja")
 	private TipSmestaja tipSmestaja;
     
     @XmlElement(required = true)
     protected String lokacija;
+    
+    
+    
     
     @XmlElement(required = true)
     @Column(length=100000)
@@ -166,6 +170,9 @@ public class Smestaj {
     @XmlElement(name = "Ponuda", required = true)
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
     protected List<Ponuda> ponuda;
+    
+    @XmlElement(name = "Usluga", required = true)
+    protected ArrayList<Usluga> usluga;
     
     @XmlElement(name = "Slika", required = true)
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
@@ -187,8 +194,35 @@ public class Smestaj {
 	protected List<Komentar> komentari;
     
     
+    
 
-    public List<Komentar> getKomentari() {
+    
+
+	public ArrayList<Usluga> getUsluga() {
+		return usluga;
+	}
+
+	public void setUsluga(ArrayList<Usluga> usluga) {
+		this.usluga = usluga;
+	}
+
+	public List<SmestajVlasnik> getSmestajVlasnik() {
+		return smestajVlasnik;
+	}
+
+	public void setSmestajVlasnik(List<SmestajVlasnik> smestajVlasnik) {
+		this.smestajVlasnik = smestajVlasnik;
+	}
+
+	public List<Ocena> getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(List<Ocena> ocene) {
+		this.ocene = ocene;
+	}
+
+	public List<Komentar> getKomentari() {
 		return komentari;
 	}
 

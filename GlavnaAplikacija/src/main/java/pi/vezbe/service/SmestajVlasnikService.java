@@ -18,4 +18,5 @@ public class SmestajVlasnikService {
 		// TODO Auto-generated method stub
 		return smestajVlasnikRepository.findBySmestajId(idSmestaja);
 	}
+	
 }

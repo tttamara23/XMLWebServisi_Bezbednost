@@ -12,6 +12,8 @@ public class SmestajDTO {
 	private String lokacija;
 	private String opis;
 	private List<PonudaDTO> ponude;
+	private List<UslugaDTO> usluge;
+	
 	
 	public SmestajDTO(Long id, String naziv, TipSmestajaDTO tip, KategorijaSmestajaDTO kategorija, String lokacija, String opis) {
 		this.id = id;
@@ -20,14 +22,17 @@ public class SmestajDTO {
 		this.kategorija = kategorija;
 		this.lokacija = lokacija;
 		this.opis = opis;
+		
 		ponude = new ArrayList<PonudaDTO>();
+		setUsluge(new ArrayList<UslugaDTO>());
 	}
 	
 	public SmestajDTO() {
 		// TODO Auto-generated constructor stub
 		ponude = new ArrayList<PonudaDTO>();
 	}
-
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -82,6 +87,14 @@ public class SmestajDTO {
 
 	public void setPonude(List<PonudaDTO> ponude) {
 		this.ponude = ponude;
+	}
+	
+	public List<UslugaDTO> getUsluge() {
+		return usluge;
+	}
+
+	public void setUsluge(List<UslugaDTO> usluge) {
+		this.usluge = usluge;
 	}
 	
 	

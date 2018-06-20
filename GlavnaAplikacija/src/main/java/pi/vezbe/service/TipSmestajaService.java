@@ -29,4 +29,9 @@ public class TipSmestajaService {
 	public void delete(TipSmestaja zaBrisanje) {
 		tipSmestajaRepository.delete(zaBrisanje);
 	}
+	
+	public TipSmestaja findByNaziv(String naziv){
+		
+		return tipSmestajaRepository.findByNaziv(naziv);
+	}
 }

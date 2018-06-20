@@ -12,10 +12,7 @@
 <xs:element name="smestajRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="naziv" type="xs:string"/>
-            	<xs:element name="tip" type="xs:string"/>
-            	<xs:element name="opis" type="xs:string"/>
-            	<xs:element name="lokacija" type="xs:string"/>        	
+                <xs:element name="accommodation" type="tns:accommodationXML"/>
             </xs:sequence>
         </xs:complexType>
 </xs:element>
@@ -23,11 +20,9 @@
 <xs:element name="smestajResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="naziv" type="xs:string"/>
-            	<xs:element name="tip" type="xs:string"/>
-            	<xs:element name="opis" type="xs:string"/>
-            	<xs:element name="lokacija" type="xs:string"/>        	
+                 <xs:element name="accommodation" type="tns:accommodationXML"/>
             </xs:sequence>
+            
         </xs:complexType>
 </xs:element>
 
@@ -41,19 +36,87 @@
 <!--TEST-->
 
 <xs:element name="getDBRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="type" type="tns:DBRequestType" maxOccurs="2" minOccurs="0" nillable="false"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:element>
+
+<xs:simpleType name="DBRequestType">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="TIP"/>
+        <xs:enumeration value="KATEGORIJA"/>
+       
+    </xs:restriction>
+</xs:simpleType>
 
 <xs:element name="getDBResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
+                 <xs:element name="tipoviSmestaja" type="tns:tipSmestajaXML" maxOccurs="unbounded" minOccurs="0"/>
+            	<xs:element name="kategorijaSmestaja" type="tns:kategorijaSmestajaXML" maxOccurs="unbounded" minOccurs="0"/>
+          
             </xs:sequence>
         </xs:complexType>
 </xs:element>
+
+
+
+<xs:element name="logInRequest">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="user" type="tns:userXML"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="logInResponse">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="user" type="tns:userXML"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<xs:complexType name="userXML">
+    <xs:sequence>
+        <xs:element name="email" type="xs:string"/>
+        <xs:element name="password" type="xs:string"/>
+    </xs:sequence>
+</xs:complexType>
+ 
+<xs:complexType name="accommodationXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="naziv" type="xs:string"/>
+        <xs:element name="tipSmestaja" type="tns:tipSmestajaXML"/>
+      	
+        <xs:element name="lokacija" type="xs:string"/>
+        <xs:element name="opis" type="xs:string"/>
+    </xs:sequence>
+</xs:complexType>
+<xs:complexType name="tipSmestajaXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="naziv" type="xs:string"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="kategorijaSmestajaXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="kategorija" type="xs:string"/>
+    </xs:sequence>
+</xs:complexType>
+<!-- 
+<xs:complexType name="ponudaXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="brojLezaja" type="xs:int"/>
+    	<xs:element name="brojSlobodnihPonuda" type="xs:int"/>
+    </xs:sequence>
+</xs:complexType>
+ -->
 
 </xs:schema>

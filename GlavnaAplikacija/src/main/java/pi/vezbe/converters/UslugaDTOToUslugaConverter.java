@@ -1,5 +1,7 @@
 package pi.vezbe.converters;
 
+import java.util.ArrayList;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,14 @@ public class UslugaDTOToUslugaConverter implements Converter<UslugaDTO, Usluga> 
 		dodU.setId(source.getId());
 		dodU.setNaziv(source.getNaziv());
 		return dodU;
+	}
+	
+	public ArrayList<Usluga> convert(ArrayList<UslugaDTO> source) {
+		ArrayList<Usluga> ret = new ArrayList<Usluga>();
+		for(UslugaDTO usluga : source) {
+			ret.add(convert(usluga));
+		}
+		return ret;
 	}
 
 }

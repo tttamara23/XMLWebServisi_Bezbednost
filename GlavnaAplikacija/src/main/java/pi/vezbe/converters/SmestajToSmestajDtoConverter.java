@@ -34,6 +34,7 @@ public class SmestajToSmestajDtoConverter implements Converter<Smestaj, SmestajD
 		smestajDTO.setKategorija(kategorijaSmestajaToKategorijaSmestajaDTOConverter.convert(source.getKategorijaSmestaja()));
 		smestajDTO.setLokacija(source.getLokacija());
 		smestajDTO.setOpis(source.getOpis());
+		
 		smestajDTO.setTip(tipSmestajaToTipSmestajaDTOConverter.convert(source.getTipSmestaja()));
 		return smestajDTO;
 	}

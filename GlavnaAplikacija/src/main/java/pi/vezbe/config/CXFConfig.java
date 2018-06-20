@@ -1,27 +1,11 @@
 package pi.vezbe.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.ws.Endpoint;
-
-import org.apache.cxf.Bus;
-import org.apache.cxf.bus.spring.SpringBus;
-import org.apache.cxf.jaxws.EndpointImpl;
-import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
-import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.apache.wss4j.dom.WSConstants;
-import org.apache.wss4j.dom.handler.WSHandlerConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import pi.vezbe.service.SmestajService;
 
 @Configuration
 public class CXFConfig {
 
-	@Autowired
+	/*@Autowired
 	private SmestajService smestajService;
 	
 	
@@ -68,6 +52,6 @@ public class CXFConfig {
 		outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS, ServerPasswordCallback.class.getName());
 
 		return new WSS4JOutInterceptor(outProps);
-	}
+	}*/
 	
 }
