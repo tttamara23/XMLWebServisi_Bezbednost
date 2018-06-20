@@ -34,12 +34,12 @@ public class PonudaService {
 	}
 	
 	
-	public List<Ponuda> searchWithCategory(Date dateFrom, Date dateTo, String naziv, int brojLezaja, String tip, Integer kategorija) {
+	/*public List<Ponuda> searchWithCategory(Date dateFrom, Date dateTo, String naziv, int brojLezaja, String tip, Integer kategorija) {
 		return ponudaRepository.findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipContainingIgnoreCaseAndSmestajKategorija(dateFrom, dateTo, naziv, brojLezaja, tip, kategorija);
 	}
 	
 	public List<Ponuda> searchWithoutCategory(Date dateFrom, Date dateTo, String naziv, int brojLezaja, String tip) {
 		return ponudaRepository.findByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipContainingIgnoreCase(dateFrom, dateTo, naziv, brojLezaja, tip);
-	}
+	}*/
 	
 }

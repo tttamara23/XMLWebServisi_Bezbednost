@@ -52,10 +52,10 @@ import javax.xml.bind.annotation.XmlType;
         protected Long id;
     	
         @XmlElement(required = true)
-        protected String naziv;
+        protected String url;
         
-        @XmlElement(required = true)
-        protected byte[] data;
+        /*@XmlElement(required = true)
+        protected byte[] data;*/
         
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "id_smestaj", nullable = false)
@@ -85,8 +85,8 @@ import javax.xml.bind.annotation.XmlType;
          *     {@link String }
          *     
          */
-        public String getNaziv() {
-            return naziv;
+        public String getUrl() {
+            return url;
         }
 
         /**
@@ -97,10 +97,10 @@ import javax.xml.bind.annotation.XmlType;
          *     {@link String }
          *     
          */
-        public void setNaziv(String value) {
-            this.naziv = value;
+        public void setUrl(String url) {
+            this.url = url;
         }
-
+        
         /**
          * Gets the value of the data property.
          * 
@@ -108,9 +108,9 @@ import javax.xml.bind.annotation.XmlType;
          *     possible object is
          *     byte[]
          */
-        public byte[] getData() {
+        /*public byte[] getData() {
             return data;
-        }
+        }*/
 
         /**
          * Sets the value of the data property.
@@ -119,9 +119,9 @@ import javax.xml.bind.annotation.XmlType;
          *     allowed object is
          *     byte[]
          */
-        public void setData(byte[] value) {
+        /*public void setData(byte[] value) {
             this.data = value;
-        }
+        }*/
 
 		public Smestaj getSmestaj() {
 			return smestaj;

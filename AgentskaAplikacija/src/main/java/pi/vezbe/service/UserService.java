@@ -64,5 +64,9 @@ public class UserService {
     public List<KrajnjiKorisnik> findAll(){
     	return krajnjiKorisnikRepository.findAll();
     }
+    
+    public Korisnik findById(Long id){
+    	return korisnikRepository.findOne(id);
+    }
 
 }

@@ -8,14 +8,18 @@
 
 package pi.vezbe.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -149,14 +153,13 @@ public class Smestaj {
     @GeneratedValue(strategy=GenerationType.AUTO)
     protected Long id;
     
-    @XmlElement(required = true)
-    protected String tip;
-    
-    protected Integer kategorija;
+    @ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+    @JoinColumn(name = "id_tip_smestaja")
+	private TipSmestaja tipSmestaja;
     
     @XmlElement(required = true)
     protected String lokacija;
-    
+   
     @XmlElement(required = true)
     @Column(length=100000)
     protected String opis;
@@ -165,23 +168,58 @@ public class Smestaj {
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
     protected List<Ponuda> ponuda;
     
+    @XmlElement(name = "Usluga", required = true)
+    protected ArrayList<Usluga> usluga;
+    
     @XmlElement(name = "Slika", required = true)
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
     protected List<Slika> slika;
     
-   // @XmlElement(name = "Komentari", required = true)
-   // @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
-	//protected List<Komentar> komentari;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_kategorija_smestaja")
+	private KategorijaSmestaja kategorijaSmestaja;
     
-    
+    @OneToMany(mappedBy = "smestaj",cascade = CascadeType.REMOVE)
+	private List<SmestajVlasnik> smestajVlasnik;
+   
+    @OneToMany(mappedBy = "smestaj",cascade = CascadeType.REMOVE)
+	private List<Ocena> ocene;
+   
+    @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
+	protected List<Komentar> komentari;
 
-   /* public List<Komentar> getKomentari() {
+
+	public ArrayList<Usluga> getUsluga() {
+		return usluga;
+	}
+
+	public void setUsluga(ArrayList<Usluga> usluga) {
+		this.usluga = usluga;
+	}
+
+	public List<SmestajVlasnik> getSmestajVlasnik() {
+		return smestajVlasnik;
+	}
+
+	public void setSmestajVlasnik(List<SmestajVlasnik> smestajVlasnik) {
+		this.smestajVlasnik = smestajVlasnik;
+	}
+
+	public List<Ocena> getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(List<Ocena> ocene) {
+		this.ocene = ocene;
+	}
+
+	public List<Komentar> getKomentari() {
 		return komentari;
 	}
 
 	public void setKomentari(List<Komentar> komentari) {
 		this.komentari = komentari;
-	}*/
+	}
 
 	/**
      * Gets the value of the naziv property.
@@ -223,47 +261,25 @@ public class Smestaj {
         this.id = value;
     }
 
-    /**
-     * Gets the value of the tip property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTip() {
-        return tip;
-    }
 
-    /**
-     * Sets the value of the tip property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTip(String value) {
-        this.tip = value;
-    }
 
-    /**
-     * Gets the value of the kategorija property.
-     * 
-     */
-    public Integer getKategorija() {
-        return kategorija;
-    }
+    public TipSmestaja getTipSmestaja() {
+		return tipSmestaja;
+	}
 
-    /**
-     * Sets the value of the kategorija property.
-     * 
-     */
-    public void setKategorija(Integer value) {
-        this.kategorija = value;
-    }
+	public void setTipSmestaja(TipSmestaja tipSmestaja) {
+		this.tipSmestaja = tipSmestaja;
+	}
 
-    /**
+	public KategorijaSmestaja getKategorijaSmestaja() {
+		return kategorijaSmestaja;
+	}
+
+	public void setKategorijaSmestaja(KategorijaSmestaja kategorijaSmestaja) {
+		this.kategorijaSmestaja = kategorijaSmestaja;
+	}
+
+	/**
      * Gets the value of the lokacija property.
      * 
      * @return

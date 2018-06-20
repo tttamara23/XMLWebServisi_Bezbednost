@@ -1,5 +1,12 @@
 package pi.vezbe.controller;
 
+import glavna.wsdl.DBRequestType;
+import glavna.wsdl.GetDBResponse;
+import glavna.wsdl.KategorijaSmestajaXML;
+import glavna.wsdl.LogInResponse;
+import glavna.wsdl.TipSmestajaXML;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 import pi.vezbe.dto.ChangePasswordDTO;
 import pi.vezbe.dto.LoggedInUserDTO;
 import pi.vezbe.dto.LoginDTO;
-import pi.vezbe.dto.RegisterDTO;
+import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.model.Rezervacija;
 import pi.vezbe.model.Role;
+import pi.vezbe.model.TipSmestaja;
+import pi.vezbe.service.KategorijaSmestajaService;
+import pi.vezbe.service.TipSmestajaService;
 import pi.vezbe.service.UserService;
 import pi.vezbe.ws.WSClient;
 
@@ -37,103 +47,11 @@ public class UserController {
 	@Autowired
 	private WSClient wsClient;
 	
-	@CrossOrigin
-	@RequestMapping(
-            value = "/addDodatneUsluge",
-            method = RequestMethod.POST
-    )
-    public ResponseEntity<?> addDodatneUsluge(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request) {
-		
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+	@Autowired
+	private TipSmestajaService tipSmestajaService;
 	
-	@CrossOrigin
-	@RequestMapping(
-            value = "/register",
-            method = RequestMethod.POST
-    )
-    public ResponseEntity<?> register(@RequestBody RegisterDTO registerDTO) {
-		if(registerDTO.getIme().equals("") || registerDTO.getIme() == null ||
-				registerDTO.getPrezime().equals("") || registerDTO.getPrezime() == null ||
-				registerDTO.getEmail().equals("") || registerDTO.getEmail() == null ||
-				registerDTO.getKontakt().equals("") || registerDTO.getKontakt() == null ||
-				registerDTO.getPassword().equals("") || registerDTO.getPassword() == null ||
-				registerDTO.getPasswordConfirm().equals("") || registerDTO.getPasswordConfirm() == null) {
-			return new ResponseEntity<>("Fill in all required entry fields!", HttpStatus.BAD_REQUEST);
-		}
-		try {
-			Korisnik korisnik = userService.findByEmail(registerDTO.getEmail());
-		} catch(Exception e) {
-			String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{10,}";
-			if(!registerDTO.getPassword().matches(pattern)) {
-				return new ResponseEntity<>("Password must be at least ten characters including"
-					+ " one uppercase letter, one special character and alphanumeric characters!", HttpStatus.BAD_REQUEST);
-			}
-			
-			if(!registerDTO.getPassword().equals(registerDTO.getPasswordConfirm())) {
-				return new ResponseEntity<>("Passwords don't match!", HttpStatus.BAD_REQUEST);
-			}
-			
-			KrajnjiKorisnik krajnjiKorisnik = new KrajnjiKorisnik();
-			krajnjiKorisnik.setIme(registerDTO.getIme());
-			krajnjiKorisnik.setPrezime(registerDTO.getPrezime());
-			krajnjiKorisnik.setEmail(registerDTO.getEmail());
-			krajnjiKorisnik.setKontakt(registerDTO.getKontakt());
-			krajnjiKorisnik.setLozinka(registerDTO.getPassword());
-			krajnjiKorisnik.setBlokiran(false);
-			
-			userService.save(krajnjiKorisnik);
-			
-	        return new ResponseEntity<>(HttpStatus.CREATED);
-			
-		}
-		return new ResponseEntity<>("Email exists!", HttpStatus.BAD_REQUEST);
-		
-    }
-	
-	@CrossOrigin
-	@RequestMapping(
-            value = "/loginRegistered",
-            method = RequestMethod.POST
-    )
-    public ResponseEntity<?> loginRegistered(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request) {
-		
-		try {
-			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.REGISTERED)) {
-				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
-			}
-			if(!korisnik.getLozinka().equals(loginDTO.getPassword())) {
-				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
-			}
-			//response.addCookie(request.getCookies()[0]);
-			userService.setCurrentUser(korisnik);
-		} catch(Exception e) {
-			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
-	@CrossOrigin
-	@RequestMapping(
-            value = "/loginAdmin",
-            method = RequestMethod.POST
-    )
-    public ResponseEntity<?> loginAdmin(@RequestBody LoginDTO loginDTO) {
-		try {
-			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.ADMIN)) {
-				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
-			}
-			if(!korisnik.getLozinka().equals(loginDTO.getPassword())) {
-				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
-			}
-			userService.setCurrentUser(korisnik);
-		} catch(Exception e) {
-			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+	@Autowired	
+	private KategorijaSmestajaService kategorijaSmestajaService;
 	
 	@CrossOrigin
 	@RequestMapping(
@@ -141,19 +59,36 @@ public class UserController {
             method = RequestMethod.POST
     )
     public ResponseEntity<?> loginAgent(@RequestBody LoginDTO loginDTO) {
-		try {
-			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.AGENT)) {
-				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
-			}
-			if(!korisnik.getLozinka().equals(loginDTO.getPassword())) {
-				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
-			}
-			userService.setCurrentUser(korisnik);
-		} catch(Exception e) {
+		LogInResponse response  = wsClient.logInWS(loginDTO);
+		if(response==null){
 			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 		}
+		//getDB();
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	public boolean getDB(){
+		ArrayList<DBRequestType> requestTypes = new ArrayList<DBRequestType>();
+		requestTypes.add(DBRequestType.KATEGORIJA);
+		requestTypes.add(DBRequestType.TIP);
+		
+		GetDBResponse response  = wsClient.getDBWS(requestTypes);
+		ArrayList<TipSmestajaXML> listaTipSmestaja =(ArrayList<TipSmestajaXML>) response.getTipoviSmestaja();
+		for(int i=0; i< listaTipSmestaja.size(); i++){
+			TipSmestaja tipSmestaja = new TipSmestaja(); 
+			tipSmestaja.setId(listaTipSmestaja.get(i).getId());
+			tipSmestaja.setNaziv(listaTipSmestaja.get(i).getNaziv());
+			tipSmestajaService.save(tipSmestaja);
+		}
+		ArrayList<KategorijaSmestajaXML> listaKategorijaSmestaja =(ArrayList<KategorijaSmestajaXML>) response.getKategorijaSmestaja();
+		for(int i=0; i< listaKategorijaSmestaja.size(); i++){
+			KategorijaSmestaja kategorijaSmestaja = new KategorijaSmestaja(); 
+			kategorijaSmestaja.setId(listaKategorijaSmestaja.get(i).getId());
+			kategorijaSmestaja.setKategorija(listaKategorijaSmestaja.get(i).getKategorija());
+			kategorijaSmestajaService.save(kategorijaSmestaja);
+		}
+	
+		return true;
 	}
 	
 	@CrossOrigin

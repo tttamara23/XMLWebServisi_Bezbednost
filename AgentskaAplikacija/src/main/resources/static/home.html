@@ -1,5 +1,53 @@
 <!DOCTYPE html>
 <html>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+.TextBox > div {
+    margin:0 auto;
+    width:250px;
+}
+input[type="file"] {
+  display: block;
+}
+.imageThumb {
+  max-height: 75px;
+  border: 2px solid;
+  padding: 1px;
+  cursor: pointer;
+}
+.pip {
+  display: inline-block;
+  margin: 10px 10px 0 0;
+}
+.remove {
+  display: block;
+  background: #444;
+  border: 1px solid black;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+.remove:hover {
+  background: white;
+  color: black;
+}
+</style>
 <head>
 	<meta charset="UTF-8">
 	<title>Booking</title>
@@ -14,55 +62,331 @@
     	<link href="toastr/toastr.min.css" rel="stylesheet"/>
 </head>
 <body>
- <div class="tab-pane active" id="mainDiv">
-	        <div class="homeDiv">
-	        	<div class="searchDiv">
-	        		<h4 style="padding-left: 1.5%">Dodaj novu smestajnu jedinicu</h4>
-	        		<div class="divSearchInput">
-		        		<label class="searchLabel">Lokacija</label>
-		        		<input class="form-control" type="text" id="inputLokacija" placeholder="Lokacija.."><br>
-		        		<div class="row">
-		        			<div class="col-lg-6">
-				        		<label class="searchLabel">Naziv smestaja</label>
-				        		<input class="form-control" type="text" id="inputNazivSmestaja">
-			        		</div>
-		        			<div class="col-lg-6">
-				        		<label class="searchLabel">Tip smestaja</label>
-				        		<input class="form-control" type="text" id="inputTipSmestaja">
-			        		</div>
-			        		<div class="col-lg-6">
-				        		<label class="searchLabel">Opis</label>
-				        		<input class="form-control" type="text" id="inputOpis" placeholder="Opis..">
-			        		</div>
-		        		</div>
-		        		<div class="row">
-		        			<div class="col-lg-6">
-				        		<br><label class="searchLabel">Broj osoba</label>
-				        		<select class="form-control" id="selectBrojOsoba">
-							        <option selected value="1">1 osoba</option>
-							        <option value="2">2 osobe</option>
-							        <option value="3">3 osobe</option>
-							        <option value="4">4 osobe</option>
-							        <option value="5">5 osoba</option>
-							        <option value="6">6 osoba</option>
-							        <option value="7">7 osoba</option>
-							        <option value="8">8 osobe</option>
-							        <option value="9">9 osoba</option>
-							        <option value="10">10 osoba</option>
-							        <option value="11">11 osoba</option>
-							        <option value="12">12 osoba</option>
 
-	      						</select>
-			        		</div>
-			        		<div class="col-lg-6">
-			        		
-			        		</div>
-			        		
-		        		</div>
-		    </div>
-		    <button class="btn btn-info" id="dodajSmestajnuJedinicuButton" onclick="return dodajSmestajnuJedinicu()">Dodaj</button>
-  		</div>
-  		
-  	</div>
-  	
+	<ul class="nav nav-tabs" id="myTab">
+	    
+	    <li class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" id="tabProfileName"><span class="caret"></span></a>
+	        <ul class="dropdown-menu">
+	            <li><a href="#addAccomodation" data-toggle="tab">Add accomodation </a></li>
+	            <li><a href="#confirmReservations" onclick="return reservations()" data-toggle="tab">Confirm reservations</a></li>
+	            <li><a href="#showChats" onclick="return chats()" data-toggle="tab">Chats</a></li>
+	            <li><a href="#showTermins" onclick="return termins()" data-toggle="tab">Add termin</a></li>
+	            <li><a onclick="return logout()" data-toggle="tab">Logout</a></li>
+	        </ul>
+	    </li>
+	    <li class="dropdown">
+	   
+	   
+	</ul>
+<div class="tab-content">
+	    
+	<div class="tab-pane" id="addAccomodation">
+
+		 <div class="tab-pane active" id="mainDiv">
+			        <div class="homeDiv">
+			        	<div class="searchDiv">
+			        		<h4 style="padding-left: 1.5%">Dodaj novu smestajnu jedinicu</h4>
+			        		<div class="divSearchInput">
+				        		<label class="searchLabel">Lokacija</label>
+				        		<input class="form-control" type="text" id="inputLokacija" placeholder="Lokacija.."><br>
+				        		
+				        			<div >
+						        		<label class="searchLabel">Naziv smestaja</label>
+						        		<input class="form-control" type="text" id="inputNazivSmestaja" placeholder="Naziv..">
+					        		</div>
+				        			
+					        		<div >
+						        		<label class="searchLabel">Opis</label>
+						        		<input class="form-control" type="text" id="inputOpis" placeholder="Opis..">
+					        		</div>
+					        		<div  id="divDodatneUsluge">
+						        		<label class="searchLabel">Dodatne usluge</label> <br>
+						        		
+					        		</div>
+					        		<div >
+						        		<label class="searchLabel">Tip smestaja</label>
+						        		<select id="selectTipSmestaja">
+						        			
+						        		</select>
+					        		</div>
+					        		
+					        		<div class="field" align="left">
+ 									 	<h3>Upload your images</h3>
+ 										<input type="file" id="files" name="files[]" multiple />
+									</div>
+					        		
+				        		
+				        		
+				    </div>
+				    <button class="btn btn-info" id="dodajSmestajnuJedinicuButton" onclick="return dodajSmestajnuJedinicu()">Dodaj</button>
+		  		</div>
+		  		
+		  	</div>
+		  	
+		</div>
+		
+	</div>
+		<div class="tab-pane" id="confirmReservations">
+			
+	    <br/><br/>
+	        <table width="200" id="tableReservations">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	<th>Datum rezervacije</th>
+	        	 	<th>Autor</th>
+	        	 	<th>Smestaj</th>
+	        	 	<th>Od</th>
+	        	 	<th>Do</th>
+	        	 	<th>Cena</th>
+	        	 	
+	        	 	<th></th>
+	        	 	
+	        	 	<th></th>
+	        	</tr>
+	        </table>
+	    </div>
+	    
+	    <div class="tab-pane" id="showTermins">
+			
+	    <br/><br/>
+	        <table width="200" id="tableTermins">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	<th>Naziv Smestaja</th>
+	        	 	
+	        	 	
+	        	 	<th></th>
+	        	 	
+	        	 	<th></th>
+	        	</tr>
+	        </table>
+	    </div>
+	    
+	    <div class="tab-pane" id="showChats">
+			
+	    <br/><br/>
+	        <table width="200" id="tableChats">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	<th>Broj poruka</th>
+	        	 	<th>Pregledano</th>
+	        	 	
+	        	 	<th></th>
+	        	</tr>
+	        </table>
+	    </div>
+	<div class="modal fade" id="modalChat" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Poruke</h4>
+	        </div>
+	        <div class="modal-body" id="modalBody">
+	          
+	        </div>
+	        <div class="modal-footer">
+	          <textarea id="sadrzajPoruke" placeholder="Posalji poruku u chat..."> </textarea>
+	          <button id="posaljiPoruku" type="button" class="btn btn-primary" data-dismiss="modal">Posalji poruku</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+  </div>
+  <div class="modal fade" id="modalTermin" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Termini</h4>
+	        </div>
+	        <div class="modal-body" id="modalBody">
+	          	<label>Datum pocetka:</label>		
+	          <input type="date" id="datumOd">
+	          <label>Datum kraja:</label>		
+	          <input type="date" id="datumDo">
+	          
+	          <label >Broj soba</label>
+			  <input class="form-control" type="text" id="inputBrojSoba" placeholder="Broj soba..">
+			  
+			  <br><label >Broj kreveta</label>
+			  <input class="form-control" type="text" id="inputBrojKreveta" placeholder="Broj kreveta..">
+				
+			   <br><label >Cena</label>
+			  <input class="form-control" type="text" id="inputCena" placeholder="Cena..">			        		
+	          
+	        </div>
+	        <div class="modal-footer">
+	          
+	          <button id="dodajTermin" type="button" class="btn btn-primary" data-dismiss="modal">Dodaj termin</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+  </div>
+  <div class="modal fade" id="modalPregledTermina" role="dialog" >
+	    <div class="modal-dialog modal-lg">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Pregled termina</h4>
+	        </div>
+	        <div class="modal-body" id="modalBodyPregled">
+	        	<table id="tablePregledTermina">
+		        	<tr>
+		        		<th>#</th>
+		        	 	<th>Od</th>
+		        	 	<th>Do</th>
+		        	 	<th>Broj slobodnih soba</th>
+		        	 	<th>Broj kreveta u sobi</th>
+		        	 	<th>Cena</th>
+		        	 	<th></th>
+		        	 </tr>
+		        </table>
+	          
+	        </div>
+	        <div class="modal-footer">
+	         
+	          <button id="zatvori" type="button" class="btn btn-primary" data-dismiss="modal">Zatvori</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+  </div>
+  <div class="modal fade" id="modalZauzmiTermin" role="dialog" >
+	    <div class="modal-dialog modal-lg">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Zauzmi termin</h4>
+	        </div>
+	        <div class="modal-body" id="modalBodyZauzmiTermin">
+	        	<label >Broj soba</label>
+			  <input class="form-control" type="text" id="inputBrojSobaZauzmi" placeholder="Broj soba koji se rezervise..">
+			  
+	        </div>
+	        <div class="modal-footer">
+	         
+	          <button id="potvrdiZauzimanje" type="button" class="btn btn-primary" data-dismiss="modal">Potvrdi</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+  </div>
 </div>
+
+
+		
+		
+	
+<script>
+$(document).ready(function() {
+	  if (window.File && window.FileList && window.FileReader) {
+	    $("#files").on("change", function(e) {
+	      var files = e.target.files,
+	        filesLength = files.length;
+	      for (var i = 0; i < filesLength; i++) {
+	        var f = files[i]
+	        var fileReader = new FileReader();
+	        fileReader.onload = (function(e) {
+	          var file = e.target;
+	          $("<span class=\"pip\">" +
+	            "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+	            "<br/><span class=\"remove\">Remove image</span>" +
+	            "</span>").insertAfter("#files");
+	          $(".remove").click(function(){
+	            $(this).parent(".pip").remove();
+	          });
+	          
+	          // Old code here
+	          /*$("<img></img>", {
+	            class: "imageThumb",
+	            src: e.target.result,
+	            title: file.name + " | Click to remove"
+	          }).insertAfter("#files").click(function(){$(this).remove();});*/
+	          
+	        });
+	        fileReader.readAsDataURL(f);
+	      }
+	    });
+	  } else {
+	    alert("Your browser doesn't support to File API")
+	  }
+	});
+	window.onload = function(e){
+		$.ajax({
+			async: false,
+			url: "http://localhost:4321/agent/ucitajTipSmestaja",
+	        type: "GET",
+	        dataType: "json",
+	        crossDomain: true,
+	        xhrFields: {
+	            withCredentials: true
+	         },
+	        headers: {  'Access-Control-Allow-Origin': '*' },
+	        success: function (data) {
+	        	var i;
+	        	for(i=0;i<data.length;i++){
+	        		var option = document.createElement("option");
+	        		option.text = data[i].naziv;
+	        		option.value = data[i].naziv;
+	        		var select = document.getElementById("selectTipSmestaja");
+	        		select.appendChild(option);
+	        	}
+	        	
+	        	
+	        },
+	        error: function (jqxhr, textStatus, errorThrown) {
+	        	
+	                alert("kanales");
+	            
+	        }
+	    });	
+		$.ajax({
+			async: false,
+			url: "http://localhost:4321/agent/ucitajDodatneUsluge",
+	        type: "GET",
+	        dataType: "json",
+	        crossDomain: true,
+	        xhrFields: {
+	            withCredentials: true
+	         },
+	        headers: {  'Access-Control-Allow-Origin': '*' },
+	        success: function (data) {
+	        	var i;
+	        	for(i=0;i<data.length;i++){
+	        		var div = document.getElementById("divDodatneUsluge");
+	        		var option = document.createElement("input");
+	        		option.type = "checkbox";
+	        		option.id = data[i].id;
+	        		option.name = data[i].naziv;
+	        		option.value = data[i].naziv;
+	        		var label = document.createElement('label')
+					label.htmlFor = data[i].id;
+					label.appendChild(document.createTextNode(data[i].naziv));
+	        		div.appendChild(option);
+	        		div.appendChild(label);
+	        		var br = document.createElement("br");
+	        		div.appendChild(br);
+	        	}
+	        	
+	        	
+	        },
+	        error: function (jqxhr, textStatus, errorThrown) {
+	        	
+	                alert("kanales");
+	            
+	        }
+	    });	
+		
+	}
+</script>

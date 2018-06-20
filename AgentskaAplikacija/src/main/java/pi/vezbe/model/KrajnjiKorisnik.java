@@ -47,8 +47,8 @@ public class KrajnjiKorisnik
     extends Korisnik
 {
 	//@XmlElement(name = "Komentari", required = true)
-    //@OneToMany(mappedBy = "autor", cascade = CascadeType.REMOVE)
-	//protected List<Komentar> komentari;
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.REMOVE)
+	protected List<Komentar> komentari;
 	
     @XmlAttribute(name = "blokiran")
     protected Boolean blokiran;
@@ -68,9 +68,12 @@ public class KrajnjiKorisnik
     @OneToMany(mappedBy="korisnik", cascade = CascadeType.REMOVE)
 	private List<Rezervacija> rezervacije;
     
+    @OneToMany(mappedBy="autor", cascade = CascadeType.REMOVE)
+   	private List<Ocena> ocene;
+    
     
 
-  /*  public List<Komentar> getKomentari() {
+    public List<Komentar> getKomentari() {
 		return komentari;
 	}
 
@@ -79,7 +82,7 @@ public class KrajnjiKorisnik
 	public void setKomentari(List<Komentar> komentari) {
 		this.komentari = komentari;
 	}
-*/
+
 
 
 	public Boolean getBlokiran() {

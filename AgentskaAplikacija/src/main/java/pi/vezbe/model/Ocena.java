@@ -8,6 +8,13 @@
 
 package pi.vezbe.model;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -52,20 +59,31 @@ import javax.xml.bind.annotation.XmlType;
     "autor"
 })
 @XmlRootElement(name = "Ocena")
+@Entity
 public class Ocena {
 
-    protected long id;
+	
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+    protected Long id;
     protected int vrednost;
+    
     @XmlElement(name = "Smestaj", required = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_smestaj")
     protected Smestaj smestaj;
+    
     @XmlElement(required = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_korisnik")
     protected KrajnjiKorisnik autor;
 
     /**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -73,7 +91,7 @@ public class Ocena {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 

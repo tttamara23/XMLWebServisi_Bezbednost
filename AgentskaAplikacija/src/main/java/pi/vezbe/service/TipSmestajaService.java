@@ -24,4 +24,9 @@ public class TipSmestajaService {
 	public TipSmestaja save(TipSmestaja tipS) {
 		return tipSmestajaRepository.save(tipS);
 	}
+	
+	public TipSmestaja findByNaziv(String naziv){
+		
+		return tipSmestajaRepository.findByNaziv(naziv);
+	}
 }

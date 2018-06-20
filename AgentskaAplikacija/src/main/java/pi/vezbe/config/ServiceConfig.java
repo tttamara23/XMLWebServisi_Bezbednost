@@ -1,5 +1,6 @@
 package pi.vezbe.config;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,13 +16,14 @@ import pi.vezbe.service.SmestajService;
 import pi.vezbe.ws.WSClient;
 
 
-@Configuration
+//@Configuration
 public class ServiceConfig {
 	
-	@Bean
+	/*@Bean
 	public SmestajService getSmestajService() {
 		SmestajService service = new SmestajService();
-		setUpInterceptors(service);
+	
+		setUpInterceptors(service.getSmestajServicePort());
 		return service;
 	}
 	
@@ -65,5 +67,5 @@ public class ServiceConfig {
 
 		return new WSS4JInInterceptor(inProps);
 	}
-	
+	*/
 }

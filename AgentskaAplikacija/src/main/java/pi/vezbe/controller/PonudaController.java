@@ -82,13 +82,13 @@ public class PonudaController {
 				dateTo = dateFormat.parse(searchDTO.getDateTo());
 			}
 			List<Ponuda> ponude = new ArrayList<Ponuda>();
-			if(searchDTO.getCategory() == null) {
+			/*if(searchDTO.getCategory() == null) {
 				ponude = ponudaService.searchWithoutCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType());
 			} else if(searchDTO.getCategory().equals("")) {
 				ponude = ponudaService.searchWithoutCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType());
 			} else {
 				ponude = ponudaService.searchWithCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), category);
-			}
+			}*/
 			return new ResponseEntity<>(ponudaToPonudaDtoConverter.convert(ponude), HttpStatus.OK);
 		} catch (ParseException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

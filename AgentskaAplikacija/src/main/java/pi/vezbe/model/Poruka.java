@@ -8,6 +8,16 @@
 
 package pi.vezbe.model;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -55,24 +65,64 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "posiljalac"
 })
 @XmlRootElement(name = "Poruka")
+@Entity
 public class Poruka {
 
-    protected long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long id;
+	
     @XmlElement(required = true)
+    @Column(length=1000)
     protected String sadrzaj;
+    
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar datumSlanja;
-    @XmlElement(required = true)
-    protected Korisnik primalac;
-    @XmlElement(required = true)
-    protected Korisnik posiljalac;
+    protected Date datumSlanja;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_chat", nullable = false)
+    private Chat chat;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_posiljalac", nullable = false)
+    private Korisnik posiljalac;
+    
+    private boolean seen;
+    
+    public Poruka() {
+		seen = false;
+	}
 
-    /**
+    public boolean isSeen() {
+		return seen;
+	}
+
+	public void setSeen(boolean seen) {
+		this.seen = seen;
+	}
+
+	public Korisnik getPosiljalac() {
+		return posiljalac;
+	}
+
+	public void setPosiljalac(Korisnik posiljalac) {
+		this.posiljalac = posiljalac;
+	}
+
+	public Chat getChat() {
+		return chat;
+	}
+
+	public void setChat(Chat chat) {
+		this.chat = chat;
+	}
+
+	/**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -80,7 +130,7 @@ public class Poruka {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 
@@ -116,7 +166,7 @@ public class Poruka {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public XMLGregorianCalendar getDatumSlanja() {
+    public Date getDatumSlanja() {
         return datumSlanja;
     }
 
@@ -128,7 +178,7 @@ public class Poruka {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setDatumSlanja(XMLGregorianCalendar value) {
+    public void setDatumSlanja(Date value) {
         this.datumSlanja = value;
     }
 
@@ -140,44 +190,5 @@ public class Poruka {
      *     {@link Korisnik }
      *     
      */
-    public Korisnik getPrimalac() {
-        return primalac;
-    }
-
-    /**
-     * Sets the value of the primalac property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Korisnik }
-     *     
-     */
-    public void setPrimalac(Korisnik value) {
-        this.primalac = value;
-    }
-
-    /**
-     * Gets the value of the posiljalac property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Korisnik }
-     *     
-     */
-    public Korisnik getPosiljalac() {
-        return posiljalac;
-    }
-
-    /**
-     * Sets the value of the posiljalac property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Korisnik }
-     *     
-     */
-    public void setPosiljalac(Korisnik value) {
-        this.posiljalac = value;
-    }
 
 }

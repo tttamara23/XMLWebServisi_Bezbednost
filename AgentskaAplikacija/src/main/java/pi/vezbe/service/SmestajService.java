@@ -1,6 +1,15 @@
 package pi.vezbe.service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+import javax.xml.namespace.QName;
+import javax.xml.ws.WebEndpoint;
+import javax.xml.ws.WebServiceClient;
+import javax.xml.ws.WebServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +42,10 @@ public class SmestajService {
 	public Smestaj findById(Long idSmestaja){
 		return smestajRepository.findOne(idSmestaja);
 	}
+	
+	@WebMethod()
+	  public String sayHello(String name) {
+	    return name + ".";
+	  }
 
 }

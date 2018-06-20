@@ -8,14 +8,21 @@
 
 package pi.vezbe.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -108,9 +115,16 @@ public abstract class Korisnik {
     protected String lozinka;
     @XmlElement(required = true)
     protected String kontakt;
+    @XmlElement(required = true)
+	private byte[] salt;
     
     @Enumerated(EnumType.STRING)
     protected Role role;
+    
+    @XmlElement(required = true)
+	@ManyToMany(mappedBy = "korisnici", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    protected List<Chat> chats;
+    
     
     public Korisnik() {}
 
@@ -123,6 +137,14 @@ public abstract class Korisnik {
 		this.lozinka = lozinka;
 		this.kontakt = kontakt;
 		this.role = role;
+	}
+
+	public List<Chat> getChats() {
+		return chats;
+	}
+
+	public void setChats(List<Chat> chats) {
+		this.chats = chats;
 	}
 
 	/**
@@ -268,5 +290,14 @@ public abstract class Korisnik {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	public byte[] getSalt() {
+		return salt;
+	}
+
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
+	}
+	
 
 }
