@@ -67,5 +67,4 @@ public class SmestajRequest {
     public void setAccommodation(AccommodationXML value) {
         this.accommodation = value;
     }
-
 }

@@ -23,6 +23,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -118,12 +120,16 @@ public abstract class Korisnik {
     @XmlElement(required = true)
 	private byte[] salt;
     
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_rola", nullable = false)
     protected Role role;
     
     @XmlElement(required = true)
 	@ManyToMany(mappedBy = "korisnici", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     protected List<Chat> chats;
+    
+    @OneToMany(mappedBy = "posiljalac", cascade = CascadeType.REMOVE)//, cascade = CascadeType.REMOVE
+	private List<Poruka> poruke;
     
     
     public Korisnik() {}
@@ -297,6 +303,14 @@ public abstract class Korisnik {
 
 	public void setSalt(byte[] salt) {
 		this.salt = salt;
+	}
+
+	public List<Poruka> getPoruke() {
+		return poruke;
+	}
+
+	public void setPoruke(List<Poruka> poruke) {
+		this.poruke = poruke;
 	}
 	
 

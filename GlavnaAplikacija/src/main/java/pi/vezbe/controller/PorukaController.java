@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.ChatToChatDTOConverter;
 import pi.vezbe.converters.PorukaToPorukaDTOConverter;
 import pi.vezbe.dto.ChatDTO;
@@ -45,6 +46,7 @@ public class PorukaController {
 	@Autowired
 	private ChatToChatDTOConverter chatToChatDTOConverter;
 	
+	@PermissionAnnotation(name = "SEND_MESSAGE")
 	@CrossOrigin
 	@RequestMapping(
             value = "/sendMessage/{idPrimalac}",
@@ -88,6 +90,7 @@ public class PorukaController {
 		return new ResponseEntity<>(chatToChatDTOConverter.convert(chat), HttpStatus.OK);
 	}
 	
+	@PermissionAnnotation(name = "GET_MESSAGES")
 	@CrossOrigin
 	@RequestMapping(
             value = "/getPoruke/{idChat}",
@@ -108,6 +111,7 @@ public class PorukaController {
 		
 	}
 	
+	@PermissionAnnotation(name = "SEND_MESSAGE")
 	@CrossOrigin
 	@RequestMapping(
             value = "/posaljiPorukuUChat/{idChat}",
@@ -138,6 +142,7 @@ public class PorukaController {
 		
 	}
 	
+	@PermissionAnnotation(name = "SEEN_MESSAGES")
 	@CrossOrigin
 	@RequestMapping(
             value = "/seen/{idChat}",

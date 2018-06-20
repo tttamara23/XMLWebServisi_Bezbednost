@@ -104,5 +104,4 @@ public class GetDBResponse {
         }
         return this.kategorijaSmestaja;
     }
-
 }

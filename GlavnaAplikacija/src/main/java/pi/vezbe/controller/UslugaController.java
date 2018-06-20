@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.UslugaToUslugaDtoConverter;
 import pi.vezbe.dto.UslugaDTO;
 import pi.vezbe.model.Usluga;
@@ -25,6 +26,7 @@ public class UslugaController {
 	@Autowired
 	private UslugaToUslugaDtoConverter  uslugaToUslugaDtoConverter;
 	
+	@PermissionAnnotation(name = "GET_DODATNA_USLUGA")
 	@CrossOrigin
 	@RequestMapping(
             value = "/getUsluge",

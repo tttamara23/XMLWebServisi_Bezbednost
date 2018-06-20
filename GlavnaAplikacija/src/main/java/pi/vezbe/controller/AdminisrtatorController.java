@@ -7,19 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.AgentDtoToAgentConverter;
 import pi.vezbe.converters.AgentToAgentDTOConverter;
 import pi.vezbe.converters.KategorijaSmestajaDTOToKategorijaSmestajaConverter;
+import pi.vezbe.converters.KategorijaSmestajaToKategorijaSmestajaDTOConverter;
 import pi.vezbe.converters.KomentarToKomentarDTOConverter;
 import pi.vezbe.converters.KrajnjiKorisnikToKrajnjiKorisnikDTO;
 import pi.vezbe.converters.TipSmestajaDTOToTipSmestajaConverter;
+import pi.vezbe.converters.TipSmestajaToTipSmestajaDTO;
 import pi.vezbe.converters.UslugaDTOToUslugaConverter;
 import pi.vezbe.converters.UslugaToUslugaDtoConverter;
 import pi.vezbe.dto.AgentDTO;
@@ -56,7 +58,13 @@ public class AdminisrtatorController {
 	private TipSmestajaDTOToTipSmestajaConverter tipSmestajaDTOToTipSmestajaConverter;
 	
 	@Autowired
+	private TipSmestajaToTipSmestajaDTO tipSmestajaToTipSmestajaDTOConverter;
+	
+	@Autowired
 	private KategorijaSmestajaDTOToKategorijaSmestajaConverter kategorijaSmestajaDTOToKategorijaSmestajaConverter;
+	
+	@Autowired
+	private KategorijaSmestajaToKategorijaSmestajaDTOConverter kategorijaSmestajaToKategorijaSmestajaDTOConverter;
 	
 	@Autowired
 	private UslugaDTOToUslugaConverter dodatneUslugeDTOToDodatneUslugeConverter;
@@ -90,8 +98,9 @@ public class AdminisrtatorController {
 	
 	@Autowired
 	private KomentarToKomentarDTOConverter komentarToKomentarDtoConverter;
+	
+	@PermissionAnnotation(name = "INSERT_AGENT")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "addAgent",
             method = RequestMethod.POST
@@ -125,8 +134,9 @@ public class AdminisrtatorController {
         
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+	
+	@PermissionAnnotation(name = "INSERT_TIP_SMESTAJA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "addTipSmestaja",
             method = RequestMethod.POST
@@ -141,8 +151,8 @@ public class AdminisrtatorController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	
+	@PermissionAnnotation(name = "INSERT_KATEGORIJA_SMESTAJA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "addKategorijaSmestaja",
             method = RequestMethod.POST
@@ -157,8 +167,8 @@ public class AdminisrtatorController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	
+	@PermissionAnnotation(name = "INSERT_DODATNA_USLUGA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "addDodatneUsluge",
             method = RequestMethod.POST
@@ -172,8 +182,9 @@ public class AdminisrtatorController {
 		Usluga saved = dodatneUslugeService.save(UslugaToSave);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+	
+	@PermissionAnnotation(name = "GET_USERS")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "showUsers",
             method = RequestMethod.GET
@@ -185,8 +196,8 @@ public class AdminisrtatorController {
 		return listaDTO;
     }
 	
+	@PermissionAnnotation(name = "BLOCK_UNBLOCK_USER")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "blokiraj",
             method = RequestMethod.POST
@@ -203,8 +214,8 @@ public class AdminisrtatorController {
 		return false;
     }
 	
+	@PermissionAnnotation(name = "BLOCK_UNBLOCK_USER")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "aktiviraj",
             method = RequestMethod.POST
@@ -220,24 +231,26 @@ public class AdminisrtatorController {
 		
 		return false;
     }
+	
+	@PermissionAnnotation(name = "DELETE_USER")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "ukloni",
             method = RequestMethod.POST
     )
-    public boolean ukloni(@RequestBody String id) {
+    public ResponseEntity<?> ukloni(@RequestBody String id) {
 		KrajnjiKorisnik zaBrisanje = userService.findRegisteredByEmail(id);
 		if(zaBrisanje!=null){
 			userService.delete(zaBrisanje);
 			
-			return true;	
+			return new ResponseEntity<>(HttpStatus.OK);	
 		}
 		
-		return false;
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);	
     }
+	
+	@PermissionAnnotation(name = "DELETE_TIP_SMESTAJA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "ukloniTipSmestaja",
             method = RequestMethod.POST
@@ -253,8 +266,9 @@ public class AdminisrtatorController {
 		
 		return false;
     }
+	
+	@PermissionAnnotation(name = "DELETE_KATEGORIJA_SMESTAJA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "ukloniKategoriju",
             method = RequestMethod.POST
@@ -270,8 +284,9 @@ public class AdminisrtatorController {
 		
 		return false;
     }
+	
+	@PermissionAnnotation(name = "DELETE_DODATNA_USLUGA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "ukloniUslugu",
             method = RequestMethod.POST
@@ -287,8 +302,9 @@ public class AdminisrtatorController {
 		
 		return false;
     }
+	
+	@PermissionAnnotation(name = "UPDATE_TIP_SMESTAJA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "izmeniTipSmestaja",
             method = RequestMethod.POST
@@ -298,14 +314,14 @@ public class AdminisrtatorController {
 		TipSmestaja zaIzmenu = tipSmestajaService.findById(id);
 		if(zaIzmenu!=null){
 			//tipSmestajaService.delete(zaBrisanje);
-			return new ResponseEntity<>(zaIzmenu, HttpStatus.OK);
+			return new ResponseEntity<>(tipSmestajaToTipSmestajaDTOConverter.convert(zaIzmenu), HttpStatus.OK);
 		}
 		
 		return null;
     }
 	
+	@PermissionAnnotation(name = "UPDATE_KATEGORIJA_SMESTAJA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "izmeniKategoriju",
             method = RequestMethod.POST
@@ -315,14 +331,14 @@ public class AdminisrtatorController {
 		KategorijaSmestaja zaIzmenu = kategorijaSmestajaService.findById(id);
 		if(zaIzmenu!=null){
 			
-			return new ResponseEntity<>(zaIzmenu, HttpStatus.OK);
+			return new ResponseEntity<>(kategorijaSmestajaToKategorijaSmestajaDTOConverter.convert(zaIzmenu), HttpStatus.OK);
 		}
 		
 		return null;
     }
 	
+	@PermissionAnnotation(name = "UPDATE_DODATNA_USLUGA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "izmeniUslugu",
             method = RequestMethod.POST
@@ -337,8 +353,9 @@ public class AdminisrtatorController {
 		
 		return null;
     }
+	
+	@PermissionAnnotation(name = "GET_ALL_COMMENTS")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "showComments",
             method = RequestMethod.GET
@@ -348,29 +365,31 @@ public class AdminisrtatorController {
 		List<KomentarDTO> listaDTO = komentarToKomentarDtoConverter.convert(lista);
 		return listaDTO;
     }
+	
+	@PermissionAnnotation(name = "GET_TIP_SMESTAJA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "tipSmestaja",
             method = RequestMethod.GET
     )
-    public List<TipSmestaja> showTipSmestaja() {
+    public List<TipSmestajaDTO> showTipSmestaja() {
 		List<TipSmestaja> lista = tipSmestajaService.findAllTipS();
 		
-		return lista;
+		return tipSmestajaToTipSmestajaDTOConverter.convert(lista);
     }
 	
+	@PermissionAnnotation(name = "GET_KATEGORIJA_SMESTAJA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "kategorijaSmestaja",
             method = RequestMethod.GET
     )
-    public List<KategorijaSmestaja> showKategorijaSmestaja() {		
-		return kategorijaSmestajaService.findAllKS();
+    public List<KategorijaSmestajaDTO> showKategorijaSmestaja() {		
+		return kategorijaSmestajaToKategorijaSmestajaDTOConverter.convert(kategorijaSmestajaService.findAllKS());
     }
+	
+	@PermissionAnnotation(name = "GET_DODATNA_USLUGA")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "dodatneUsluge",
             method = RequestMethod.GET
@@ -379,8 +398,8 @@ public class AdminisrtatorController {
 		return uslugaToUslugaDtoConverter.convert(dodatneUslugeService.findAll());
     }
 	
+	@PermissionAnnotation(name = "PUBLISH_COMMENTS")
 	@CrossOrigin
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(
             value = "objaviKomentar",
             method = RequestMethod.POST
@@ -396,6 +415,8 @@ public class AdminisrtatorController {
 		
 		return false;
     }
+	
+	@PermissionAnnotation(name = "UPDATE_TIP_SMESTAJA")
 	@CrossOrigin
 	@RequestMapping(
             value = "/sacuvajIzmenuTipaSmestaja",
@@ -407,6 +428,7 @@ public class AdminisrtatorController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@PermissionAnnotation(name = "UPDATE_KATEGORIJA_SMESTAJA")
 	@CrossOrigin
 	@RequestMapping(
             value = "/sacuvajIzmenuKategorijeSmestaja",
@@ -417,6 +439,8 @@ public class AdminisrtatorController {
 		KategorijaSmestaja saved = kategorijaSmestajaService.save(ks);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@PermissionAnnotation(name = "UPDATE_DODATNA_USLUGA")
 	@CrossOrigin
 	@RequestMapping(
             value = "/sacuvajIzmenuUsluge",

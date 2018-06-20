@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.KomentarToKomentarDTOConverter;
 import pi.vezbe.model.Komentar;
 import pi.vezbe.model.KrajnjiKorisnik;
@@ -41,6 +42,7 @@ public class KomentarController {
 	@Autowired
 	private RezervacijaService rezervacijaService;
 	
+	@PermissionAnnotation(name = "GET_PUBLISHED_COMMENTS")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getBySmestaj/{idSmestaj}",
@@ -50,6 +52,7 @@ public class KomentarController {
 		return new ResponseEntity<>(komentarToKomentarDTOConverter.convert(komentarService.findBySmestajAndObjavljen(idSmestaj)), HttpStatus.OK);
 	}
 	
+	@PermissionAnnotation(name = "ADD_COMMENT")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/comment/{idSmestaj}",

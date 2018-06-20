@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.ChatToChatDTOConverter;
 import pi.vezbe.converters.KategorijaSmestajaToKategorijaSmestajaDTOConverter;
 import pi.vezbe.converters.KorisnikToKorisnikDTOConverter;
@@ -48,7 +49,7 @@ public class ChatController {
 	private KategorijaSmestajaToKategorijaSmestajaDTOConverter kategorijaSmestajaToKategorijaSmestajaDTOConverter;
 	
 	
-	
+	@PermissionAnnotation(name = "GET_CHATS")
 	@CrossOrigin
 	@RequestMapping(
             value = "/findAllByKorisniciId",

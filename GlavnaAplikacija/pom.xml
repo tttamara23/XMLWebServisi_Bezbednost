@@ -89,6 +89,13 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>1.4.2.RELEASE</version>
         </dependency>
+        
+        <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+        
         <dependency>
 		    <groupId>org.apache.cxf</groupId>
 		    <artifactId>cxf-spring-boot-starter-jaxws</artifactId>

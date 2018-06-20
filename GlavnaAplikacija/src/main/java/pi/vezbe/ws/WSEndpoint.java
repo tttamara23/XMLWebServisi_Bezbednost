@@ -19,6 +19,7 @@ import pi.vezbe.model.Role;
 import pi.vezbe.model.Smestaj;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.service.KategorijaSmestajaService;
+import pi.vezbe.service.RoleService;
 import pi.vezbe.service.SmestajService;
 import pi.vezbe.service.TipSmestajaService;
 import pi.vezbe.service.UserService;
@@ -61,6 +62,9 @@ public class WSEndpoint {
 	@Autowired 
 	private UserService userService;
 	
+	@Autowired 
+	private RoleService roleService;
+	
 	@Autowired
 	private KategorijaSmestajaService kategorijaSmestajaService;
 	
@@ -77,7 +81,7 @@ public class WSEndpoint {
 	public LogInResponse logINRequest(@RequestPayload LogInRequest request) {
 		LogInResponse response = new LogInResponse();
 		Korisnik korisnik = userService.findByEmail(request.getUser().getEmail());
-		if(!korisnik.getRole().equals(Role.AGENT)) {
+		if(!korisnik.getRole().equals(roleService.findById(3L))) {
 			return null;		}
 		String enteredPassword = request.getUser().getPassword();
 		byte[] salt = korisnik.getSalt();

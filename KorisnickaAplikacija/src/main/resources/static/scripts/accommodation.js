@@ -194,29 +194,49 @@ function oceni(idSmestaja){
 			value=elements[i].value;
 		}
 	}
-	var url = "https://localhost:1234/ocena/oceniSmestaj/"+idSmestaja;
+	
+	
 	$.ajax({
 		async: false,
-		url: url,
-        type: "POST",
-        contentType:"text/plain",
-        data:value,
+		url: "https://localhost:1234/user/getLoggedIn",
+        type: "GET",
+        dataType:"json",
         crossDomain: true,
         xhrFields: {
             withCredentials: true
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
-        success: function () {
-        	var elements = document.getElementsByClassName('boxes');
-        	for(i=0;i<elements.length;i++){
-        		elements[i].checked=false;
-        	}
-        		toastr['success']('Rating successfull');
+        success: function (data) {
+        	var userId = data.id;
+        	var url2 = "http://localhost:8010/cloud-demo/us-central1/helloWorld?smestajID="+idSmestaja+"&userID="+userId+"&ocena="+value;
+        	//var url = "https://localhost:1234/ocena/oceniSmestaj/"+idSmestaja;
+        	$.ajax({
+        		//async: false,
+        		url: url2,
+                type: "GET",
+                crossDomain: true,
+                /*xhrFields: {
+                    withCredentials: true
+                 },
+                headers: {  'Access-Control-Allow-Origin': 'http://localhost:8010' },*/
+                success: function (data) {
+                	var elements = document.getElementsByClassName('boxes');
+                	for(i=0;i<elements.length;i++){
+                		elements[i].checked=false;
+                	}
+                		toastr['success']('Rating successfull');
+                },
+                error: function (jqxhr, textStatus, errorThrown) {
+                    alert('error');
+                }
+        	});
+        	
         },
         error: function (jqxhr, textStatus, errorThrown) {
             alert('error');
         }
 	});
+	
 	
 }
 function uncheckAll(id){

@@ -27,11 +27,9 @@ public class TipSmestaja {
 	
 	@XmlElement(required = true)
     protected String naziv;
-	
+
 	@OneToMany(mappedBy = "tipSmestaja", cascade = CascadeType.MERGE)
     protected List<Smestaj> smestajevi;
-	
-	
 	
 	public List<Smestaj> getSmestajevi() {
 		return smestajevi;

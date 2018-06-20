@@ -24,7 +24,7 @@ public class Chat {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToMany(cascade = { CascadeType.ALL })
+	@ManyToMany()
     @JoinTable(
         name = "Chat_Korisnik", 
         joinColumns = { @JoinColumn(name = "chat_id") }, 

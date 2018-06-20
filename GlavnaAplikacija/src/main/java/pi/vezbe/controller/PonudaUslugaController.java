@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.PonudaUslugaToPonudaUslugaDtoConverter;
 import pi.vezbe.model.PonudaUsluga;
 import pi.vezbe.service.PonudaUslugaService;
@@ -25,6 +26,7 @@ public class PonudaUslugaController {
 	@Autowired
 	private PonudaUslugaToPonudaUslugaDtoConverter ponudaUslugaToPonudaUslugaDtoConverter;
 	
+	@PermissionAnnotation(name = "GET_PONUDA_USLUGA")
 	@CrossOrigin
 	@RequestMapping(
             value = "getByPonuda/{idPonuda}",

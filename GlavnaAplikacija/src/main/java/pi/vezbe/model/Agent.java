@@ -54,11 +54,11 @@ public class Agent
     protected String poslovniMaticniBroj;
     
     public Agent() {
-    	this.setRole(Role.AGENT);
+    	
     }
 
-    public Agent(Long id, String ime, String prezime, String email, String lozinka, String kontakt, String poslovniMaticniBroj) {
-    	super(id, ime, prezime, email, lozinka, kontakt, Role.AGENT);
+    public Agent(Long id, String ime, String prezime, String email, String lozinka, String kontakt, String poslovniMaticniBroj, Role role) {
+    	super(id, ime, prezime, email, lozinka, kontakt, role);
 		this.poslovniMaticniBroj = poslovniMaticniBroj;
 	}
 

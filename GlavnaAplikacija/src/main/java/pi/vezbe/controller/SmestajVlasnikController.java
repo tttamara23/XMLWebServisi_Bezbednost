@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.AgentToAgentDTOConverter;
 import pi.vezbe.converters.SmestajToSmestajDtoConverter;
 import pi.vezbe.converters.SmestajVlasnikToSmestajVlasnikDTOConverter;
@@ -35,6 +36,7 @@ public class SmestajVlasnikController {
 	@Autowired
 	private SmestajVlasnikToSmestajVlasnikDTOConverter  smestajVlasnikToSmestajVlasnikDtoCOnverter;
 	
+	@PermissionAnnotation(name = "GET_VLASNIK_SMESTAJ")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getVlasnik/{idSmestaja}",

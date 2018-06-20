@@ -1,5 +1,7 @@
 package pi.vezbe.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.RezervacijaToRezervacijaDTO;
 import pi.vezbe.dto.ChangePasswordDTO;
 import pi.vezbe.dto.LoggedInUserDTO;
@@ -30,6 +33,7 @@ import pi.vezbe.model.Rezervacija;
 import pi.vezbe.model.Role;
 import pi.vezbe.service.EmailService;
 import pi.vezbe.service.RandomString;
+import pi.vezbe.service.RoleService;
 import pi.vezbe.service.SmestajService;
 import pi.vezbe.service.UserService;
 
@@ -45,6 +49,9 @@ public class UserController {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private RoleService roleService;
 	
 	
 	
@@ -89,13 +96,18 @@ public class UserController {
 			krajnjiKorisnik.setPrezime(registerDTO.getPrezime());
 			krajnjiKorisnik.setEmail(registerDTO.getEmail());
 			krajnjiKorisnik.setKontakt(registerDTO.getKontakt());
-			
+			krajnjiKorisnik.setRole(roleService.findById(1L));
 			//deo sa hesiranjem lozinke
 			
 			byte[] salt = userService.salt();
 			krajnjiKorisnik.setSalt(salt);
 			byte[] hashedPassword = userService.hashPassword(newPassword, salt);
-			krajnjiKorisnik.setLozinka(new String(hashedPassword));
+			String lozinkaUneta = "";
+			
+			for(int i=0; i<hashedPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashedPassword[i]));
+			}
+			krajnjiKorisnik.setLozinka(lozinkaUneta);
 			
 			krajnjiKorisnik.setBlokiran(false);
 			
@@ -131,17 +143,21 @@ public class UserController {
     public ResponseEntity<?> loginRegistered(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request) {
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.REGISTERED)) {
+			if(!korisnik.getRole().equals(roleService.findById(1L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
-			
 			String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
-			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
+			String lozinkaIzBaze = korisnik.getLozinka();
+			String lozinkaUneta = "";
+			
+			for(int i=0; i<hashForEnteredPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
+			}
+			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
-			//response.addCookie(request.getCookies()[0]);
 			userService.setCurrentUser(korisnik);
 		} catch(Exception e) {
 			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
@@ -157,13 +173,18 @@ public class UserController {
     public ResponseEntity<?> loginAdmin(@RequestBody LoginDTO loginDTO) {
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.ADMIN)) {
+			if(!korisnik.getRole().equals(roleService.findById(2L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
 			String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
-			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
+			String lozinkaIzBaze = korisnik.getLozinka();
+			String lozinkaUneta = "";
+			for(int i=0; i<hashForEnteredPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
+			}
+			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			userService.setCurrentUser(korisnik);
@@ -181,13 +202,18 @@ public class UserController {
     public ResponseEntity<?> loginAgent(@RequestBody LoginDTO loginDTO) {
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
-			if(!korisnik.getRole().equals(Role.AGENT)) {
+			if(!korisnik.getRole().equals(roleService.findById(3L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
 			String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
-			if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
+			String lozinkaIzBaze = korisnik.getLozinka();
+			String lozinkaUneta = "";
+			for(int i=0; i<hashForEnteredPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
+			}
+			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			userService.setCurrentUser(korisnik);
@@ -208,8 +234,11 @@ public class UserController {
 		String oldPassword = changePasswordDTO.getOldPassword();
 		byte[] salt = loggedIn.getSalt();
 		byte[] hashedOldPassword = userService.hashPassword(oldPassword, salt);
-		
-		if(!loggedIn.getLozinka().equals(new String(hashedOldPassword))) {
+		String lozinkaStara = "";
+		for(int i=0; i<hashedOldPassword.length; i++) {
+			lozinkaStara = lozinkaStara.concat(Byte.toString(hashedOldPassword[i]));
+		}
+		if(!loggedIn.getLozinka().equals(lozinkaStara)) {
 			return new ResponseEntity<>("Incorrect old password!", HttpStatus.BAD_REQUEST);
 		}
 		
@@ -223,7 +252,14 @@ public class UserController {
 			return new ResponseEntity<>("Passwords don't match!", HttpStatus.BAD_REQUEST);
 		}
 		
-		loggedIn.setLozinka(new String((userService.hashPassword(changePasswordDTO.getNewPassword(), loggedIn.getSalt()))));
+		String newPassword = changePasswordDTO.getNewPassword();
+		byte[] hashedNewPassword = userService.hashPassword(newPassword, salt);
+		String lozinkaNova = "";
+		for(int i=0; i<hashedNewPassword.length; i++) {
+			lozinkaNova = lozinkaNova.concat(Byte.toString(hashedNewPassword[i]));
+		}
+		
+		loggedIn.setLozinka(lozinkaNova);
 		userService.save(loggedIn);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -250,18 +286,18 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.MOVED_PERMANENTLY);
 		}
 		String role = "";
-		if(loggedIn.getRole().equals(Role.ADMIN)) {
+		if(loggedIn.getRole().getId().equals(2L)) {
 			role = "ADMIN";
-		} else if(loggedIn.getRole().equals(Role.AGENT)) {
+		} else if(loggedIn.getRole().getId().equals(3L)) {
 			role = "AGENT";
-		} else if(loggedIn.getRole().equals(Role.REGISTERED)) {
+		} else if(loggedIn.getRole().getId().equals(1L)) {
 			role = "REGISTERED";
 		}
-        return new ResponseEntity<>(new LoggedInUserDTO(loggedIn.getIme(), role), HttpStatus.OK);
+        return new ResponseEntity<>(new LoggedInUserDTO(loggedIn.getIme(), role, loggedIn.getId()), HttpStatus.OK);
     }
 	
+	@PermissionAnnotation(name = "GET_RESERVATIONS")
 	@CrossOrigin()
-	@PreAuthorize("isAuthenticated()")
     @RequestMapping(
             value = "/getReservations",
             method = RequestMethod.GET)
@@ -276,6 +312,7 @@ public class UserController {
         return new ResponseEntity<>(korisnickeRezervacijeDTO, HttpStatus.OK);
     }
 	
+	@PermissionAnnotation(name = "CHECK_RESERVATIONS")
 	@CrossOrigin()
 	@PreAuthorize("isAuthenticated()")
     @RequestMapping(
@@ -304,7 +341,13 @@ public class UserController {
 			k.setSalt(userService.salt());
 			String pass = k.getLozinka();
 			byte[] hashedPassword = userService.hashPassword(pass, k.getSalt());
-			String hashPass = new String(hashedPassword);
+			String hashPass="";
+			try {
+				hashPass = new String(hashedPassword,"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			k.setLozinka(hashPass);
 			Korisnik saved = userService.save(k);
 		
