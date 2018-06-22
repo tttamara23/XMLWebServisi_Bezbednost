@@ -111,9 +111,16 @@ input[type="file"] {
 						        		</select>
 					        		</div>
 					        		
+					        		<div >
+						        		<label class="searchLabel">Kategorija smestaja</label>
+						        		<select id="selectKategorijaSmestaja">
+						        			
+						        		</select>
+					        		</div>
+					        		
 					        		<div class="field" align="left">
  									 	<h3>Upload your images</h3>
- 										<input type="file" id="files" name="files[]" multiple />
+ 										<input type="text" id="files" name="files[]" multiple />
 									</div>
 					        		
 				        		
@@ -185,7 +192,7 @@ input[type="file"] {
 	          <button type="button" class="close" data-dismiss="modal">&times;</button>
 	          <h4 class="modal-title">Poruke</h4>
 	        </div>
-	        <div class="modal-body" id="modalBody">
+	        <div class="modal-body" id="modalBodyChat">
 	          
 	        </div>
 	        <div class="modal-footer">
@@ -340,6 +347,34 @@ $(document).ready(function() {
 	        		option.text = data[i].naziv;
 	        		option.value = data[i].naziv;
 	        		var select = document.getElementById("selectTipSmestaja");
+	        		select.appendChild(option);
+	        	}
+	        	
+	        	
+	        },
+	        error: function (jqxhr, textStatus, errorThrown) {
+	        	
+	                alert("kanales");
+	            
+	        }
+	    });	
+		$.ajax({
+			async: false,
+			url: "http://localhost:4321/agent/ucitajKategorijaSmestaja",
+	        type: "GET",
+	        dataType: "json",
+	        crossDomain: true,
+	        xhrFields: {
+	            withCredentials: true
+	         },
+	        headers: {  'Access-Control-Allow-Origin': '*' },
+	        success: function (data) {
+	        	var i;
+	        	for(i=0;i<data.length;i++){
+	        		var option = document.createElement("option");
+	        		option.text = data[i].kategorija;
+	        		option.value = data[i].kategorija;
+	        		var select = document.getElementById("selectKategorijaSmestaja");
 	        		select.appendChild(option);
 	        	}
 	        	

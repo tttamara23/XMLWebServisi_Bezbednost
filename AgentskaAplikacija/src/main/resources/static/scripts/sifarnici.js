@@ -193,6 +193,7 @@ function potvrdiZauzimanjeTermina(idTermina){
         	        success: function (data) {
         	        	if(data!=null){
         	        		$("#inputBrojSobaZauzmi").val("");
+        	        		toastr["success"]('Uspesno!');
         	        	}
         	        	
 
@@ -281,7 +282,7 @@ function potvrdiRezervaciju(id){
         success: function (data) {
         	if(data==true){
 	        	$("#tableReservations").find("tr:gt(0)").remove();
-	        	
+	        	toastr["success"]('Uspesno!');
 	        	reservations();
         	}else{
         		alert("bozmeg");
@@ -297,6 +298,7 @@ function potvrdiRezervaciju(id){
 
 function dodajSmestajnuJedinicu(){
 	tipSmestaja = $('#selectTipSmestaja').val();
+	kategorijaSmestaja = $('#selectKategorijaSmestaja').val();
 	opisSmestaja = $('#inputOpis').val();
 	lokacijaSmestaja = $('#inputLokacija').val();
 	nazivSmestaja = $('#inputNazivSmestaja').val();
@@ -306,13 +308,14 @@ function dodajSmestajnuJedinicu(){
 		return;
 	}
 	
-	//var oznaceneUsluge = getSelectedChbox();
+	var oznaceneUsluge = getSelectedChbox();
 	var data = JSON.stringify({
 		"naziv": nazivSmestaja,
 		"tip" : tipSmestaja,
 		"lokacija": lokacijaSmestaja,
-		"opis" : opisSmestaja
-		//"usluge" : oznaceneUsluge
+		"opis" : opisSmestaja,
+		"usluge" : oznaceneUsluge,
+		"kategorija": kategorijaSmestaja
 		
 	});
     $.ajax({
@@ -327,6 +330,7 @@ function dodajSmestajnuJedinicu(){
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
+        	toastr["success"]('Uspesno!');
         	$('#inputOpis').val("");
              location.reload();
         }, error: function (jqxhr, textStatus, errorThrown) {
@@ -400,7 +404,7 @@ function chats() {
 }
 
 function pregledajChat(id){
-	
+	$("#modalBodyChat").html("");
 	$.ajax({
     	url: "http://localhost:4321/agent/getPorukeIzChata",
         type: "POST",
@@ -426,8 +430,8 @@ function pregledajChat(id){
         		divZaPoruku.append(pSadrzaj);
         		var button = document.getElementById("posaljiPoruku");
             	button.setAttribute("onclick","return posaljiPoruku('"+ id +"')");
-        		$("#modalBody").append(divZaPoruku);
-        		$("#modalBody").append(br);
+        		$("#modalBodyChat").append(divZaPoruku);
+        		$("#modalBodyChat").append(br);
         		
         	}
                    
@@ -457,7 +461,8 @@ function posaljiPoruku(id){
             withCredentials: true
          },
         success: function (data) {
-        	$("#modalBody").html("");
+        	toastr["success"]('Poruka poslata!');
+        	$("#modalBodyChat").html("");
         	document.getElementById("sadrzajPoruke").value = "";
         	pregledajChat(id);
                    

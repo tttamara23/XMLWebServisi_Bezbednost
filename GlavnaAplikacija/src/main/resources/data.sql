@@ -172,7 +172,6 @@ insert into Dodatne_Usluge(id,naziv) values (4, 'internet');
 insert into Rezervacija(realizovano,datum_rezervacije,id_ponuda,id_korisnika) values (true,'2018-01-29 21:00:00',1,2);
 
 insert into Smestaj_Vlasnik(id_smestaj,id_agent) values (1,3);
-insert into Smestaj_Vlasnik(id_smestaj,id_agent) values (1,4);
 
 insert into chat () values ();
 insert into chat () values ();

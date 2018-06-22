@@ -150,7 +150,6 @@ public class Smestaj {
     @XmlElement(required = true)
     protected String naziv;
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     protected Long id;
     
     @ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.ALL})

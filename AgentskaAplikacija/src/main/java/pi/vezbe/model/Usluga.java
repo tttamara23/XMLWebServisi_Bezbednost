@@ -52,7 +52,6 @@ import javax.xml.bind.annotation.XmlType;
 public class Usluga {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
     protected Long id;
     @XmlElement(required = true)
     protected String naziv;

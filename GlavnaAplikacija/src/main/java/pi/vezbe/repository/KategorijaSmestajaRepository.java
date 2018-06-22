@@ -9,4 +9,5 @@ import pi.vezbe.model.KategorijaSmestaja;
 public interface KategorijaSmestajaRepository extends JpaRepository<KategorijaSmestaja, Long> {
 	public List<KategorijaSmestaja> findAll();
 	public KategorijaSmestaja findById(Long id);
+	public KategorijaSmestaja findByKategorija(String kategorija);
 }

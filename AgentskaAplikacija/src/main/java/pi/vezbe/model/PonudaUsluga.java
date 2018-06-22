@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 public class PonudaUsluga {
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

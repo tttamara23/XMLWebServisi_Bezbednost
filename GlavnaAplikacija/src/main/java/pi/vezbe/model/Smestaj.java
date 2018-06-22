@@ -178,7 +178,7 @@ public class Smestaj {
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
     protected List<Slika> slika;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.MERGE})
     @JoinColumn(name = "id_kategorija_smestaja")
 	private KategorijaSmestaja kategorijaSmestaja;
     

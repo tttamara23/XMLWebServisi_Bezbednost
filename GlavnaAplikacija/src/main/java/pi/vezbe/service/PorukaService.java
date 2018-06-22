@@ -29,5 +29,7 @@ public class PorukaService {
 	public List<Poruka> seen(Long idChat, Long idKorisnik) {
 		return porukaRepository.findByChatIdAndPosiljalacIdNotAndSeen(idChat, idKorisnik, false);
 	}
-	
+	public List<Poruka> findAll(){
+		return porukaRepository.findAll();
+	}
 }

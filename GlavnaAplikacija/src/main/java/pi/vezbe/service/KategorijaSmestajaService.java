@@ -29,4 +29,7 @@ public class KategorijaSmestajaService {
 	public void delete(KategorijaSmestaja zaBrisanje) {
 		kategorijaSmestajaRepository.delete(zaBrisanje);
 	}
+	public KategorijaSmestaja findByKategorija(String kategorija){
+		return kategorijaSmestajaRepository.findByKategorija(kategorija);
+	}
 }

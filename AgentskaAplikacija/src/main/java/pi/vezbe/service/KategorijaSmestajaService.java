@@ -25,4 +25,7 @@ public class KategorijaSmestajaService {
 	public KategorijaSmestaja save(KategorijaSmestaja katS) {
 		return kategorijaSmestajaRepository.save(katS);
 	}
+	public KategorijaSmestaja findByKategorija(String kategorija){
+		return kategorijaSmestajaRepository.findByKategorija(kategorija);
+	}
 }

@@ -129,7 +129,7 @@
                     <generatePackage>glavna.wsdl</generatePackage>
                     <schemas>
                         <schema>
-                            <url>http://localhost:1234/ws/glavna.wsdl</url>
+                            <url>https://localhost:1234/ws/glavna.wsdl</url>
                         </schema>
                     </schemas>
                 </configuration>

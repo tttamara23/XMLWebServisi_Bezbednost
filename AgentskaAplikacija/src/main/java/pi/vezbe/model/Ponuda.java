@@ -80,7 +80,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     public class Ponuda {
     	
     	@Id
-    	@GeneratedValue(strategy=GenerationType.AUTO)
+    	
         protected Long id;
     	
         @XmlElement(required = true)

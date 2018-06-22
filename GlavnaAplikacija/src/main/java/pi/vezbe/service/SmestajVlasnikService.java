@@ -19,4 +19,13 @@ public class SmestajVlasnikService {
 		return smestajVlasnikRepository.findBySmestajId(idSmestaja);
 	}
 	
+	public List<SmestajVlasnik> findAll() {
+		// TODO Auto-generated method stub
+		return smestajVlasnikRepository.findAll();
+	}
+	
+	public SmestajVlasnik save(SmestajVlasnik toSave){
+		return smestajVlasnikRepository.save(toSave);
+	}
+	
 }

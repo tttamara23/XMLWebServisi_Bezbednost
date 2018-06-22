@@ -18,4 +18,8 @@ public class PonudaUslugaService {
 		return ponudaUslugaRepository.getByPonudaId(ponudaId);
 	}
 	
+	public void save(PonudaUsluga pon){
+		ponudaUslugaRepository.save(pon);
+	}
+	
 }

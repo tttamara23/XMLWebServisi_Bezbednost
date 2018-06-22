@@ -18,4 +18,8 @@ public class PonudaUslugaService {
 		return ponudaUslugaRepository.getByPonudaId(ponudaId);
 	}
 	
+	public List<PonudaUsluga> getAll(){
+		return ponudaUslugaRepository.findAll();
+	}
+	
 }

@@ -103,7 +103,7 @@ import javax.xml.bind.annotation.XmlType;
 public abstract class Korisnik {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
     protected Long id;
     @XmlElement(required = true)
     protected String ime;
