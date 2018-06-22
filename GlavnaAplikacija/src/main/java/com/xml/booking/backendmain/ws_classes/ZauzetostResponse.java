@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="zauzetost" type="{http://booking.xml.com/backendmain/ws-classes}zauzetostXML"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "name"
+    "zauzetost"
 })
-@XmlRootElement(name = "testResponse")
-public class TestResponse {
+@XmlRootElement(name = "zauzetostResponse")
+public class ZauzetostResponse {
 
     @XmlElement(required = true)
-    protected String name;
+    protected ZauzetostXML zauzetost;
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the zauzetost property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link ZauzetostXML }
      *     
      */
-    public String getName() {
-        return name;
+    public ZauzetostXML getZauzetost() {
+        return zauzetost;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the zauzetost property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link ZauzetostXML }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setZauzetost(ZauzetostXML value) {
+        this.zauzetost = value;
     }
 
 }

@@ -1,5 +1,7 @@
 package pi.vezbe.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,10 @@ public class AgentService {
 
 	public Agent save(Agent agent) {
 		return agentRepository.save(agent);
+	}
+	
+	public List<Agent> getAll(){
+		return agentRepository.findAll();
 	}
 
 }

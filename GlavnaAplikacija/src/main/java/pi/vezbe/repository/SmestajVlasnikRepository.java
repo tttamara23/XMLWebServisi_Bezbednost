@@ -9,5 +9,5 @@ import pi.vezbe.model.SmestajVlasnik;
 public interface SmestajVlasnikRepository  extends JpaRepository<SmestajVlasnik, Long>{
 
 	List<SmestajVlasnik> findBySmestajId(Long idSmestaja);
-
+	List<SmestajVlasnik> findAll();
 }

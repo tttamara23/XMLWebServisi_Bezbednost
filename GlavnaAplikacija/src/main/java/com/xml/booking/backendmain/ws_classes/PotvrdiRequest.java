@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="id" type="{http://booking.xml.com/backendmain/ws-classes}rezXML"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "name"
+    "id"
 })
-@XmlRootElement(name = "testResponse")
-public class TestResponse {
+@XmlRootElement(name = "potvrdiRequest")
+public class PotvrdiRequest {
 
     @XmlElement(required = true)
-    protected String name;
+    protected RezXML id;
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the id property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link RezXML }
      *     
      */
-    public String getName() {
-        return name;
+    public RezXML getId() {
+        return id;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the id property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link RezXML }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setId(RezXML value) {
+        this.id = value;
     }
 
 }

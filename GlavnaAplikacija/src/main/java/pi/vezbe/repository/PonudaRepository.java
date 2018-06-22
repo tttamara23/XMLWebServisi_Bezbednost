@@ -14,6 +14,8 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 	
 	List<Ponuda> findByDatumOdGreaterThanAndSmestajIdOrderByDatumOdAsc(Date start,Long idSmestaj);
 	
+	List<Ponuda> findAll();
+	
 	/*@Query(value="SELECT pnd FROM Ponuda "
 			+ "JOIN Smestaj ON Ponuda.id_smestaj=Smestaj.id "
 			+ "JOIN TipSmestaja ON Smestaj.id_tip_smestaja=TipSmestaja.id "

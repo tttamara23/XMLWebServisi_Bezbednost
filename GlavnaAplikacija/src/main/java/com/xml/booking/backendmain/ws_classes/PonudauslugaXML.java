@@ -10,22 +10,22 @@ package com.xml.booking.backendmain.ws_classes;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for kategorijaSmestajaXML complex type.
+ * <p>Java class for ponudauslugaXML complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="kategorijaSmestajaXML">
+ * &lt;complexType name="ponudauslugaXML">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="kategorija" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="ponudaid" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="uslugaid" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,15 +35,16 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "kategorijaSmestajaXML", propOrder = {
+@XmlType(name = "ponudauslugaXML", propOrder = {
     "id",
-    "kategorija"
+    "ponudaid",
+    "uslugaid"
 })
-public class KategorijaSmestajaXML {
+public class PonudauslugaXML {
 
     protected long id;
-    @XmlElement(required = true)
-    protected String kategorija;
+    protected long ponudaid;
+    protected long uslugaid;
 
     /**
      * Gets the value of the id property.
@@ -62,27 +63,35 @@ public class KategorijaSmestajaXML {
     }
 
     /**
-     * Gets the value of the kategorija property.
+     * Gets the value of the ponudaid property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getKategorija() {
-        return kategorija;
+    public long getPonudaid() {
+        return ponudaid;
     }
 
     /**
-     * Sets the value of the kategorija property.
+     * Sets the value of the ponudaid property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setKategorija(String value) {
-        this.kategorija = value;
+    public void setPonudaid(long value) {
+        this.ponudaid = value;
+    }
+
+    /**
+     * Gets the value of the uslugaid property.
+     * 
+     */
+    public long getUslugaid() {
+        return uslugaid;
+    }
+
+    /**
+     * Sets the value of the uslugaid property.
+     * 
+     */
+    public void setUslugaid(long value) {
+        this.uslugaid = value;
     }
 
 }

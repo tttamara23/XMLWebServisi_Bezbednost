@@ -9,6 +9,56 @@
         </xs:complexType>
 </xs:element>
 
+<xs:element name="korisnikRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="korisnik" type="tns:korisnikXML"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+
+<xs:element name="korisnikResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="korisnik" type="tns:korisnikXML"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<xs:element name="ponudaRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ponuda" type="tns:ponudaXML"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<xs:element name="ponudaResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ponuda" type="tns:ponudaXML"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<xs:element name="potvrdiRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="tns:rezXML"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<xs:element name="potvrdiResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="tns:rezXML"/>
+                
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
 <xs:element name="smestajRequest">
         <xs:complexType>
             <xs:sequence>
@@ -33,7 +83,6 @@
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
-<!--TEST-->
 
 <xs:element name="getDBRequest">
     <xs:complexType>
@@ -43,25 +92,42 @@
     </xs:complexType>
 </xs:element>
 
-<xs:simpleType name="DBRequestType">
-    <xs:restriction base="xs:string">
-        <xs:enumeration value="TIP"/>
-        <xs:enumeration value="KATEGORIJA"/>
-       
-    </xs:restriction>
-</xs:simpleType>
 
 <xs:element name="getDBResponse">
         <xs:complexType>
             <xs:sequence>
                  <xs:element name="tipoviSmestaja" type="tns:tipSmestajaXML" maxOccurs="unbounded" minOccurs="0"/>
             	<xs:element name="kategorijaSmestaja" type="tns:kategorijaSmestajaXML" maxOccurs="unbounded" minOccurs="0"/>
+          		<xs:element name="korisnici" type="tns:korisnikXML" maxOccurs="unbounded" minOccurs="0"/>
+           		<xs:element name="smestajevi" type="tns:accommodationXML" maxOccurs="unbounded" minOccurs="0"/>
+           		<xs:element name="ponude" type="tns:ponudaXML" maxOccurs="unbounded" minOccurs="0"/>
+            	<xs:element name="usluge" type="tns:uslugaXML" maxOccurs="unbounded" minOccurs="0"/>
+          		<xs:element name="ponudeusluge" type="tns:ponudauslugaXML" maxOccurs="unbounded" minOccurs="0"/>
+          		<xs:element name="poruke" type="tns:porukaXML" maxOccurs="unbounded" minOccurs="0"/>
+          		<xs:element name="chatovi" type="tns:chatXML" maxOccurs="unbounded" minOccurs="0"/>
+          		<xs:element name="chatKorisnikList" type="tns:chatKorisnikXML" maxOccurs="unbounded" minOccurs="0"/>
+          		<xs:element name="rezervacije" type="tns:rezervacijaXML" maxOccurs="unbounded" minOccurs="0"/>
+          		<xs:element name="smestajVlasnikList" type="tns:smestajVlasnikXML" maxOccurs="unbounded" minOccurs="0"/>
           
             </xs:sequence>
         </xs:complexType>
 </xs:element>
 
+<xs:element name="zauzetostRequest">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="zauzetost" type="tns:zauzetostXML"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
 
+<xs:element name="zauzetostResponse">
+    <xs:complexType>
+        <xs:sequence>
+             <xs:element name="zauzetost" type="tns:zauzetostXML"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
 
 <xs:element name="logInRequest">
     <xs:complexType>
@@ -78,11 +144,33 @@
         </xs:sequence>
     </xs:complexType>
 </xs:element>
+<xs:element name="porukaRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="poruka" type="tns:porukaXML"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
 
+<xs:element name="porukaResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="poruka" type="tns:porukaXML"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+
+<!-- ENTITETI -->
 <xs:complexType name="userXML">
     <xs:sequence>
         <xs:element name="email" type="xs:string"/>
         <xs:element name="password" type="xs:string"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rezXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>        
     </xs:sequence>
 </xs:complexType>
  
@@ -91,11 +179,32 @@
         <xs:element name="id" type="xs:long"/>
         <xs:element name="naziv" type="xs:string"/>
         <xs:element name="tipSmestaja" type="tns:tipSmestajaXML"/>
-      	
         <xs:element name="lokacija" type="xs:string"/>
         <xs:element name="opis" type="xs:string"/>
+        <xs:element name="usluge" type="xs:long" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element name="kategorijaSmestaja" type="xs:string"/> 
+        <xs:element name="slike" type="tns:slikaXML" maxOccurs="unbounded" minOccurs="0"/>
     </xs:sequence>
 </xs:complexType>
+
+<xs:complexType name="korisnikXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="ime" type="xs:string"/>
+        <xs:element name="prezime" type="xs:string"/>
+        <xs:element name="email" type="xs:string"/>
+        <xs:element name="kontakt" type="xs:string"/>
+        <xs:element name="idrole" type="xs:long"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="slikaXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="url" type="xs:string"/>
+    </xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="tipSmestajaXML">
     <xs:sequence>
         <xs:element name="id" type="xs:long"/>
@@ -103,20 +212,96 @@
     </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="zauzetostXML">
+    <xs:sequence>
+        <xs:element name="idPonude" type="xs:long"/>
+        <xs:element name="brojSoba" type="xs:int"/>
+    </xs:sequence>
+</xs:complexType>
+
+
 <xs:complexType name="kategorijaSmestajaXML">
     <xs:sequence>
         <xs:element name="id" type="xs:long"/>
         <xs:element name="kategorija" type="xs:string"/>
     </xs:sequence>
 </xs:complexType>
-<!-- 
+
 <xs:complexType name="ponudaXML">
     <xs:sequence>
         <xs:element name="id" type="xs:long"/>
         <xs:element name="brojLezaja" type="xs:int"/>
     	<xs:element name="brojSlobodnihPonuda" type="xs:int"/>
+    	<xs:element name="datumOd" type="xs:string"/>
+    	<xs:element name="datumDo" type="xs:string"/>
+    	<xs:element name="cena" type="xs:double"/>
+    	<xs:element name="smestajId" type="xs:long"/>
     </xs:sequence>
 </xs:complexType>
- -->
 
+<xs:complexType name="uslugaXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="naziv" type="xs:string"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ponudauslugaXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="ponudaid" type="xs:long"/>
+        <xs:element name="uslugaid" type="xs:long"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="porukaXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+        <xs:element name="sadrzaj" type="xs:string"/>
+        <xs:element name="datumSlanja" type="xs:string"/>
+        <xs:element name="idChata" type="xs:long"/>
+        <xs:element name="idPosiljaoca" type="xs:long"/>
+        <xs:element name="seen" type="xs:boolean"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="chatXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="chatKorisnikXML">
+    <xs:sequence>
+        <xs:element name="idChata" type="xs:long"/>
+        <xs:element name="idKorisnika" type="xs:long"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rezervacijaXML">
+    <xs:sequence>
+        <xs:element name="id" type="xs:long"/>    
+        <xs:element name="realizovana" type="xs:boolean"/>
+        <xs:element name="datumRezervacije" type="xs:string"/>
+        <xs:element name="idPonude" type="xs:long"/>
+        <xs:element name="idKorisnika" type="xs:long"/>    
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="smestajVlasnikXML">
+    <xs:sequence>
+    	<xs:element name="id" type="xs:long"/>
+        <xs:element name="idSmestaja" type="xs:long"/>
+        <xs:element name="idVlasnika" type="xs:long"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="DBRequestType">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="TIP"/>
+        <xs:enumeration value="KATEGORIJA"/>
+       
+    </xs:restriction>
+</xs:simpleType>
+ 
 </xs:schema>

@@ -113,7 +113,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
          * Gets the value of the id property.
          * 
          */
-        public long getId() {
+        public Long getId() {
             return id;
         }
 
@@ -121,7 +121,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
          * Sets the value of the id property.
          * 
          */
-        public void setId(long value) {
+        public void setId(Long value) {
             this.id = value;
         }
 
@@ -269,8 +269,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 			this.ponudaUsluga = ponudaUsluga;
 		}
 
-		public void setId(Long id) {
-			this.id = id;
-		}
+		
 
     }

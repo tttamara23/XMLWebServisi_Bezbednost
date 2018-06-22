@@ -9,5 +9,7 @@ import pi.vezbe.model.PonudaUsluga;
 public interface PonudaUslugaRepository extends JpaRepository<PonudaUsluga, Long> {
 	
 	public List<PonudaUsluga> getByPonudaId(Long ponudaId);
+	
+	public List<PonudaUsluga> findAll();
 
 }

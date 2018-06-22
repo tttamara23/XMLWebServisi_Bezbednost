@@ -29,7 +29,7 @@ public class KategorijaSmestaja {
 	@XmlElement(required = true)
     protected String kategorija;
 	
-	@OneToMany(mappedBy = "kategorijaSmestaja", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "kategorijaSmestaja", cascade = CascadeType.MERGE)
     protected List<Smestaj> smestaji;
 
 	public Long getId() {

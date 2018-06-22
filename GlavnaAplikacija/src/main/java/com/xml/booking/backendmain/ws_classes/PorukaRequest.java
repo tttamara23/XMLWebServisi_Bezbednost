@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="poruka" type="{http://booking.xml.com/backendmain/ws-classes}porukaXML"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "name"
+    "poruka"
 })
-@XmlRootElement(name = "testResponse")
-public class TestResponse {
+@XmlRootElement(name = "porukaRequest")
+public class PorukaRequest {
 
     @XmlElement(required = true)
-    protected String name;
+    protected PorukaXML poruka;
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the poruka property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link PorukaXML }
      *     
      */
-    public String getName() {
-        return name;
+    public PorukaXML getPoruka() {
+        return poruka;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the poruka property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link PorukaXML }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setPoruka(PorukaXML value) {
+        this.poruka = value;
     }
 
 }

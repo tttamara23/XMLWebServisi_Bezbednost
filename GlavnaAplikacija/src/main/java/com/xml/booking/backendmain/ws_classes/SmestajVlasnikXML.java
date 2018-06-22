@@ -10,22 +10,22 @@ package com.xml.booking.backendmain.ws_classes;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for kategorijaSmestajaXML complex type.
+ * <p>Java class for smestajVlasnikXML complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="kategorijaSmestajaXML">
+ * &lt;complexType name="smestajVlasnikXML">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="kategorija" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="idSmestaja" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="idVlasnika" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,15 +35,16 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "kategorijaSmestajaXML", propOrder = {
+@XmlType(name = "smestajVlasnikXML", propOrder = {
     "id",
-    "kategorija"
+    "idSmestaja",
+    "idVlasnika"
 })
-public class KategorijaSmestajaXML {
+public class SmestajVlasnikXML {
 
     protected long id;
-    @XmlElement(required = true)
-    protected String kategorija;
+    protected long idSmestaja;
+    protected long idVlasnika;
 
     /**
      * Gets the value of the id property.
@@ -62,27 +63,35 @@ public class KategorijaSmestajaXML {
     }
 
     /**
-     * Gets the value of the kategorija property.
+     * Gets the value of the idSmestaja property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getKategorija() {
-        return kategorija;
+    public long getIdSmestaja() {
+        return idSmestaja;
     }
 
     /**
-     * Sets the value of the kategorija property.
+     * Sets the value of the idSmestaja property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setKategorija(String value) {
-        this.kategorija = value;
+    public void setIdSmestaja(long value) {
+        this.idSmestaja = value;
+    }
+
+    /**
+     * Gets the value of the idVlasnika property.
+     * 
+     */
+    public long getIdVlasnika() {
+        return idVlasnika;
+    }
+
+    /**
+     * Sets the value of the idVlasnika property.
+     * 
+     */
+    public void setIdVlasnika(long value) {
+        this.idVlasnika = value;
     }
 
 }

@@ -34,6 +34,9 @@ public class PonudaService {
 		return ponudaRepository.save(ponuda);
 	}
 	
+	public List<Ponuda> getAll(){
+		return ponudaRepository.findAll();
+	}
 	
 	public List<Ponuda> searchAdvancedOrderByCena(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> usluge) {
 		return ponudaRepository.findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotInOrderByCena(dateFrom, dateTo, naziv, brojLezaja, tip, idKategorija, usluge);

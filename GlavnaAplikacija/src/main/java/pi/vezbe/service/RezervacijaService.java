@@ -32,6 +32,8 @@ public class RezervacijaService {
 	public List<Rezervacija> findBySmestajAndKorisnikAndRealizovano(Long smestajId, Long korisnikId, boolean realizovano) {
 		return rezervacijeRepository.findByPonudaSmestajIdAndKorisnikIdAndRealizovano(smestajId, korisnikId, realizovano);
 	}
-
+	public List<Rezervacija> findAll(){
+		return rezervacijeRepository.findAll();
+	}
 	
 }
