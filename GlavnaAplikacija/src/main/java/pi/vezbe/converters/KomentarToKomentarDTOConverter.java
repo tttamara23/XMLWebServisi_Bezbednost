@@ -23,7 +23,9 @@ public class KomentarToKomentarDTOConverter implements Converter<Komentar, Komen
 		}
 		KomentarDTO komentarDTO = new KomentarDTO();
 		komentarDTO.setId(source.getId());
-		komentarDTO.setDatumKomentara(source.getDatumKomentara().toString());
+		if(source.getDatumKomentara() != null) {
+			komentarDTO.setDatumKomentara(source.getDatumKomentara().toString());
+		}
 		komentarDTO.setOpis(source.getOpis());
 		komentarDTO.setImeAutora(source.getAutor().getIme());
 		komentarDTO.setPrezimeAutora(source.getAutor().getPrezime());

@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.Validator;
@@ -36,6 +37,10 @@ import pi.vezbe.annotations.PermissionInterceptor;
 @EnableJpaRepositories
 public class Vezbe1Application extends SpringBootServletInitializer implements WebMvcConfigurer {
 	
+	@Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 	
 	@Bean
 	public PermissionInterceptor permissionInterceptor() {

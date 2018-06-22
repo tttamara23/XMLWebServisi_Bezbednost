@@ -119,6 +119,7 @@ function ucitajSmestaj(idSmestaja){
 		                	$('#opisSmestaja').empty();
 		                	$('#tipSmestaja').empty();
 		                	$('#ocenaSmestaja').empty();
+		                	$('#ratingSmestaja').empty();
 		                	
 					                	if(dataRejting == true){
 					                		divOcena = "<h4>Please rate "+data.naziv+":</h4>"

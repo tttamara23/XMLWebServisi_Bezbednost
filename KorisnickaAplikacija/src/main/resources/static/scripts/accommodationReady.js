@@ -56,7 +56,7 @@ $(document).ready(function () {
                 		if(data) {
                 			addCom = "<div class=\"row textTag\" style=\"padding-left:2%;padding-bottom:8%;width:50%;\">"
                 				+ "<label class=\"searchLabel\">Add New Comment</label>"
-                				+ "<textarea placeholder=\"Type your comment here\" class=\"form-control\" rows=\"3\" id=\"sadrzajNovogKomentara\"></textarea>"
+                				+ "<textarea placeholder=\"Type your comment here\" class=\"form-control\" rows=\"3\" id=\"sadrzajNovogKomentara\" name=\"sadrzajKom\"></textarea>"
                 				+ "<br><button onclick=\"ostaviKomentar("+idSmestaja+")\" style=\"margin-right:1%;\" class=\"btn btn-light buttonSearch\">Submit</button>"
                 				+ "</div>";
                 			$('#newCommentDiv').append(addCom);
@@ -126,6 +126,26 @@ $(document).ready(function () {
             
         }
     });
+	
+	var url = "http://localhost:8010/cloud-demo/us-central1/findRating?smestajID="+idSmestaja;
+	//var url = "https://localhost:1234/ocena/oceniSmestaj/"+idSmestaja;
+	$.ajax({
+		//async: false,
+		url: url,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        /*xhrFields: {
+            withCredentials: true
+         },
+        headers: {  'Access-Control-Allow-Origin': 'http://localhost:8010' },*/
+        success: function (data) {
+        	$('#ratingSmestaja').append("<h4>Rating: </h4>"+data[0].rating);
+        },
+        error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+	});
 	
 			
 })
