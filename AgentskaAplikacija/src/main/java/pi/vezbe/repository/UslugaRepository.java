@@ -6,5 +6,6 @@ import pi.vezbe.model.Usluga;
 
 public interface UslugaRepository extends JpaRepository<Usluga, Long>{
 	
+	public Usluga findById(Long id);
 	
 }

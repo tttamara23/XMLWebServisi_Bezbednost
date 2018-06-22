@@ -12,8 +12,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import pi.vezbe.model.Agent;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
+import pi.vezbe.repository.AgentRepository;
 import pi.vezbe.repository.KorisnikRepository;
 import pi.vezbe.repository.KrajnjiKorisnikRepository;
 
@@ -22,6 +24,10 @@ public class UserService {
 	
 	@Autowired
 	private KorisnikRepository korisnikRepository;
+	
+	@Autowired
+	private AgentRepository agentRepository;
+
 
 	@Autowired
 	private KrajnjiKorisnikRepository krajnjiKorisnikRepository;
@@ -35,6 +41,13 @@ public class UserService {
 	public Korisnik save(Korisnik korisnik) {
 		return korisnikRepository.save(korisnik);
 	}
+	public KrajnjiKorisnik findKrajnjiKorisnikById(Long id) {
+		return krajnjiKorisnikRepository.findOne(id);
+	}
+	
+	public Agent findAgentById(Long id){
+		return agentRepository.findOne(id);
+	}
 	
 	public KrajnjiKorisnik save(KrajnjiKorisnik korisnik) {
 		return krajnjiKorisnikRepository.save(korisnik);
@@ -46,7 +59,7 @@ public class UserService {
 	
 	public void setCurrentUser(Korisnik user) {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+       // authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
         Authentication authentication = new PreAuthenticatedAuthenticationToken(user.getId(), null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

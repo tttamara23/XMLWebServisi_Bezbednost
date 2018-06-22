@@ -1,9 +1,14 @@
 package pi.vezbe.controller;
 
 import glavna.wsdl.AccommodationXML;
+import glavna.wsdl.PonudaResponse;
+import glavna.wsdl.PorukaResponse;
 import glavna.wsdl.SmestajResponse;
+import glavna.wsdl.TestResponse;
+import glavna.wsdl.ZauzetostResponse;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,8 +43,9 @@ import pi.vezbe.dto.RezervacijaDTO;
 import pi.vezbe.dto.SmestajDTO;
 import pi.vezbe.dto.UslugaDTO;
 import pi.vezbe.dto.ZauzimanjeTerminaDTO;
-import pi.vezbe.model.Agent;
 import pi.vezbe.model.Chat;
+import pi.vezbe.model.KategorijaSmestaja;
+import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.Ponuda;
 import pi.vezbe.model.Poruka;
 import pi.vezbe.model.Rezervacija;
@@ -50,6 +56,7 @@ import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
 import pi.vezbe.service.ChatService;
 import pi.vezbe.service.DodatneUslugeService;
+import pi.vezbe.service.KategorijaSmestajaService;
 import pi.vezbe.service.PonudaService;
 import pi.vezbe.service.PorukaService;
 import pi.vezbe.service.RezervacijaService;
@@ -82,6 +89,9 @@ public class AgentController {
 	
 	@Autowired 
 	private TipSmestajaService tipSmestajaService;
+	
+	@Autowired
+	private KategorijaSmestajaService kategorijaSmestajaService;
 	
 	@Autowired 
 	private AgentService agentService;
@@ -141,8 +151,8 @@ public class AgentController {
 		//Smestaj toSave = smestajDtoToSmestajConverter.convert(smestajDTO);
 		ArrayList<Smestaj> smestajevi = (ArrayList<Smestaj>) smestajService.getAll();
 		//OVDEEE NAMESTI ULOGOVANOG
-		long userId = 3L;
-		ArrayList<SmestajVlasnik> vlasniciSmestaja = (ArrayList<SmestajVlasnik>) smestajVlasnikService.findByIdVlasnikId(userId);
+		Korisnik ulogovani = userService.getCurrentUser();
+		ArrayList<SmestajVlasnik> vlasniciSmestaja = (ArrayList<SmestajVlasnik>) smestajVlasnikService.findByIdVlasnikId(ulogovani.getId());
 		for(int i = smestajevi.size()-1; i >= 0; i--){
 			int nema = 0; 
 			for(int j=0; j< vlasniciSmestaja.size(); j++){
@@ -163,12 +173,28 @@ public class AgentController {
             value = "dodajTermin",
             method = RequestMethod.POST
     )
-    public ResponseEntity<?> dodajTermin(@RequestBody PonudaDTO ponuda) throws IOException {
+    public ResponseEntity<?> dodajTermin(@RequestBody PonudaDTO ponuda) throws IOException, ParseException {
 		
 		Smestaj smestajPonude = smestajService.findById(ponuda.getSmestajId());
 		
 		ponuda.setSmestajNaziv(smestajPonude.getNaziv());
-		ponudaService.save(ponudaDTOToPonudaConverter.convert(ponuda));
+		Ponuda ponuda2 = ponudaDTOToPonudaConverter.convert(ponuda);
+		PonudaResponse response = WSClient.ponudaWS(ponuda2);
+		if(response==null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		Ponuda toSave = new Ponuda();
+		toSave.setBrojLezaja(response.getPonuda().getBrojLezaja());
+		toSave.setBrojSlobodnihPonuda(response.getPonuda().getBrojSlobodnihPonuda());
+		toSave.setCena(new BigDecimal(response.getPonuda().getCena()));
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		toSave.setDatumDo(dateFormat.parse(response.getPonuda().getDatumDo()));
+		toSave.setDatumOd(dateFormat.parse(response.getPonuda().getDatumOd()));
+		Smestaj smestaj = smestajService.findById(response.getPonuda().getSmestajId());
+		toSave.setId(response.getPonuda().getId());
+		toSave.setSmestaj(smestaj);
+		ponudaService.save((toSave));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 	
@@ -199,20 +225,17 @@ public class AgentController {
             method = RequestMethod.POST
     )
     public ResponseEntity<?> zauzmiTermin(@RequestBody ZauzimanjeTerminaDTO zauzimanjeDTO) {
-		Ponuda ponudaZaZauzimanje = ponudaService.findOne(zauzimanjeDTO.getIdTermina());
-		if(ponudaZaZauzimanje == null){
-			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-		}else{
-			if(ponudaZaZauzimanje.getBrojSlobodnihPonuda() < zauzimanjeDTO.getBrojSoba()){
-				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-			}else{
-				int brojSlobodnih = ponudaZaZauzimanje.getBrojSlobodnihPonuda();
-				int posleZauzimanja = brojSlobodnih - zauzimanjeDTO.getBrojSoba();
-				ponudaZaZauzimanje.setBrojSlobodnihPonuda( posleZauzimanja );
-				Ponuda saved = ponudaService.save(ponudaZaZauzimanje);
-				return new ResponseEntity<>(smestajToSmestajDTOConverter.convert(ponudaZaZauzimanje.getSmestaj()),HttpStatus.OK);
-			}
+		
+		ZauzetostResponse zauzetostResponse = WSClient.zauzetostWS(zauzimanjeDTO);
+		if(zauzetostResponse!=null){
+			Ponuda ponudaZaZauzimanje = ponudaService.findOne(zauzetostResponse.getZauzetost().getIdPonude());
+			int brSlobodnih = ponudaZaZauzimanje.getBrojSlobodnihPonuda();
+			
+			ponudaZaZauzimanje.setBrojSlobodnihPonuda(brSlobodnih - zauzimanjeDTO.getBrojSoba());
+			Ponuda saved = ponudaService.save(ponudaZaZauzimanje);
+			return new ResponseEntity<>(smestajToSmestajDTOConverter.convert(saved.getSmestaj()),HttpStatus.OK);
 		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
 		
 		
     }
@@ -231,8 +254,8 @@ public class AgentController {
 			}
 		}
 		//OVDEEE NAMESTI ULOGOVANOG
-		long userId = 3L;
-		List<SmestajVlasnik> lista = smestajVlasnikService.findByIdVlasnikId(userId);
+		Korisnik ulogovani = userService.getCurrentUser();
+		List<SmestajVlasnik> lista = smestajVlasnikService.findByIdVlasnikId(ulogovani.getId());
 		List<RezervacijaDTO> ret = new ArrayList<RezervacijaDTO>();
 		for(int i = 0; i < sveRezervacije.size(); i++){
 			for(int j = 0; j<lista.size(); j++){
@@ -265,7 +288,10 @@ public class AgentController {
             method = RequestMethod.POST
     )
     public ResponseEntity<?> potvrdiRezervaciju(@RequestBody String id) {
-		Rezervacija zaPotvrditi = rezervacijaService.findOne(new Long(id));
+		
+		//PotvrdiResponse rez = WSClient.potvrdiRezervacijuWS(id);
+		TestResponse test = WSClient.testWS(id);
+		Rezervacija zaPotvrditi = rezervacijaService.findOne(new Long(test.getName()));
 		if(zaPotvrditi == null){
 			return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
 		}
@@ -283,9 +309,9 @@ public class AgentController {
 	
 		
 		//OVDEEE NAMESTI ULOGOVANOG
-		long userId = 3L;
+		Korisnik ulogovani = userService.getCurrentUser();
 		
-		List<Chat> sviChatoviAgenta = chatService.findAllByKorisniciId(userId);
+		List<Chat> sviChatoviAgenta = chatService.findAllByKorisniciId(ulogovani.getId());
 		List<ChatDTO> sviChatoviDTO = chatToChatDTOConverter.convert(sviChatoviAgenta);
 		
 		
@@ -311,6 +337,7 @@ public class AgentController {
 			toSave.setNaziv(smestajXML.getNaziv());
 			toSave.setLokacija(smestajXML.getLokacija());
 			toSave.setOpis(smestajXML.getOpis());
+			toSave.setKategorijaSmestaja(kategorijaSmestajaService.findByKategorija(smestajXML.getKategorijaSmestaja()));
 			XMLConverter xmlConverter = new XMLConverter();
 			TipSmestaja tip = xmlConverter.convertTipSmestajaXMLToTipSmestaja(smestajXML.getTipSmestaja());
 			toSave.setTipSmestaja(tip);
@@ -344,21 +371,28 @@ public class AgentController {
     public ResponseEntity<?> posaljiPoruku(@RequestBody PorukaChatDTO poruka) throws IOException, ParseException {
 	
 		Chat chat = chatService.findById(new Long(poruka.getIdChat()));
-		
+		PorukaResponse responsePoruka = WSClient.porukaWS(poruka);
+		if(responsePoruka!=null){
+			Poruka toSave = new Poruka();
+			Chat chatPoruke = chatService.findById(responsePoruka.getPoruka().getIdChata());
+			Korisnik posiljalac = userService.findById(responsePoruka.getPoruka().getIdPosiljaoca());
+			toSave.setChat(chatPoruke);
+			toSave.setPosiljalac(posiljalac);
+			toSave.setSadrzaj(responsePoruka.getPoruka().getSadrzaj());
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			toSave.setDatumSlanja(dateFormat.parse(responsePoruka.getPoruka().getDatumSlanja()));
+			toSave.setSeen(responsePoruka.getPoruka().isSeen());
+			porukeService.save(toSave);
+
+			ChatDTO chatDTO = chatToChatDTOConverter.convert(chat);
+			ArrayList<PorukaDTO> sortirane = sortPoruke((ArrayList<PorukaDTO>)chatDTO.getPoruke());
+			
+	        return new ResponseEntity<>(sortirane, HttpStatus.OK);
+		}
 		ChatDTO chatDTO = chatToChatDTOConverter.convert(chat);
-		//OVDEEE NAMESTI ULOGOVANOG
-		long userId = 3L;
-		Agent ulogovani = agentService.findOne(userId);
-		Poruka porukaZaSlanje = new Poruka();
-		porukaZaSlanje.setChat(chat);
-		porukaZaSlanje.setPosiljalac(ulogovani);
-		porukaZaSlanje.setSadrzaj(poruka.getSadrzajPoruke());
-		porukaZaSlanje.setDatumSlanja(new Date());
-		porukaZaSlanje.setSeen(false);
-		porukeService.save(porukaZaSlanje);
 		ArrayList<PorukaDTO> sortirane = sortPoruke((ArrayList<PorukaDTO>)chatDTO.getPoruke());
+		return new ResponseEntity<>(sortirane, HttpStatus.BAD_REQUEST);
 		
-        return new ResponseEntity<>(sortirane, HttpStatus.OK);
     }
 	private ArrayList<PorukaDTO> sortPoruke(ArrayList<PorukaDTO> poruke) throws ParseException{
 		for(int i = 0; i < poruke.size()-1; i++){
@@ -390,6 +424,20 @@ public class AgentController {
 		
         return new ResponseEntity<>(tipovi, HttpStatus.OK);
     }
+	
+	@CrossOrigin
+	@RequestMapping(
+            value = "ucitajKategorijaSmestaja",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<?> ucitajKategorijaSmestaja() throws IOException {
+	
+		
+		ArrayList<KategorijaSmestaja> kategorije = (ArrayList<KategorijaSmestaja>) kategorijaSmestajaService.findAllKS();
+		
+        return new ResponseEntity<>(kategorije, HttpStatus.OK);
+    }
+	
 	
 	@CrossOrigin
 	@RequestMapping(

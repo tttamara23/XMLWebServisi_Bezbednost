@@ -44,7 +44,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
         @Entity
         public class Rezervacija {
         	@Id
-        	@GeneratedValue(strategy=GenerationType.AUTO)
             protected Long id;
         	
             protected boolean realizovano;

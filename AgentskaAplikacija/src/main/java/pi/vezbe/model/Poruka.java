@@ -69,7 +69,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Poruka {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 	
     @XmlElement(required = true)

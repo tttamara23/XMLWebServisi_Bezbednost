@@ -17,7 +17,6 @@ import javax.persistence.UniqueConstraint;
 })
 public class SmestajVlasnik {
 	 	@Id
-	    @GeneratedValue(strategy=GenerationType.AUTO)
 	    protected Long id;
 	 
 	
@@ -27,7 +26,7 @@ public class SmestajVlasnik {
 		
 		@ManyToOne(fetch = FetchType.EAGER)
 	    @JoinColumn(name = "id_agent", nullable = false)
-		private Agent agent;
+		private KrajnjiKorisnik agent;
 
 		public Long getId() {
 			return id;
@@ -40,7 +39,7 @@ public class SmestajVlasnik {
 		
 
 		
-		public SmestajVlasnik(Long id, Smestaj smestaj, Agent agent) {
+		public SmestajVlasnik(Long id, Smestaj smestaj, KrajnjiKorisnik agent) {
 			super();
 			this.id = id;
 			this.smestaj = smestaj;
@@ -55,11 +54,11 @@ public class SmestajVlasnik {
 			this.smestaj = smestaj;
 		}
 
-		public Agent getAgent() {
+		public KrajnjiKorisnik getAgent() {
 			return agent;
 		}
 
-		public void setAgent(Agent agent) {
+		public void setAgent(KrajnjiKorisnik agent) {
 			this.agent = agent;
 		}
 

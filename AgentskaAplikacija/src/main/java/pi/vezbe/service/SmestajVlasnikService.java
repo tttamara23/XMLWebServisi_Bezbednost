@@ -23,4 +23,7 @@ public class SmestajVlasnikService {
 		// TODO Auto-generated method stub
 		return smestajVlasnikRepository.findByAgentId(idVlasnika);
 	}
+	public SmestajVlasnik save(SmestajVlasnik toSave){
+		return smestajVlasnikRepository.save(toSave);
+	}
 }

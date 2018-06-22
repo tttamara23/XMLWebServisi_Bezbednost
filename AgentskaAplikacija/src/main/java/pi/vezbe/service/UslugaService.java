@@ -18,6 +18,11 @@ public class UslugaService {
 		// TODO Auto-generated method stub
 		return uslugaRepository.findAll();
 	}
+	public void save(Usluga u){
+		uslugaRepository.save(u);
+	}
 	
-	
+	public Usluga findById(Long id){
+		return uslugaRepository.findById(id);
+	}
 }

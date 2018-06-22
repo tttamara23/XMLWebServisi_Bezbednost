@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class Chat {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	private Long id;
 	
 	@ManyToMany(cascade = { CascadeType.ALL })

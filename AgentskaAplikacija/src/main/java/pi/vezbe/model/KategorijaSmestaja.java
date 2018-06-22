@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
 public class KategorijaSmestaja {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	
     protected Long id;
 	
 	@XmlElement(required = true)
