@@ -108,7 +108,7 @@ public class WSClient extends WebServiceGatewaySupport {
 		request.getPoruka().setIdChata(new Long(porukaChatDTO.getIdChat()));
 		request.getPoruka().setSadrzaj(porukaChatDTO.getSadrzajPoruke());
 		
-		request.getPoruka().setIdPosiljaoca(3L);;
+		request.getPoruka().setIdPosiljaoca(4L);;
 		request.getPoruka().setDatumSlanja("");
 		request.getPoruka().setSeen(false);
 		PorukaResponse response = (PorukaResponse) getWebServiceTemplate().marshalSendAndReceive(URI , 

@@ -18,6 +18,7 @@ import pi.vezbe.converters.SmestajToSmestajDtoConverter;
 import pi.vezbe.converters.UslugaDTOToUslugaConverter;
 import pi.vezbe.converters.UslugaToUslugaDtoConverter;
 import pi.vezbe.model.Chat;
+import pi.vezbe.model.ChatKorisnik;
 import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.Ponuda;
@@ -29,6 +30,7 @@ import pi.vezbe.model.SmestajVlasnik;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
+import pi.vezbe.service.ChatKorisnikService;
 import pi.vezbe.service.ChatService;
 import pi.vezbe.service.KategorijaSmestajaService;
 import pi.vezbe.service.KorisnikService;
@@ -44,6 +46,7 @@ import pi.vezbe.service.UserService;
 import pi.vezbe.service.UslugaService;
 
 import com.xml.booking.backendmain.ws_classes.AccommodationXML;
+import com.xml.booking.backendmain.ws_classes.ChatKorisnikXML;
 import com.xml.booking.backendmain.ws_classes.ChatXML;
 import com.xml.booking.backendmain.ws_classes.GetDBRequest;
 import com.xml.booking.backendmain.ws_classes.GetDBResponse;
@@ -128,8 +131,12 @@ public class WSEndpoint {
 	
 	@Autowired
 	private PonudaUslugaService ponudaUslugaService;
+	
 	@Autowired
 	private SmestajVlasnikService smestajVlasnikService;
+	
+	@Autowired
+	private ChatKorisnikService chatKorisnikService;
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ponudaRequest")
 	@ResponsePayload
@@ -288,6 +295,15 @@ public class WSEndpoint {
 			ChatXML chatXML = new ChatXML();
 			chatXML.setId(chatovi.get(i).getId());
 			response.getChatovi().add(chatXML);
+		}
+		
+		ArrayList<ChatKorisnik> chatKorisnikList = (ArrayList<ChatKorisnik>) chatKorisnikService.findAll();
+		for(ChatKorisnik ck : chatKorisnikList){
+			ChatKorisnikXML ckXML = new ChatKorisnikXML();
+			ckXML.setId(ck.getId());
+			ckXML.setIdChata(ck.getChat().getId());
+			ckXML.setIdKorisnika(ck.getUcesnik().getId());
+			response.getChatKorisnikList().add(ckXML);
 		}
 		
 		ArrayList<SmestajVlasnik> smestajVlasnikList =  (ArrayList<SmestajVlasnik>) smestajVlasnikService.findAll();

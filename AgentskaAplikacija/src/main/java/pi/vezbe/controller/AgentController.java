@@ -44,6 +44,7 @@ import pi.vezbe.dto.SmestajDTO;
 import pi.vezbe.dto.UslugaDTO;
 import pi.vezbe.dto.ZauzimanjeTerminaDTO;
 import pi.vezbe.model.Chat;
+import pi.vezbe.model.ChatKorisnik;
 import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.Ponuda;
@@ -54,6 +55,7 @@ import pi.vezbe.model.SmestajVlasnik;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
+import pi.vezbe.service.ChatKorisnikService;
 import pi.vezbe.service.ChatService;
 import pi.vezbe.service.DodatneUslugeService;
 import pi.vezbe.service.KategorijaSmestajaService;
@@ -122,9 +124,12 @@ public class AgentController {
 	
 	@Autowired
 	private ChatService chatService;
+	
 	@Autowired
 	private ChatToChatDTOConverter chatToChatDTOConverter;
 	
+	@Autowired
+	private ChatKorisnikService ckService;
 	
 	@Autowired
 	private PorukaService porukeService;
@@ -309,10 +314,15 @@ public class AgentController {
 	
 		
 		//OVDEEE NAMESTI ULOGOVANOG
-		Korisnik ulogovani = userService.getCurrentUser();
+		//Korisnik ulogovani = userService.getCurrentUser();
 		
-		List<Chat> sviChatoviAgenta = chatService.findAllByKorisniciId(ulogovani.getId());
-		List<ChatDTO> sviChatoviDTO = chatToChatDTOConverter.convert(sviChatoviAgenta);
+		List<ChatKorisnik> sviChatoviAgenta = ckService.findByUcesnikId(4L);
+		List<Chat> sviChatovi = new ArrayList<Chat>();
+		for(ChatKorisnik ck : sviChatoviAgenta){
+			Chat chat = chatService.findById(ck.getChat().getId());
+			sviChatovi.add(chat);
+		}
+		List<ChatDTO> sviChatoviDTO = chatToChatDTOConverter.convert(sviChatovi);
 		
 		
         return new ResponseEntity<>(sviChatoviDTO, HttpStatus.OK);
@@ -378,6 +388,7 @@ public class AgentController {
 			Korisnik posiljalac = userService.findById(responsePoruka.getPoruka().getIdPosiljaoca());
 			toSave.setChat(chatPoruke);
 			toSave.setPosiljalac(posiljalac);
+			toSave.setId(responsePoruka.getPoruka().getId());
 			toSave.setSadrzaj(responsePoruka.getPoruka().getSadrzaj());
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			toSave.setDatumSlanja(dateFormat.parse(responsePoruka.getPoruka().getDatumSlanja()));

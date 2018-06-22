@@ -41,6 +41,10 @@ public class UserService {
 	public Korisnik save(Korisnik korisnik) {
 		return korisnikRepository.save(korisnik);
 	}
+	
+	public Agent save(Agent agent){
+		return agentRepository.save(agent);
+	}
 	public KrajnjiKorisnik findKrajnjiKorisnikById(Long id) {
 		return krajnjiKorisnikRepository.findOne(id);
 	}
@@ -59,7 +63,7 @@ public class UserService {
 	
 	public void setCurrentUser(Korisnik user) {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-       // authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+        authorities.add(new SimpleGrantedAuthority("ADMIN"));
         Authentication authentication = new PreAuthenticatedAuthenticationToken(user.getId(), null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

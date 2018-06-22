@@ -9,11 +9,6 @@ public class ChatDTO{
 	private List<PorukaDTO> poruke;
 	private int unseen;
 	
-	public ChatDTO(Long id, List<KorisnikDTO> korisnici, int unseen) {
-		this.id = id;
-		this.korisnici = korisnici;
-		this.unseen = unseen;
-	}
 	
 	public ChatDTO() {
 		// TODO Auto-generated constructor stub

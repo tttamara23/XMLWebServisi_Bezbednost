@@ -273,6 +273,7 @@
 
 <xs:complexType name="chatKorisnikXML">
     <xs:sequence>
+    	<xs:element name="id" type="xs:long"/>
         <xs:element name="idChata" type="xs:long"/>
         <xs:element name="idKorisnika" type="xs:long"/>
     </xs:sequence>

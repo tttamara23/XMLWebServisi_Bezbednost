@@ -26,7 +26,7 @@ public class SmestajVlasnik {
 		
 		@ManyToOne(fetch = FetchType.EAGER)
 	    @JoinColumn(name = "id_agent", nullable = false)
-		private KrajnjiKorisnik agent;
+		private Agent agent;
 
 		public Long getId() {
 			return id;
@@ -39,7 +39,7 @@ public class SmestajVlasnik {
 		
 
 		
-		public SmestajVlasnik(Long id, Smestaj smestaj, KrajnjiKorisnik agent) {
+		public SmestajVlasnik(Long id, Smestaj smestaj, Agent agent) {
 			super();
 			this.id = id;
 			this.smestaj = smestaj;
@@ -54,11 +54,11 @@ public class SmestajVlasnik {
 			this.smestaj = smestaj;
 		}
 
-		public KrajnjiKorisnik getAgent() {
+		public Agent getAgent() {
 			return agent;
 		}
 
-		public void setAgent(KrajnjiKorisnik agent) {
+		public void setAgent(Agent agent) {
 			this.agent = agent;
 		}
 

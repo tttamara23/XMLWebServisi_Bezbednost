@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/user/getLoggedIn",
+		url: "http://localhost:1234/user/getLoggedIn",
         type: "GET",
         dataType: "json",
         crossDomain: true,

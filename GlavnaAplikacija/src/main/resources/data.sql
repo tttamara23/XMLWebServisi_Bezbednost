@@ -96,7 +96,7 @@ INSERT INTO role_permission (role_id, permission_id) values (1, 35);
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, id_rola, lozinka,salt) values 
 	('Administrator', 'Tamara', 'Perlinac', 'markovuckovic1808@gmail.com', '123456', 2, '4543-17-65-67-17-65-6768-17-65-67-17-65-6750-17-65-6783-34-117-17-65-67-17-65-67-17-65-67-17-65-67114-17-65-6730-17-65-67-17-65-67-17-65-6725891241-17-65-67-17-65-671244422-17-65-67','ef94e4d4a60d73cba091e97072b63c52f0e78e87d044e0c5a602f37152e43d1de638f0281dccae9097f3b001ba7b3a32b6a3863be5186c3bc072fd106a45128c');
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, id_rola, lozinka, blokiran,salt) values 
-	('KrajnjiKorisnik', 'Smiljana', 'Dragoljevic', 'smiljana@gmail.com', '123456', 1, '5629-17-65-67-17-65-6711017-17-65-6765-17-65-6770-17-65-67-17-65-6736124-17-65-67127-17-65-67108-17-65-67-17-65-67-17-65-6765-17-65-679838-17-65-67-17-65-6794-17-65-6766', false,'8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
+	('KrajnjiKorisnik', 'Smiljana', 'Dragoljevic', 'smiljana@gmail.com', '123456', 1, 'Smiljana1234++', false,'8ac017f67a75787c7b96b7d314ecd698e7d947ed3647e5cdd8528cf6644a0c9c18c39dc1062a5ebb078abceeacb149a20ea331081f95a30c0ab2f8ea56bc4a70');
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, id_rola, lozinka, poslovni_maticni_broj,salt) values 
 	('Agent', 'Marko', 'Vuckovic', 'marko@gmail.com', '123456', 3, '107-17-65-67418122-17-65-67-17-65-672-17-65-67-17-65-67104121-17-65-67-17-65-6766-17-65-6747-17-65-6731-17-65-6711542-17-65-6752-17-65-6775601191022848', '1234567','948b19610bfdfb85b5b540307da9dadfa37d88c03a5c2a0050492650bc6c0d31c9a3d41504c85e907a9132f800f8387eeb3de3ea585d7e5eb7c8d71cc225dcf0');
 insert into Korisnik (DTYPE, ime, prezime, email, kontakt, id_rola, lozinka, poslovni_maticni_broj,salt) values 
@@ -176,15 +176,10 @@ insert into Smestaj_Vlasnik(id_smestaj,id_agent) values (1,3);
 insert into chat () values ();
 insert into chat () values ();
 
-insert into chat_korisnik (chat_id, korisnik_id) values (1, 2);
-insert into chat_korisnik (chat_id, korisnik_id) values (1, 3);
+insert into chat_korisnik (id_chat,id_ucesnik) values (1,2);
+insert into chat_korisnik (id_chat,id_ucesnik) values (1,4);
 
-insert into chat_korisnik (chat_id, korisnik_id) values (2, 2);
-insert into chat_korisnik (chat_id, korisnik_id) values (2, 1);
 
 insert into poruka(sadrzaj, datum_slanja,id_chat,id_posiljalac,seen) values('poy','2018-06-09 18:08:10',1,2,false);
 insert into poruka(sadrzaj, datum_slanja,id_chat,id_posiljalac,seen) values('poqwdqwd','2018-06-09 18:08:10',1,3,false);
 insert into poruka(sadrzaj, datum_slanja,id_chat,id_posiljalac,seen) values('qkemdkq','2018-06-09 18:08:10',1,2,false);
-
-insert into poruka(sadrzaj, datum_slanja,id_chat,id_posiljalac,seen) values('heloo','2018-06-09 18:08:10',2,2,false);
-insert into poruka(sadrzaj, datum_slanja,id_chat,id_posiljalac,seen) values('cao','2018-06-09 18:08:10',2,1,false);
