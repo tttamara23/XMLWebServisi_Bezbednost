@@ -6,14 +6,24 @@ public class SlikaDTO {
 	private String url;
 	private Long idSmestaj;
 	
-	public SlikaDTO(Long id, String url, Long idSmestaj) {
+	public SlikaDTO(Long id, Long idSmestaj, String url) {
 		this.id = id;
-		this.url = url;
 		this.idSmestaj = idSmestaj;
+		this.url = url;
 	}
 	
 	public SlikaDTO() {
 		// TODO Auto-generated constructor stub
+	}
+
+	
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public Long getId() {
@@ -22,14 +32,6 @@ public class SlikaDTO {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public Long getIdSmestaj() {

@@ -79,20 +79,35 @@ public class PonudaController {
 			
 			List<Ponuda> ponude = new ArrayList<Ponuda>();
 			if(advanced == 0) {
+				List<Ponuda> sve = ponudaService.getAll();
 				if(sort == 1) { //cena
 					ponude = ponudaService.searchNotAdvancedOrderByCena(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
 				} else if(sort == 3) {  //kategorija
 					ponude = ponudaService.searchNotAdvancedOrderByCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
 				}
 			} else {
-				List<Usluga> usl = uslugaService.findByIdNotIn(searchDTO.getSearchServices());
 				
 				if(sort == 1) {
-					ponude = ponudaService.searchAdvancedOrderByCena(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory(), usl);
+					ponude = ponudaService.searchAdvancedOrderByCena(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory());
 				} else if(sort == 3) {
-					ponude = ponudaService.searchAdvancedOrderByCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory(), usl);
+					ponude = ponudaService.searchAdvancedOrderByCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory());
+				}
+				
+				for(Long l : searchDTO.getSearchServices()) {
+					for(int i=ponude.size()-1; i>=0; i--) {
+						if(!ponude.get(i).imaUslugu(l)) {
+							ponude.remove(i);
+						}
+					}
 				}
 			}
+			
+			for(int i=ponude.size()-1; i>=0; i--) {
+				if(ponude.get(i).getDatumOd().before(dateFrom) || ponude.get(i).getDatumDo().after(dateTo)) {
+					ponude.remove(i);
+				}
+			}
+			
 			return new ResponseEntity<>(ponudaToPonudaDtoConverter.convert(ponude), HttpStatus.OK);
 		} catch (ParseException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

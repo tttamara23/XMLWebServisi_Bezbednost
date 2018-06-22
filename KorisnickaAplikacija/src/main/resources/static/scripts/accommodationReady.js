@@ -96,9 +96,10 @@ $(document).ready(function () {
         	
         	for(i=0; i<data.length; i++) {
         		number = i+1;
+        		
         		imageContent += "<div class=\"mySlides\">"
         			+ "<div class=\"numbertext\">" + number + " / " + data.length + "</div>"
-        			+ "<img src=\"" + data[i].url + "\" style=\"width:100%;height:290px;\">"
+        			+ "<img src=\"data:image/jpg;base64," + data[i].url  + "\" style=\"width:100%;height:290px;\">"
         			+ "</div>";
         	}
         	imageContent += "<a class=\"prev\" onclick=\"plusSlides(-1)\">&#10094;</a>";
@@ -111,7 +112,7 @@ $(document).ready(function () {
         	for(i=0; i<data.length; i++) {
         		number = i+1;
         		imageContent += "<div class=\"column\">"
-        			+ "<img class=\"demo cursor\" src=\"" + data[i].url +"\" style=\"width:100%;height:50px;\" onclick=\"currentSlide(" + number + ")\">"
+        			+ "<img class=\"demo cursor\" src=\"data:image/jpg;base64," + data[i].url  + "\" style=\"width:100%;height:50px;\" onclick=\"currentSlide(" + number + ")\">"
         			+ "</div>";
         	}
         	

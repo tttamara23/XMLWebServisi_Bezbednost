@@ -13,7 +13,7 @@ function buttonLoginClick() {
 	});
 	$.ajax({
 		async: false,
-		url: "http://localhost:4321/user/loginAgent",
+		url: "https://localhost:4321/user/loginAgent",
         type: "POST",
         contentType: "application/json",
         data: data,

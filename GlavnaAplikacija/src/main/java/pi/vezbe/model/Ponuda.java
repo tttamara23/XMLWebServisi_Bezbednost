@@ -269,6 +269,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
 			this.ponudaUsluga = ponudaUsluga;
 		}
 
-		
+		public boolean imaUslugu(Long idUsluga) {
+			for(PonudaUsluga pu : ponudaUsluga) {
+				if(pu.getUsluga().getId().equals(idUsluga)) {
+					return true;
+				}
+			}
+			return false;
+		}
 
     }
