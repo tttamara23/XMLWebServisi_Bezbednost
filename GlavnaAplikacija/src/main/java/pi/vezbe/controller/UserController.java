@@ -1,6 +1,6 @@
 package pi.vezbe.controller;
 
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -8,6 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +32,9 @@ import pi.vezbe.dto.RezervacijaDTO;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
 import pi.vezbe.model.Rezervacija;
-import pi.vezbe.model.Role;
 import pi.vezbe.service.EmailService;
 import pi.vezbe.service.RandomString;
 import pi.vezbe.service.RoleService;
-import pi.vezbe.service.SmestajService;
 import pi.vezbe.service.UserService;
 
 @RestController
@@ -53,17 +53,19 @@ public class UserController {
 	@Autowired
 	private RoleService roleService;
 	
+	private ArrayList<String> mostPopularPasswords = new ArrayList<String>(Arrays.asList("password", "123456", "12345678",
+			"1234", "qwerty", "12345", "dragon", "baseball", "football", "letmein", "monkey", "abc123", "mustang",
+			"michael", "shadow", "master", "jennifer", "111111", "2000", "jordan", "superman", "harley", "1234567",
+			"hunter", "trustno1", "ranger", "buster", "thomas", "tigger", "robert", "soccer", "batman", "test",
+			"pass", "killer", "hockey", "george", "charlie", "andrew", "michelle", "love", "sunshine", "jessica", 
+			"pepper", "daniel", "access", "123456789", "654321", "joshua", "maggie", "starwars", "silver", "william", 
+			"dallas", "yankees", "123123", "ashley", "666666", "hello", "amanda", "orange", "biteme", "freedom", "computer",
+			"thunder", "nicole", "ginger", "heather", "hammer", "summer", "corvette", "taylor", "austin", "1111", "merlin",
+			"matthew", "121212", "golfer", "cheese", "princess", "martin", "chelsea", "patrick", "richard", "diamond",
+			"yellow", "bigdog", "secret", "asdfgh", "sparky", "cowboy"));
 	
-	
-	/*@CrossOrigin
-	@RequestMapping(
-            value = "/**",
-            method = RequestMethod.OPTIONS
-    )
-	public ResponseEntity<?> handle() {
-		return new ResponseEntity<>(HttpStatus.OK);
-	}*/
-	
+	private static Logger logger = LogManager.getLogger(UserController.class);
+
 	@CrossOrigin
 	@RequestMapping(
             value = "/register",
@@ -141,6 +143,7 @@ public class UserController {
             method = RequestMethod.POST
     )
     public ResponseEntity<?> loginRegistered(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request) {
+		logger.info("Neki lg");
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
 			if(!korisnik.getRole().equals(roleService.findById(1L))) {
@@ -232,6 +235,11 @@ public class UserController {
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
 		Korisnik loggedIn = userService.getCurrentUser();
 		String oldPassword = changePasswordDTO.getOldPassword();
+		
+		if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getPasswordConfirm())) {
+			return new ResponseEntity<>("Passwords don't match!", HttpStatus.BAD_REQUEST);
+		}
+		
 		byte[] salt = loggedIn.getSalt();
 		byte[] hashedOldPassword = userService.hashPassword(oldPassword, salt);
 		String lozinkaStara = "";
@@ -242,14 +250,21 @@ public class UserController {
 			return new ResponseEntity<>("Incorrect old password!", HttpStatus.BAD_REQUEST);
 		}
 		
-		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{10,}";
+		for(int i=0; i<mostPopularPasswords.size(); i++) {
+			if(changePasswordDTO.getNewPassword().toUpperCase().equals(mostPopularPasswords.get(i).toUpperCase())) {
+				return new ResponseEntity<>("Your password is in the top " + (i+1) +" most used passwords!", HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=:()*])(?=\\S+$).{10,}";
 		if(!changePasswordDTO.getNewPassword().matches(pattern)) {
 			return new ResponseEntity<>("Password must be at least ten characters including"
 				+ " one uppercase letter, one special character and alphanumeric characters!", HttpStatus.BAD_REQUEST);
 		}
 		
-		if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getPasswordConfirm())) {
-			return new ResponseEntity<>("Passwords don't match!", HttpStatus.BAD_REQUEST);
+		String pattern2 = "[A-Za-z]+[0-9]+[@#$%^&+=:()*]+";
+		if(changePasswordDTO.getNewPassword().matches(pattern2)) {
+			return new ResponseEntity<>("Your password cannot contain a sequence of letters, numbers and specias characters in that specific order!", HttpStatus.BAD_REQUEST);
 		}
 		
 		String newPassword = changePasswordDTO.getNewPassword();
@@ -257,6 +272,18 @@ public class UserController {
 		String lozinkaNova = "";
 		for(int i=0; i<hashedNewPassword.length; i++) {
 			lozinkaNova = lozinkaNova.concat(Byte.toString(hashedNewPassword[i]));
+		}
+		
+		if(lozinkaNova.equals(lozinkaStara)) {
+			return new ResponseEntity<>("New password cannot be the same as old password!", HttpStatus.BAD_REQUEST);
+		}
+		
+		int index = loggedIn.getEmail().indexOf("@");
+		if(index != -1) {
+			String username = loggedIn.getEmail().substring(0, index);
+			if(changePasswordDTO.getNewPassword().toUpperCase().contains(username.toUpperCase())) {
+				return new ResponseEntity<>("Your password cannot include name from Your email!", HttpStatus.BAD_REQUEST);
+			}
 		}
 		
 		loggedIn.setLozinka(lozinkaNova);
@@ -324,7 +351,9 @@ public class UserController {
 		
 		for(Rezervacija rezervacija : rezervacije){
 			if(rezervacija.getPonuda().getSmestaj().getId() == idSmestaja){
+				if(rezervacija.isRealizovano()){
 				return new ResponseEntity<>(true, HttpStatus.OK);
+				}
 			}
 		}
 		return new ResponseEntity<>(false, HttpStatus.OK);
