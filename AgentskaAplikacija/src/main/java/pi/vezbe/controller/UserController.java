@@ -130,7 +130,6 @@ public class UserController {
 		getDB(email);
 		Korisnik ulogovani = userService.findByEmail(email);
 		userService.setCurrentUser(ulogovani);
-		Korisnik ulogovani2 = userService.getCurrentUser();
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

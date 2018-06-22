@@ -11,7 +11,6 @@ import java.util.List;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-import org.omg.IOP.Encoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,8 +19,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import pi.vezbe.model.Agent;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
+import pi.vezbe.repository.AgentRepository;
 import pi.vezbe.repository.KorisnikRepository;
 import pi.vezbe.repository.KrajnjiKorisnikRepository;
 
@@ -33,6 +34,9 @@ public class UserService {
 
 	@Autowired
 	private KrajnjiKorisnikRepository krajnjiKorisnikRepository;
+	
+	@Autowired
+	private AgentRepository agentRepository;
 	
 	public Korisnik findById(Long id) {
 		return korisnikRepository.findOne(id);
@@ -103,6 +107,11 @@ public class UserService {
 	
 	public byte[] salt() {
 		return new SecureRandom().generateSeed(64);
+	}
+
+	public Agent findAgentById(Long idVlasnika) {
+		// TODO Auto-generated method stub
+		return agentRepository.findOne(idVlasnika);
 	}
 
 }

@@ -12,9 +12,12 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -59,6 +62,10 @@ public class Usluga {
     
     @OneToMany(mappedBy = "usluga", cascade = CascadeType.REMOVE)
     protected List<PonudaUsluga> ponudaUsluga;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_smestaja", nullable = true)
+    protected Smestaj smestaj;
 
     /**
      * Gets the value of the id property.
@@ -106,6 +113,14 @@ public class Usluga {
 
 	public void setPonudaUsluga(List<PonudaUsluga> ponudaUsluga) {
 		this.ponudaUsluga = ponudaUsluga;
+	}
+
+	public Smestaj getSmestaj() {
+		return smestaj;
+	}
+
+	public void setSmestaj(Smestaj smestaj) {
+		this.smestaj = smestaj;
 	}
 
 }

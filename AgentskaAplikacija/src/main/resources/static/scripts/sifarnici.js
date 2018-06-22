@@ -294,6 +294,16 @@ function potvrdiRezervaciju(id){
     });
 }
 
+function getBase64(file) {
+	   var reader = new FileReader();
+	   reader.readAsDataURL(file);
+	   reader.onload = function () {
+	     console.log(reader.result);
+	   };
+	   reader.onerror = function (error) {
+	     console.log('Error: ', error);
+	   };
+	}
 
 
 function dodajSmestajnuJedinicu(){
@@ -302,7 +312,17 @@ function dodajSmestajnuJedinicu(){
 	opisSmestaja = $('#inputOpis').val();
 	lokacijaSmestaja = $('#inputLokacija').val();
 	nazivSmestaja = $('#inputNazivSmestaja').val();
-	
+	var fileArray = [];
+	var files = document.getElementById("files");
+	var numberOfFiles = files.files.length;
+	for (var i = 0; i < numberOfFiles; i++) {
+		var f = files.files[i];
+        var fileReader = new FileReader();
+		var fileToWrite =  fileReader.readAsDataURL(f);
+        fileArray.push(fileToWrite);
+		
+	}
+   
 	if(!tipSmestaja || !opisSmestaja || !lokacijaSmestaja || !nazivSmestaja ) {
 		toastr["error"]('Fill in all required entry fields!');
 		return;

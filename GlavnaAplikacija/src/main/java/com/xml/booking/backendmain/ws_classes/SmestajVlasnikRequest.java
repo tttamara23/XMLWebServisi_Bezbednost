@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="poruka" type="{http://booking.xml.com/backendmain/ws-classes}porukaXML"/>
+ *         &lt;element name="svRequest" type="{http://booking.xml.com/backendmain/ws-classes}smestajVlasnikXML"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "poruka"
+    "svRequest"
 })
-@XmlRootElement(name = "porukaResponse")
-public class PorukaResponse {
+@XmlRootElement(name = "smestajVlasnikRequest")
+public class SmestajVlasnikRequest {
 
     @XmlElement(required = true)
-    protected PorukaXML poruka;
+    protected SmestajVlasnikXML svRequest;
 
     /**
-     * Gets the value of the poruka property.
+     * Gets the value of the svRequest property.
      * 
      * @return
      *     possible object is
-     *     {@link PorukaXML }
+     *     {@link SmestajVlasnikXML }
      *     
      */
-    public PorukaXML getPoruka() {
-        return poruka;
+    public SmestajVlasnikXML getSvRequest() {
+        return svRequest;
     }
 
     /**
-     * Sets the value of the poruka property.
+     * Sets the value of the svRequest property.
      * 
      * @param value
      *     allowed object is
-     *     {@link PorukaXML }
+     *     {@link SmestajVlasnikXML }
      *     
      */
-    public void setPoruka(PorukaXML value) {
-        this.poruka = value;
+    public void setSvRequest(SmestajVlasnikXML value) {
+        this.svRequest = value;
     }
 
 }

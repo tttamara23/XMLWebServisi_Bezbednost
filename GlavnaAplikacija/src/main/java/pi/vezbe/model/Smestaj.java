@@ -172,7 +172,8 @@ public class Smestaj {
     protected List<Ponuda> ponuda;
     
     @XmlElement(name = "Usluga", required = true)
-    protected ArrayList<Usluga> usluga;
+    @OneToMany(mappedBy = "smestaj", cascade = CascadeType.MERGE)
+    protected List<Usluga> usluga;
     
     @XmlElement(name = "Slika", required = true)
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
@@ -198,11 +199,11 @@ public class Smestaj {
 
     
 
-	public ArrayList<Usluga> getUsluga() {
+	public List<Usluga> getUsluga() {
 		return usluga;
 	}
 
-	public void setUsluga(ArrayList<Usluga> usluga) {
+	public void setUsluga(List<Usluga> usluga) {
 		this.usluga = usluga;
 	}
 
