@@ -299,8 +299,9 @@ function buttonRegisterAgentClick() {
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
-        	alert('Registration successfull!');
+        	
         	top.location.href = "home.html";
+        	toastr["success"]('Registracija uspesna!');
         	//toastr["success"]('Registration successful!');
         },
         error: function (jqXHR, textStatus, errorThrown) {

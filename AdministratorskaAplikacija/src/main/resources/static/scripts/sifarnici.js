@@ -52,7 +52,8 @@ function ukloni(id){
         	tipSmestaja();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
-            alert(errorThrown);
+        	toastr["error"]('Zabranjeno brisanje ovog tipa smestaja!');
+            
         }
     });
 }
@@ -77,8 +78,7 @@ function izmeni(id){
         	button.setAttribute("onclick","return sacuvajIzmenuTipa('"+data.id +"')");
         	
         	$("#myModal").modal('show');
-
-
+        	
         }, error: function (jqxhr, textStatus, errorThrown) {
             alert(errorThrown);
         }
@@ -106,7 +106,8 @@ function sacuvajIzmenuTipa2(id,naziv){
          },
         success: function () {
         	$("#tableTipSmestaja").find("tr:gt(0)").remove();
-        	
+        	toastr["success"]('Izmena tipa uspesna!');
+
         	tipSmestaja();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
@@ -136,6 +137,8 @@ function dodajTipSmestaja(){
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$('#textBoxTipSmestaja').val("");
+        	toastr["success"]('Tip smestaja dodat!');
+
              tipSmestaja();
         }, error: function (jqxhr, textStatus, errorThrown) {
             alert(errorThrown);
@@ -165,6 +168,8 @@ function dodajKategorijuSmestaja(){
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$('#textBoxKategorijaSmestaja').val("");
+        	toastr["success"]('Kategorija uspesno dodata!');
+
              kategorijaSmestaja();
         }, error: function (jqxhr, textStatus, errorThrown) {
             alert(errorThrown);
@@ -194,6 +199,8 @@ function dodajDodatneUsluge(){
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$('#textBoxDodatneUsluge').val("");
+        	toastr["success"]('Dodatna usluga uspesno dodata!');
+
              dodatneUsluge();
         }, error: function (jqxhr, textStatus, errorThrown) {
             alert(errorThrown);
@@ -256,7 +263,8 @@ function ukloniKategoriju(id){
         	kategorijaSmestaja();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
-            alert(errorThrown);
+        	toastr["success"]('Brisanje ove kategorije zabranjeno!');
+
         }
     });
 }
@@ -309,7 +317,8 @@ function sacuvajIzmenuKategorije2(id,kategorija){
          },
         success: function () {
         	$("#tableKategorijaSmestaja").find("tr:gt(0)").remove();
-        	
+        	toastr["success"]('Izmena kategorije uspesna!');
+
         	kategorijaSmestaja();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
@@ -373,7 +382,8 @@ function ukloniUslugu(id){
         	dodatneUsluge();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
-            alert(errorThrown);
+        	toastr["success"]('Brisanje usluge zabranjeno!');
+
         }
     });
 }
@@ -426,7 +436,8 @@ function sacuvajIzmenuUsluge2(id,naziv){
          },
         success: function () {
         	$("#tableDodatneUsluge").find("tr:gt(0)").remove();
-        	
+        	toastr["success"]('Izmena usluge uspesna!');
+
         	dodatneUsluge();
 
         }, error: function (jqxhr, textStatus, errorThrown) {

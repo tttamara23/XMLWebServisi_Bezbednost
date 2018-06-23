@@ -2,6 +2,7 @@ package pi.vezbe.controller;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,7 @@ import pi.vezbe.service.AgentService;
 import pi.vezbe.service.EmailService;
 import pi.vezbe.service.KategorijaSmestajaService;
 import pi.vezbe.service.KomentarService;
+import pi.vezbe.service.RandomString;
 import pi.vezbe.service.TipSmestajaService;
 import pi.vezbe.service.UserService;
 import pi.vezbe.service.UslugaService;
@@ -115,13 +117,26 @@ public class AdminisrtatorController {
 		}
 		
         Agent agentToSave = agentDtoToAgentConverter.convert(agentDTO);
-       agentToSave.setLozinka(getSaltString());
+        byte[] salt = userService.salt();
+        agentToSave.setSalt(salt);
+        
+        RandomString gen = new RandomString(10, ThreadLocalRandom.current());
+        String newPassword = gen.nextString();
+		
+        byte[] hashedPassword = userService.hashPassword(newPassword, salt);
+		String lozinkaUneta = "";
+		
+		for(int i=0; i<hashedPassword.length; i++) {
+			lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashedPassword[i]));
+		}
+		agentToSave.setLozinka(lozinkaUneta);
+		
         Agent saved = agentService.save(agentToSave);
         
         emailService.getMail().setTo(agentToSave.getEmail());
         emailService.getMail().setFrom(emailService.getEnv().getProperty("spring.mail.username"));
         emailService.getMail().setSubject("Setting password for your account");
-        emailService.getMail().setText("Hello " + agentToSave.getIme() + ",\n\nThis is your new password:\n\n" + saved.getLozinka() + "");
+        emailService.getMail().setText("Hello " + agentToSave.getIme() + ",\n\nThis is your new password:\n\n" + newPassword + "");
         try {
 			emailService.sendNotificaitionAsync(userService.getCurrentUser());
 		} catch (MailException e) {
