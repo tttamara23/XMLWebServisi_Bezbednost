@@ -26,7 +26,7 @@ $(document).ready(function () {
 })
 
 
-function changePasswordClick() {
+/*function changePasswordClick() {
 	oldPassword = $('#changePasOldPas').val();
 	newPassword = $('#changePasNewPas').val();
 	passwordConfirm = $('#changePasPasCon').val();
@@ -55,7 +55,7 @@ function changePasswordClick() {
             toastr["error"](jqXHR.responseText);
         }
     });
-}
+}*/
 
 function logout() {
     $.ajax({
@@ -146,7 +146,7 @@ function blokiraj(id){
          headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$("#tableUsers").find("tr:gt(0)").remove();
-        	
+        	toastr["info"]('Korisnik blokiran.');
         	users();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
@@ -167,7 +167,7 @@ function aktiviraj(id){
          headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$("#tableUsers").find("tr:gt(0)").remove();
-        	
+        	toastr["info"]('Korisnik aktiviran.');
                 users();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
@@ -260,7 +260,7 @@ function objavi(id){
          headers: {  'Access-Control-Allow-Origin': '*' },
         success: function () {
         	$("#tableComments").find("tr:gt(0)").remove();
-        	
+        	toastr["info"]('Komentar objavljen.');
             comments();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
@@ -301,8 +301,7 @@ function buttonRegisterAgentClick() {
         success: function () {
         	
         	top.location.href = "home.html";
-        	toastr["success"]('Registracija uspesna!');
-        	//toastr["success"]('Registration successful!');
+        	toastr["success"]('Registracija agenta uspesna!');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             toastr["error"](jqXHR.responseText);

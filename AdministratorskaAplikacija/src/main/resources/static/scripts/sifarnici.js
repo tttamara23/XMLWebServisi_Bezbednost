@@ -263,7 +263,7 @@ function ukloniKategoriju(id){
         	kategorijaSmestaja();
 
         }, error: function (jqxhr, textStatus, errorThrown) {
-        	toastr["success"]('Brisanje ove kategorije zabranjeno!');
+        	toastr["error"]('Brisanje ove kategorije zabranjeno!');
 
         }
     });

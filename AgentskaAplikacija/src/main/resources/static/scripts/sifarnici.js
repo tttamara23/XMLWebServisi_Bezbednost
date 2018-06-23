@@ -18,13 +18,9 @@ function termins() {
                   
                    td = document.createElement('td');
                    
-                   
-                   /*var d = new Date(data[i].date);
-                   var stringDate = d.toLocaleString();*/
                    td.innerHTML=data[i].naziv;
                    td1 = document.createElement('td');
                    td1.innerHTML= i+1;
-                  
                    
                    tr.appendChild(td1);  
                    tr.appendChild(td); 
@@ -376,17 +372,14 @@ function chats() {
                    var tr=document.createElement('tr');
                   
                    td = document.createElement('td');
-                   td4 = document.createElement('td');
                    
                    td.innerHTML=data[i].poruke.length;
                    td1 = document.createElement('td');
                    td1.innerHTML= i+1;
-                   td4.innerHTML = data[i].unseen;
                    
                    
                    tr.appendChild(td1);  
                    tr.appendChild(td); 
-                   tr.appendChild(td4);
                    
                    td2 = document.createElement('td');
                    td2.innerHTML="<button class=\"btn btn-success\" onclick=\"return pregledajChat('" + data[i].id + "')\">Pregledaj chat</button> &nbsp;&nbsp;&nbsp;";
@@ -872,17 +865,14 @@ function chats() {
                    var tr=document.createElement('tr');
                   
                    td = document.createElement('td');
-                   td4 = document.createElement('td');
                    
                    td.innerHTML=data[i].poruke.length;
                    td1 = document.createElement('td');
                    td1.innerHTML= i+1;
-                   td4.innerHTML = data[i].unseen;
                    
                    
                    tr.appendChild(td1);  
                    tr.appendChild(td); 
-                   tr.appendChild(td4);
                    
                    td2 = document.createElement('td');
                    td2.innerHTML="<button class=\"btn btn-success\" onclick=\"return pregledajChat('" + data[i].id + "')\">Pregledaj chat</button> &nbsp;&nbsp;&nbsp;";
