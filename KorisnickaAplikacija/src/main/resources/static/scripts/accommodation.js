@@ -266,7 +266,10 @@ function oceni(idSmestaja){
                 	for(i=0;i<elements.length;i++){
                 		elements[i].checked=false;
                 	}
-                		toastr['success']('Rating successfull');
+                	var url_string = window.location.href;
+            		var url = new URL(url_string);
+            		var idSmestaja = url.searchParams.get("idSmestaja");
+            		top.location.href = "accommodation.html?idSmestaja="+idSmestaja;
                 },
                 error: function (jqxhr, textStatus, errorThrown) {
                     alert('error');
