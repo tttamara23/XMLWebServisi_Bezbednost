@@ -1,6 +1,7 @@
 package pi.vezbe.controller;
 
 import glavna.wsdl.AccommodationXML;
+import glavna.wsdl.ChatKorisnikXML;
 import glavna.wsdl.ChatXML;
 import glavna.wsdl.DBRequestType;
 import glavna.wsdl.GetDBResponse;
@@ -41,6 +42,7 @@ import pi.vezbe.dto.LoggedInUserDTO;
 import pi.vezbe.dto.LoginDTO;
 import pi.vezbe.model.Agent;
 import pi.vezbe.model.Chat;
+import pi.vezbe.model.ChatKorisnik;
 import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.KrajnjiKorisnik;
@@ -54,6 +56,7 @@ import pi.vezbe.model.SmestajVlasnik;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
+import pi.vezbe.service.ChatKorisnikService;
 import pi.vezbe.service.ChatService;
 import pi.vezbe.service.KategorijaSmestajaService;
 import pi.vezbe.service.PonudaService;
@@ -106,6 +109,9 @@ public class UserController {
 	
 	@Autowired
 	private AgentService agentService;
+
+	@Autowired
+	private ChatKorisnikService chatKorisnikService;
 	
 	@Autowired
 	private SmestajVlasnikService smestajVlasnikService;
@@ -160,10 +166,10 @@ public class UserController {
 				userService.save(kor);
 			}
 			if(korisnici.get(i).getIdrole() == new Long(3L)){
-				KrajnjiKorisnik kor = new KrajnjiKorisnik(korisnici.get(i).getId(),
+				Agent kor = new Agent(korisnici.get(i).getId(),
 						korisnici.get(i).getIme(), korisnici.get(i).getPrezime(),
 						korisnici.get(i).getEmail(),"", korisnici.get(i).getKontakt(),
-						false);
+						"12345");
 				
 				userService.save(kor);
 			}
@@ -224,7 +230,8 @@ public class UserController {
 		for(int i = 0; i < rezervacijeXML.size(); i++){
 			Rezervacija rezervacija = new Rezervacija();
 			rezervacija.setId(rezervacijeXML.get(i).getId());
-			KrajnjiKorisnik korisnik = userService.findKrajnjiKorisnikById(rezervacijeXML.get(i).getId());
+			KrajnjiKorisnik korisnik = userService.findKrajnjiKorisnikById(rezervacijeXML.get(i).getIdKorisnika());
+			
 			rezervacija.setKorisnik(korisnik);
 			rezervacija.setRealizovano(rezervacijeXML.get(i).isRealizovana());
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -242,6 +249,14 @@ public class UserController {
 			chatService.save(chat);
 		}
 		
+		ArrayList<ChatKorisnikXML> chatKorisnikListXML = (ArrayList<ChatKorisnikXML>) response.getChatKorisnikList();
+		for(int i = 0 ; i < chatKorisnikListXML.size(); i++){
+			ChatKorisnik ck = new ChatKorisnik();
+			//ck.setId(chatKorisnikListXML.get(i).getId());
+			ck.setChat(chatService.findById(chatKorisnikListXML.get(i).getIdChata()));
+			ck.setUcesnik(userService.findById(chatKorisnikListXML.get(i).getIdKorisnika()));
+			chatKorisnikService.save(ck);
+		}
 		ArrayList<PorukaXML> porukeXML = (ArrayList<PorukaXML>) response.getPoruke();
 		for(int i = 0; i < porukeXML.size(); i++){
 			Poruka poruka = new Poruka();
@@ -249,6 +264,7 @@ public class UserController {
 			Chat chatPoruke = chatService.findById(porukeXML.get(i).getIdChata());
 			poruka.setChat(chatPoruke);
 			Korisnik posiljalac = userService.findById(porukeXML.get(i).getIdPosiljaoca());
+			
 			poruka.setPosiljalac(posiljalac);
 			poruka.setSadrzaj(porukeXML.get(i).getSadrzaj());
 			poruka.setSeen(porukeXML.get(i).isSeen());
@@ -260,11 +276,11 @@ public class UserController {
 		ArrayList<SmestajVlasnikXML> smestajVlasnikList =  (ArrayList<SmestajVlasnikXML>) response.getSmestajVlasnikList();
 		for(int i =0 ; i <smestajVlasnikList.size(); i++){
 			SmestajVlasnik smestajVlasnik = new SmestajVlasnik();
-			//Agent vlasnik = userService.findAgentById(smestajVlasnikList.get(i).getIdVlasnika());
+			Agent vlasnik = userService.findAgentById(smestajVlasnikList.get(i).getIdVlasnika());
 			Smestaj smestaj = smestajService.findById(smestajVlasnikList.get(i).getIdSmestaja());
 			smestajVlasnik.setId(smestajVlasnikList.get(i).getId());
 			
-			//smestajVlasnik.setAgent(vlasnik);
+			smestajVlasnik.setAgent(vlasnik);
 			smestajVlasnik.setSmestaj(smestaj);;
 			smestajVlasnikService.save(smestajVlasnik);
 		}

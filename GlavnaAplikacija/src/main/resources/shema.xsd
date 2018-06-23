@@ -129,6 +129,22 @@
     </xs:complexType>
 </xs:element>
 
+<xs:element name="smestajVlasnikRequest">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="svRequest" type="tns:smestajVlasnikXML"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="smestajVlasnikResponse">
+    <xs:complexType>
+        <xs:sequence>
+             <xs:element name="svResponse" type="tns:smestajVlasnikXML"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
 <xs:element name="logInRequest">
     <xs:complexType>
         <xs:sequence>
@@ -273,6 +289,7 @@
 
 <xs:complexType name="chatKorisnikXML">
     <xs:sequence>
+    	<xs:element name="id" type="xs:long"/>
         <xs:element name="idChata" type="xs:long"/>
         <xs:element name="idKorisnika" type="xs:long"/>
     </xs:sequence>

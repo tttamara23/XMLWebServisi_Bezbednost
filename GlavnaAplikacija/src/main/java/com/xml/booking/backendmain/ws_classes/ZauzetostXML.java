@@ -10,22 +10,21 @@ package com.xml.booking.backendmain.ws_classes;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for zauzetostXML complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="zauzetostXML">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="accommodation" type="{http://booking.xml.com/backendmain/ws-classes}accommodationXML"/>
+ *         &lt;element name="idPonude" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="brojSoba" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,37 +34,45 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "accommodation"
+@XmlType(name = "zauzetostXML", propOrder = {
+    "idPonude",
+    "brojSoba"
 })
-@XmlRootElement(name = "smestajRequest")
-public class SmestajRequest {
+public class ZauzetostXML {
 
-    @XmlElement(required = true)
-    protected AccommodationXML accommodation;
+    protected long idPonude;
+    protected int brojSoba;
 
     /**
-     * Gets the value of the accommodation property.
+     * Gets the value of the idPonude property.
      * 
-     * @return
-     *     possible object is
-     *     {@link AccommodationXML }
-     *     
      */
-    public AccommodationXML getAccommodation() {
-        return accommodation;
+    public long getIdPonude() {
+        return idPonude;
     }
 
     /**
-     * Sets the value of the accommodation property.
+     * Sets the value of the idPonude property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link AccommodationXML }
-     *     
      */
-    public void setAccommodation(AccommodationXML value) {
-        this.accommodation = value;
+    public void setIdPonude(long value) {
+        this.idPonude = value;
+    }
+
+    /**
+     * Gets the value of the brojSoba property.
+     * 
+     */
+    public int getBrojSoba() {
+        return brojSoba;
+    }
+
+    /**
+     * Sets the value of the brojSoba property.
+     * 
+     */
+    public void setBrojSoba(int value) {
+        this.brojSoba = value;
     }
 
 }

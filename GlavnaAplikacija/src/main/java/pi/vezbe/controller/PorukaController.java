@@ -20,8 +20,10 @@ import pi.vezbe.converters.PorukaToPorukaDTOConverter;
 import pi.vezbe.dto.ChatDTO;
 import pi.vezbe.dto.KorisnikDTO;
 import pi.vezbe.model.Chat;
+import pi.vezbe.model.ChatKorisnik;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.Poruka;
+import pi.vezbe.service.ChatKorisnikService;
 import pi.vezbe.service.ChatService;
 import pi.vezbe.service.PorukaService;
 import pi.vezbe.service.UserService;
@@ -46,6 +48,9 @@ public class PorukaController {
 	@Autowired
 	private ChatToChatDTOConverter chatToChatDTOConverter;
 	
+	@Autowired
+	private ChatKorisnikService chatKorisnikService;
+	
 	@PermissionAnnotation(name = "SEND_MESSAGE")
 	@CrossOrigin
 	@RequestMapping(
@@ -55,24 +60,30 @@ public class PorukaController {
 	public ResponseEntity<?> sendMessage(@PathVariable Long idPrimalac, @RequestBody String sadrzaj) {
 		Korisnik ulogovani = userService.getCurrentUser();
 		List<Korisnik> ids = new ArrayList<Korisnik>();
+		
 		Korisnik primalac = userService.findById(idPrimalac);
 		ids.add(ulogovani);
 		ids.add(primalac);
 		Chat chat = chatService.findExistingChat(ids);
 		
+		
+		
 		if(chat == null) {
 			
 			chat = new Chat();
-			chat.getKorisnici().add(ulogovani);
-			chat.getKorisnici().add(primalac);
 			chatService.save(chat);
 			
-			ulogovani.getChats().add(chat);
-			userService.save(ulogovani);
+			ChatKorisnik newChatKorisnik = new ChatKorisnik();
+			newChatKorisnik.setChat(chat);
+			newChatKorisnik.setUcesnik(primalac);
 			
-			primalac.getChats().add(chat);
-			userService.save(primalac);
+			ChatKorisnik newChatKorisnik2 = new ChatKorisnik();
 			
+			newChatKorisnik2.setChat(chat);
+			newChatKorisnik2.setUcesnik(ulogovani);
+			
+			chatKorisnikService.save(newChatKorisnik);
+			chatKorisnikService.save(newChatKorisnik2);
 		}
 		
 		Poruka poruka = new Poruka();
@@ -120,11 +131,17 @@ public class PorukaController {
 	public ResponseEntity<?> posaljiPorukuUChat(@PathVariable Long idChat, @RequestBody String sadrzaj) {
 		Chat chat = chatService.findById(idChat);
 		Korisnik ulogovani = userService.getCurrentUser();
-		
-		if(!chat.findKorisnik(ulogovani)) {
-			return new ResponseEntity<>("You are not in this chat!", HttpStatus.BAD_REQUEST);
+		List<ChatKorisnik> chatKorisnik = chatKorisnikService.findByChatId(idChat);
+		boolean inConversation = false;
+		for(ChatKorisnik chatK : chatKorisnik){
+			if(chatK.getUcesnik().getId().equals(ulogovani.getId())){
+				inConversation = true;
+				break;
+			}
 		}
-		
+		if(!inConversation){
+			return new ResponseEntity<>("You are not member of this conversation!", HttpStatus.BAD_REQUEST);
+		}
 		Poruka poruka = new Poruka();
 		poruka.setPosiljalac(ulogovani);
 		poruka.setSadrzaj(sadrzaj);

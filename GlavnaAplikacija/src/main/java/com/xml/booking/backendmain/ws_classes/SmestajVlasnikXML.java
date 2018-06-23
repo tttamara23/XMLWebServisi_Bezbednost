@@ -14,18 +14,18 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for ponudauslugaXML complex type.
+ * <p>Java class for smestajVlasnikXML complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ponudauslugaXML">
+ * &lt;complexType name="smestajVlasnikXML">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="ponudaid" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="uslugaid" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="idSmestaja" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="idVlasnika" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,16 +35,16 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ponudauslugaXML", propOrder = {
+@XmlType(name = "smestajVlasnikXML", propOrder = {
     "id",
-    "ponudaid",
-    "uslugaid"
+    "idSmestaja",
+    "idVlasnika"
 })
-public class PonudauslugaXML {
+public class SmestajVlasnikXML {
 
     protected long id;
-    protected long ponudaid;
-    protected long uslugaid;
+    protected long idSmestaja;
+    protected long idVlasnika;
 
     /**
      * Gets the value of the id property.
@@ -63,35 +63,35 @@ public class PonudauslugaXML {
     }
 
     /**
-     * Gets the value of the ponudaid property.
+     * Gets the value of the idSmestaja property.
      * 
      */
-    public long getPonudaid() {
-        return ponudaid;
+    public long getIdSmestaja() {
+        return idSmestaja;
     }
 
     /**
-     * Sets the value of the ponudaid property.
+     * Sets the value of the idSmestaja property.
      * 
      */
-    public void setPonudaid(long value) {
-        this.ponudaid = value;
+    public void setIdSmestaja(long value) {
+        this.idSmestaja = value;
     }
 
     /**
-     * Gets the value of the uslugaid property.
+     * Gets the value of the idVlasnika property.
      * 
      */
-    public long getUslugaid() {
-        return uslugaid;
+    public long getIdVlasnika() {
+        return idVlasnika;
     }
 
     /**
-     * Sets the value of the uslugaid property.
+     * Sets the value of the idVlasnika property.
      * 
      */
-    public void setUslugaid(long value) {
-        this.uslugaid = value;
+    public void setIdVlasnika(long value) {
+        this.idVlasnika = value;
     }
 
 }

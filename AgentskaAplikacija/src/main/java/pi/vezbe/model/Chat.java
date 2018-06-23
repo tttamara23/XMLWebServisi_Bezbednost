@@ -21,23 +21,26 @@ import javax.xml.bind.annotation.XmlElement;
 public class Chat {
 
 	@Id
-	
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToMany(cascade = { CascadeType.ALL })
+	/*@ManyToMany()
     @JoinTable(
         name = "Chat_Korisnik", 
         joinColumns = { @JoinColumn(name = "chat_id") }, 
         inverseJoinColumns = { @JoinColumn(name = "korisnik_id") }
     )
-	protected List<Korisnik> korisnici;
+	protected List<Korisnik> korisnici;*/
+	
+	@OneToMany(mappedBy = "chat",cascade = CascadeType.REMOVE)
+	private List<ChatKorisnik> chatKorisnik;
 
 	
     @OneToMany(mappedBy = "chat", cascade = CascadeType.REMOVE)
 	private List<Poruka> poruke;
     
     public Chat() {
-		korisnici = new ArrayList<Korisnik>();
+		
 	}
 
 	public Long getId() {
@@ -49,13 +52,7 @@ public class Chat {
 	}
 
 
-	public List<Korisnik> getKorisnici() {
-		return korisnici;
-	}
 
-	public void setKorisnici(List<Korisnik> korisnici) {
-		this.korisnici = korisnici;
-	}
 
 	public List<Poruka> getPoruke() {
 		return poruke;
@@ -64,14 +61,14 @@ public class Chat {
 	public void setPoruke(List<Poruka> poruke) {
 		this.poruke = poruke;
 	}
-	
-	public boolean findKorisnik(Korisnik korisnik){
-		for(Korisnik kor : korisnici){
-			if(kor.getId().equals(korisnik.getId())){
-				return true;
-			}
-		}
-		return false;
+
+	public List<ChatKorisnik> getChatKorisnik() {
+		return chatKorisnik;
 	}
+
+	public void setChatKorisnik(List<ChatKorisnik> chatKorisnik) {
+		this.chatKorisnik = chatKorisnik;
+	}
+	
 	
 }

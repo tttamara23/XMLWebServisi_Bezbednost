@@ -4,6 +4,7 @@ import glavna.wsdl.AccommodationXML;
 import glavna.wsdl.PonudaResponse;
 import glavna.wsdl.PorukaResponse;
 import glavna.wsdl.SmestajResponse;
+import glavna.wsdl.SmestajVlasnikXML;
 import glavna.wsdl.TestResponse;
 import glavna.wsdl.ZauzetostResponse;
 
@@ -43,7 +44,9 @@ import pi.vezbe.dto.RezervacijaDTO;
 import pi.vezbe.dto.SmestajDTO;
 import pi.vezbe.dto.UslugaDTO;
 import pi.vezbe.dto.ZauzimanjeTerminaDTO;
+import pi.vezbe.model.Agent;
 import pi.vezbe.model.Chat;
+import pi.vezbe.model.ChatKorisnik;
 import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.Ponuda;
@@ -54,6 +57,7 @@ import pi.vezbe.model.SmestajVlasnik;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
+import pi.vezbe.service.ChatKorisnikService;
 import pi.vezbe.service.ChatService;
 import pi.vezbe.service.DodatneUslugeService;
 import pi.vezbe.service.KategorijaSmestajaService;
@@ -122,13 +126,15 @@ public class AgentController {
 	
 	@Autowired
 	private ChatService chatService;
+	
 	@Autowired
 	private ChatToChatDTOConverter chatToChatDTOConverter;
 	
+	@Autowired
+	private ChatKorisnikService ckService;
 	
 	@Autowired
 	private PorukaService porukeService;
-	
 	
 	@Autowired
 	private PorukaToPorukaDTOConverter porukaToPorukaDTO;
@@ -138,8 +144,6 @@ public class AgentController {
 	
 	@Autowired
 	private PonudaToPonudaDtoConverter ponudaToPonudaDtoConverter;
-	
-	private XMLConverter xmlConverter;
 	
 	@CrossOrigin
 	@RequestMapping(
@@ -289,7 +293,7 @@ public class AgentController {
     )
     public ResponseEntity<?> potvrdiRezervaciju(@RequestBody String id) {
 		
-		//PotvrdiResponse rez = WSClient.potvrdiRezervacijuWS(id);
+		
 		TestResponse test = WSClient.testWS(id);
 		Rezervacija zaPotvrditi = rezervacijaService.findOne(new Long(test.getName()));
 		if(zaPotvrditi == null){
@@ -311,8 +315,13 @@ public class AgentController {
 		//OVDEEE NAMESTI ULOGOVANOG
 		Korisnik ulogovani = userService.getCurrentUser();
 		
-		List<Chat> sviChatoviAgenta = chatService.findAllByKorisniciId(ulogovani.getId());
-		List<ChatDTO> sviChatoviDTO = chatToChatDTOConverter.convert(sviChatoviAgenta);
+		List<ChatKorisnik> sviChatoviAgenta = ckService.findByUcesnikId(ulogovani.getId());
+		List<Chat> sviChatovi = new ArrayList<Chat>();
+		for(ChatKorisnik ck : sviChatoviAgenta){
+			Chat chat = chatService.findById(ck.getChat().getId());
+			sviChatovi.add(chat);
+		}
+		List<ChatDTO> sviChatoviDTO = chatToChatDTOConverter.convert(sviChatovi);
 		
 		
         return new ResponseEntity<>(sviChatoviDTO, HttpStatus.OK);
@@ -342,6 +351,20 @@ public class AgentController {
 			TipSmestaja tip = xmlConverter.convertTipSmestajaXMLToTipSmestaja(smestajXML.getTipSmestaja());
 			toSave.setTipSmestaja(tip);
 			smestajService.save(toSave);
+			//namesti ulogovanog
+			SmestajVlasnikXML svXML = new SmestajVlasnikXML();
+			svXML.setIdSmestaja(toSave.getId());
+			svXML.setIdVlasnika(userService.getCurrentUser().getId());
+			/*SmestajVlasnikResponse responseSmestajVlasnik = WSClient.smestajVlasnikWS(svXML);
+			if(responseSmestajVlasnik!=null){
+				SmestajVlasnik sv = new SmestajVlasnik();
+				Smestaj smestaj = smestajService.findById(responseSmestajVlasnik.getSvResponse().getIdSmestaja());
+				Agent agent = userService.findAgentById(responseSmestajVlasnik.getSvResponse().getIdVlasnika());
+				sv.setId(responseSmestajVlasnik.getSvResponse().getId());
+				sv.setSmestaj(smestaj);
+				sv.setAgent(agent);
+				smestajVlasnikService.save(sv);
+			}*/
 	        return new ResponseEntity<>(HttpStatus.CREATED);
 		}
 
@@ -378,6 +401,7 @@ public class AgentController {
 			Korisnik posiljalac = userService.findById(responsePoruka.getPoruka().getIdPosiljaoca());
 			toSave.setChat(chatPoruke);
 			toSave.setPosiljalac(posiljalac);
+			toSave.setId(responsePoruka.getPoruka().getId());
 			toSave.setSadrzaj(responsePoruka.getPoruka().getSadrzaj());
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			toSave.setDatumSlanja(dateFormat.parse(responsePoruka.getPoruka().getDatumSlanja()));

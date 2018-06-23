@@ -11,21 +11,21 @@ package com.xml.booking.backendmain.ws_classes;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for tipSmestajaXML complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="tipSmestajaXML">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="accommodation" type="{http://booking.xml.com/backendmain/ws-classes}accommodationXML"/>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="naziv" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,37 +35,54 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "accommodation"
+@XmlType(name = "tipSmestajaXML", propOrder = {
+    "id",
+    "naziv"
 })
-@XmlRootElement(name = "smestajRequest")
-public class SmestajRequest {
+public class TipSmestajaXML {
 
+    protected long id;
     @XmlElement(required = true)
-    protected AccommodationXML accommodation;
+    protected String naziv;
 
     /**
-     * Gets the value of the accommodation property.
+     * Gets the value of the id property.
      * 
-     * @return
-     *     possible object is
-     *     {@link AccommodationXML }
-     *     
      */
-    public AccommodationXML getAccommodation() {
-        return accommodation;
+    public long getId() {
+        return id;
     }
 
     /**
-     * Sets the value of the accommodation property.
+     * Sets the value of the id property.
+     * 
+     */
+    public void setId(long value) {
+        this.id = value;
+    }
+
+    /**
+     * Gets the value of the naziv property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getNaziv() {
+        return naziv;
+    }
+
+    /**
+     * Sets the value of the naziv property.
      * 
      * @param value
      *     allowed object is
-     *     {@link AccommodationXML }
+     *     {@link String }
      *     
      */
-    public void setAccommodation(AccommodationXML value) {
-        this.accommodation = value;
+    public void setNaziv(String value) {
+        this.naziv = value;
     }
 
 }

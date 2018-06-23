@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="accommodation" type="{http://booking.xml.com/backendmain/ws-classes}accommodationXML"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "accommodation"
+    "name"
 })
-@XmlRootElement(name = "smestajRequest")
-public class SmestajRequest {
+@XmlRootElement(name = "testRequest")
+public class TestRequest {
 
     @XmlElement(required = true)
-    protected AccommodationXML accommodation;
+    protected String name;
 
     /**
-     * Gets the value of the accommodation property.
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
-     *     {@link AccommodationXML }
+     *     {@link String }
      *     
      */
-    public AccommodationXML getAccommodation() {
-        return accommodation;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the value of the accommodation property.
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
-     *     {@link AccommodationXML }
+     *     {@link String }
      *     
      */
-    public void setAccommodation(AccommodationXML value) {
-        this.accommodation = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 }

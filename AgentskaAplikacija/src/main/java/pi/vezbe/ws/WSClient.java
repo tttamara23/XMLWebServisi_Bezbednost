@@ -17,6 +17,7 @@ import glavna.wsdl.PotvrdiResponse;
 import glavna.wsdl.RezXML;
 import glavna.wsdl.SmestajRequest;
 import glavna.wsdl.SmestajResponse;
+import glavna.wsdl.SmestajVlasnikXML;
 import glavna.wsdl.TestRequest;
 import glavna.wsdl.TestResponse;
 import glavna.wsdl.TipSmestajaXML;
@@ -51,7 +52,7 @@ import pi.vezbe.service.PonudaService;
 import pi.vezbe.service.TipSmestajaService;
 
 public class WSClient extends WebServiceGatewaySupport {
-	private static final String URI = "https://localhost:1234/ws";
+	private static final String URI = "http://localhost:1234/ws";
 	
 	private XMLConverter xmlConverter;
 	@Autowired
@@ -108,7 +109,7 @@ public class WSClient extends WebServiceGatewaySupport {
 		request.getPoruka().setIdChata(new Long(porukaChatDTO.getIdChat()));
 		request.getPoruka().setSadrzaj(porukaChatDTO.getSadrzajPoruke());
 		
-		request.getPoruka().setIdPosiljaoca(3L);;
+		request.getPoruka().setIdPosiljaoca(4L);;
 		request.getPoruka().setDatumSlanja("");
 		request.getPoruka().setSeen(false);
 		PorukaResponse response = (PorukaResponse) getWebServiceTemplate().marshalSendAndReceive(URI , 
@@ -116,7 +117,16 @@ public class WSClient extends WebServiceGatewaySupport {
 
 		return response;
 	}
-	
+	/*public SmestajVlasnikResponse smestajVlasnikWS(SmestajVlasnikXML SmestajVlasnikXML){
+		SmestajVlasnikRequest request = new SmestajVlasnikRequest();
+		request.setSvRequest(new SmestajVlasnikXML());
+		request.getSvRequest().setIdSmestaja(SmestajVlasnikXML.getIdSmestaja());
+		request.getSvRequest().setIdVlasnika(SmestajVlasnikXML.getIdVlasnika());
+		SmestajVlasnikResponse response = (SmestajVlasnikResponse) getWebServiceTemplate().marshalSendAndReceive(URI ,
+				request, new SoapActionCallback(URI + "/smestajVlasnikRequest"));
+		return response;
+		
+	}*/
 	public SmestajResponse smestajWS(SmestajDTO smestaj) throws IOException  {
 		SmestajRequest request = new SmestajRequest();
 		Smestaj uneti = smestajDtoToSmestajConverter.convert(smestaj);
@@ -178,3 +188,4 @@ public class WSClient extends WebServiceGatewaySupport {
 	
 	
 }
+

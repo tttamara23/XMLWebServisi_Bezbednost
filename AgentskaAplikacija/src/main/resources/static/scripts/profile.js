@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/user/getLoggedIn",
+		url: "http://localhost:4321/user/getLoggedIn",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -10,7 +10,7 @@ $(document).ready(function () {
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function (data) {
-        	if(data.role === "ADMIN") {
+        	if(data.role === "AGENT") {
         		$("#tabProfileName").text(data.name);
         	} else {
         		top.location.href = "index.html";
@@ -39,7 +39,7 @@ function changePasswordClick() {
 	
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/user/changePassword",
+		url: "http://localhost:4321/user/changePassword",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -59,7 +59,7 @@ function changePasswordClick() {
 
 function logout() {
     $.ajax({
-    	url: "https://localhost:1234/user/logout",
+    	url: "http://localhost:4321/user/logout",
         type: "POST",
         crossDomain: true,
         xhrFields: {

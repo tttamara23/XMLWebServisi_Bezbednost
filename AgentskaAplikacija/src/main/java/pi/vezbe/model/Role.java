@@ -1,7 +1,7 @@
 package pi.vezbe.model;
 
-public enum Role {
+public enum Role{
 	ADMIN,
-    AGENT,
-    REGISTERED
+	REGISTERED,
+	AGENT
 }

@@ -124,9 +124,12 @@ public abstract class Korisnik {
     @JoinColumn(name = "id_rola", nullable = false)
     protected Role role;
     
-    @XmlElement(required = true)
+   /* @XmlElement(required = true)
 	@ManyToMany(mappedBy = "korisnici", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
-    protected List<Chat> chats;
+    protected List<Chat> chats;*/
+    
+    @OneToMany(mappedBy = "ucesnik",cascade = CascadeType.REMOVE)
+	private List<ChatKorisnik> chatKorisnik;
     
     @OneToMany(mappedBy = "posiljalac", cascade = CascadeType.REMOVE)//, cascade = CascadeType.REMOVE
 	private List<Poruka> poruke;
@@ -145,13 +148,7 @@ public abstract class Korisnik {
 		this.role = role;
 	}
 
-	public List<Chat> getChats() {
-		return chats;
-	}
-
-	public void setChats(List<Chat> chats) {
-		this.chats = chats;
-	}
+	
 
 	/**
      * Gets the value of the id property.
@@ -311,6 +308,14 @@ public abstract class Korisnik {
 
 	public void setPoruke(List<Poruka> poruke) {
 		this.poruke = poruke;
+	}
+
+	public List<ChatKorisnik> getChatKorisnik() {
+		return chatKorisnik;
+	}
+
+	public void setChatKorisnik(List<ChatKorisnik> chatKorisnik) {
+		this.chatKorisnik = chatKorisnik;
 	}
 	
 

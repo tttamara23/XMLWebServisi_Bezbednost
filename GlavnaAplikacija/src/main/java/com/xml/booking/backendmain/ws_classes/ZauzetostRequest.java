@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="accommodation" type="{http://booking.xml.com/backendmain/ws-classes}accommodationXML"/>
+ *         &lt;element name="zauzetost" type="{http://booking.xml.com/backendmain/ws-classes}zauzetostXML"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "accommodation"
+    "zauzetost"
 })
-@XmlRootElement(name = "smestajRequest")
-public class SmestajRequest {
+@XmlRootElement(name = "zauzetostRequest")
+public class ZauzetostRequest {
 
     @XmlElement(required = true)
-    protected AccommodationXML accommodation;
+    protected ZauzetostXML zauzetost;
 
     /**
-     * Gets the value of the accommodation property.
+     * Gets the value of the zauzetost property.
      * 
      * @return
      *     possible object is
-     *     {@link AccommodationXML }
+     *     {@link ZauzetostXML }
      *     
      */
-    public AccommodationXML getAccommodation() {
-        return accommodation;
+    public ZauzetostXML getZauzetost() {
+        return zauzetost;
     }
 
     /**
-     * Sets the value of the accommodation property.
+     * Sets the value of the zauzetost property.
      * 
      * @param value
      *     allowed object is
-     *     {@link AccommodationXML }
+     *     {@link ZauzetostXML }
      *     
      */
-    public void setAccommodation(AccommodationXML value) {
-        this.accommodation = value;
+    public void setZauzetost(ZauzetostXML value) {
+        this.zauzetost = value;
     }
 
 }

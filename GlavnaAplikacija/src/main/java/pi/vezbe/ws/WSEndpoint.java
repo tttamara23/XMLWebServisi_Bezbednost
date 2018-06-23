@@ -17,7 +17,9 @@ import pi.vezbe.converters.SmestajDTOToSmestajConverter;
 import pi.vezbe.converters.SmestajToSmestajDtoConverter;
 import pi.vezbe.converters.UslugaDTOToUslugaConverter;
 import pi.vezbe.converters.UslugaToUslugaDtoConverter;
+import pi.vezbe.model.Agent;
 import pi.vezbe.model.Chat;
+import pi.vezbe.model.ChatKorisnik;
 import pi.vezbe.model.KategorijaSmestaja;
 import pi.vezbe.model.Korisnik;
 import pi.vezbe.model.Ponuda;
@@ -29,6 +31,7 @@ import pi.vezbe.model.SmestajVlasnik;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.model.Usluga;
 import pi.vezbe.service.AgentService;
+import pi.vezbe.service.ChatKorisnikService;
 import pi.vezbe.service.ChatService;
 import pi.vezbe.service.KategorijaSmestajaService;
 import pi.vezbe.service.KorisnikService;
@@ -44,6 +47,7 @@ import pi.vezbe.service.UserService;
 import pi.vezbe.service.UslugaService;
 
 import com.xml.booking.backendmain.ws_classes.AccommodationXML;
+import com.xml.booking.backendmain.ws_classes.ChatKorisnikXML;
 import com.xml.booking.backendmain.ws_classes.ChatXML;
 import com.xml.booking.backendmain.ws_classes.GetDBRequest;
 import com.xml.booking.backendmain.ws_classes.GetDBResponse;
@@ -64,6 +68,8 @@ import com.xml.booking.backendmain.ws_classes.RezXML;
 import com.xml.booking.backendmain.ws_classes.RezervacijaXML;
 import com.xml.booking.backendmain.ws_classes.SmestajRequest;
 import com.xml.booking.backendmain.ws_classes.SmestajResponse;
+import com.xml.booking.backendmain.ws_classes.SmestajVlasnikRequest;
+import com.xml.booking.backendmain.ws_classes.SmestajVlasnikResponse;
 import com.xml.booking.backendmain.ws_classes.SmestajVlasnikXML;
 import com.xml.booking.backendmain.ws_classes.TestRequest;
 import com.xml.booking.backendmain.ws_classes.TestResponse;
@@ -128,8 +134,12 @@ public class WSEndpoint {
 	
 	@Autowired
 	private PonudaUslugaService ponudaUslugaService;
+	
 	@Autowired
 	private SmestajVlasnikService smestajVlasnikService;
+	
+	@Autowired
+	private ChatKorisnikService chatKorisnikService;
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ponudaRequest")
 	@ResponsePayload
@@ -179,6 +189,7 @@ public class WSEndpoint {
 	public LogInResponse logINRequest(@RequestPayload LogInRequest request) {
 		LogInResponse response = new LogInResponse();
 		Korisnik korisnik = userService.findByEmail(request.getUser().getEmail());
+		userService.setCurrentUser(korisnik);
 		if(!korisnik.getRole().getId().equals(3L)) {
 			return null;		}
 		String enteredPassword = request.getUser().getPassword();
@@ -290,6 +301,15 @@ public class WSEndpoint {
 			response.getChatovi().add(chatXML);
 		}
 		
+		ArrayList<ChatKorisnik> chatKorisnikList = (ArrayList<ChatKorisnik>) chatKorisnikService.findAll();
+		for(ChatKorisnik ck : chatKorisnikList){
+			ChatKorisnikXML ckXML = new ChatKorisnikXML();
+			ckXML.setId(ck.getId());
+			ckXML.setIdChata(ck.getChat().getId());
+			ckXML.setIdKorisnika(ck.getUcesnik().getId());
+			response.getChatKorisnikList().add(ckXML);
+		}
+		
 		ArrayList<SmestajVlasnik> smestajVlasnikList =  (ArrayList<SmestajVlasnik>) smestajVlasnikService.findAll();
 		for(int i = 0; i<smestajVlasnikList.size();i++){
 			SmestajVlasnikXML smestajVlasnikXML = new SmestajVlasnikXML();
@@ -326,6 +346,28 @@ public class WSEndpoint {
 		response.setId(rezXML);
 		rezervacijaService.save(rez);
 		return response;
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "smestajVlasnikRequest")
+	@ResponsePayload
+	public SmestajVlasnikResponse smestajVlasnikRequest(@RequestPayload SmestajVlasnikRequest request) {
+		
+		SmestajVlasnik sv = new SmestajVlasnik();
+		Smestaj smestaj = smestajService.findById(request.getSvRequest().getIdSmestaja());
+		Agent agent = userService.findAgentById(request.getSvRequest().getIdVlasnika());
+		sv.setSmestaj(smestaj);
+		sv.setAgent(agent);
+		SmestajVlasnik saved = smestajVlasnikService.save(sv);
+		if(saved!=null){
+			SmestajVlasnikResponse response = new SmestajVlasnikResponse();
+			SmestajVlasnikXML sv2 = new SmestajVlasnikXML();
+			sv2.setId(saved.getId());
+			sv2.setIdSmestaja(saved.getSmestaj().getId());
+			sv2.setIdVlasnika(saved.getAgent().getId());
+			response.setSvResponse(sv2);
+			return response;
+		}
+		return null;
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "porukaRequest")
@@ -389,10 +431,10 @@ public class WSEndpoint {
 		smestajZaUnos.setNaziv(smestajXML.getNaziv());
 		smestajZaUnos.setOpis(smestajXML.getOpis());
 		smestajZaUnos.setLokacija(smestajXML.getLokacija());
-		/*for(int i=0; i< request.getAccommodation().getUsluge().size(); i++){
+		for(int i=0; i< request.getAccommodation().getUsluge().size(); i++){
 			Usluga u = uslugaService.findById(request.getAccommodation().getUsluge().get(i).toString());
 			smestajZaUnos.getUsluga().add(u);
-		}*/
+		}
 		Long a = request.getAccommodation().getTipSmestaja().getId();
 		
 		TipSmestaja tip = tipSmestajaService.findById(a.toString());
