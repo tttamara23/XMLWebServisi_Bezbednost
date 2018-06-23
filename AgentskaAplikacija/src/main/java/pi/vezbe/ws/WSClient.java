@@ -15,6 +15,7 @@ import glavna.wsdl.PorukaXML;
 import glavna.wsdl.PotvrdiRequest;
 import glavna.wsdl.PotvrdiResponse;
 import glavna.wsdl.RezXML;
+import glavna.wsdl.SlikaXML;
 import glavna.wsdl.SmestajRequest;
 import glavna.wsdl.SmestajResponse;
 import glavna.wsdl.SmestajVlasnikRequest;
@@ -137,6 +138,11 @@ public class WSClient extends WebServiceGatewaySupport {
 		TipSmestajaXML tipXML = xmlConverter.convertTipSmestajaToTipSmestajaXML(tipSmestaja);
 		AccommodationXML smestajXML = new AccommodationXML();
 		smestajXML.setTipSmestaja(tipXML);
+		for(int i=0; i< smestaj.getSlike().size(); i++){
+			SlikaXML slika = new SlikaXML();
+			slika.setUrl(smestaj.getSlike().get(i));
+			smestajXML.getSlike().add(slika);
+		}
 		smestajXML.setLokacija(smestaj.getLokacija());
 		smestajXML.setNaziv(smestaj.getNaziv());
 		smestajXML.setOpis(smestaj.getOpis());

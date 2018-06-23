@@ -318,8 +318,8 @@ function dodajSmestajnuJedinicu(){
 	for (var i = 0; i < numberOfFiles; i++) {
 		var f = files.files[i];
         var fileReader = new FileReader();
-		var fileToWrite =  fileReader.readAsDataURL(f);
-        fileArray.push(fileToWrite);
+		fileReader.readAsDataURL(f);
+        fileArray.push(fileReader.result);
 		
 	}
    
@@ -335,7 +335,8 @@ function dodajSmestajnuJedinicu(){
 		"lokacija": lokacijaSmestaja,
 		"opis" : opisSmestaja,
 		"usluge" : oznaceneUsluge,
-		"kategorija": kategorijaSmestaja
+		"kategorija": kategorijaSmestaja,
+		"slike": fileArray
 		
 	});
     $.ajax({

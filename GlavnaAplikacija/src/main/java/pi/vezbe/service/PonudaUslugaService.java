@@ -21,5 +21,10 @@ public class PonudaUslugaService {
 	public List<PonudaUsluga> getAll(){
 		return ponudaUslugaRepository.findAll();
 	}
+
+	public void save(PonudaUsluga ponudaUsluga) {
+		// TODO Auto-generated method stub
+		ponudaUslugaRepository.save(ponudaUsluga);
+	}
 	
 }

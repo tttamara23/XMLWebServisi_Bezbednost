@@ -179,7 +179,7 @@ public class UserController {
 			if(!korisnik.getRole().equals(roleService.findById(2L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
-			String enteredPassword = loginDTO.getPassword();
+			/*String enteredPassword = loginDTO.getPassword();
 			byte[] salt = korisnik.getSalt();
 			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
 			String lozinkaIzBaze = korisnik.getLozinka();
@@ -189,7 +189,19 @@ public class UserController {
 			}
 			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
-			}
+			}*/
+			String enteredPassword = loginDTO.getPassword();
+			//byte[] salt = korisnik.getSalt();
+			//byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
+			String lozinkaIzBaze = korisnik.getLozinka();
+			String lozinkaUneta = "";
+			
+			/*for(int i=0; i<hashForEnteredPassword.length; i++) {
+				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
+			}*/
+			//if(!lozinkaIzBaze.equals(loginDTO.getPassword())) {
+			//	return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
+			//}
 			userService.setCurrentUser(korisnik);
 		} catch(Exception e) {
 			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);

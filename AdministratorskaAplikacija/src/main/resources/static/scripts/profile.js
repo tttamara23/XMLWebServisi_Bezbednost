@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/user/getLoggedIn",
+		url: "http://localhost:1234/user/getLoggedIn",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -39,7 +39,7 @@ function changePasswordClick() {
 	
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/user/changePassword",
+		url: "http://localhost:1234/user/changePassword",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -59,7 +59,7 @@ function changePasswordClick() {
 
 function logout() {
     $.ajax({
-    	url: "https://localhost:1234/user/logout",
+    	url: "http://localhost:1234/user/logout",
         type: "POST",
         crossDomain: true,
         xhrFields: {
@@ -78,7 +78,7 @@ function logout() {
 function users() {
 	$("#tableUsers").find("tr:gt(0)").remove();
     $.ajax({
-    	url: "https://localhost:1234/administrator/showUsers",
+    	url: "http://localhost:1234/administrator/showUsers",
         type: "GET",
         crossDomain: true,
         headers: {  'Access-Control-Allow-Origin': '*' },
@@ -135,7 +135,7 @@ function users() {
 
 function blokiraj(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/blokiraj",
+    	url: "http://localhost:1234/administrator/blokiraj",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -156,7 +156,7 @@ function blokiraj(id){
 }
 function aktiviraj(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/aktiviraj",
+    	url: "http://localhost:1234/administrator/aktiviraj",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -177,7 +177,7 @@ function aktiviraj(id){
 }
 function ukloniKorisnika(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/ukloni",
+    	url: "http://localhost:1234/administrator/ukloni",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -199,7 +199,7 @@ function ukloniKorisnika(id){
 function comments() {
 	$("#tableComments").find("tr:gt(0)").remove();
     $.ajax({
-    	url: "https://localhost:1234/administrator/showComments",
+    	url: "http://localhost:1234/administrator/showComments",
         type: "GET",
         crossDomain: true,
         xhrFields: {
@@ -249,7 +249,7 @@ function comments() {
 }
 function objavi(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/objaviKomentar",
+    	url: "http://localhost:1234/administrator/objaviKomentar",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -289,7 +289,7 @@ function buttonRegisterAgentClick() {
 	});
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/administrator/addAgent",
+		url: "http://localhost:1234/administrator/addAgent",
         type: "POST",
         contentType: "application/json",
         data: data,

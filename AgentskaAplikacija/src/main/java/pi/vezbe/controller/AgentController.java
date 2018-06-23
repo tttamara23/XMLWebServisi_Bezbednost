@@ -197,6 +197,7 @@ public class AgentController {
 		toSave.setDatumDo(dateFormat.parse(response.getPonuda().getDatumDo()));
 		toSave.setDatumOd(dateFormat.parse(response.getPonuda().getDatumOd()));
 		Smestaj smestaj = smestajService.findById(response.getPonuda().getSmestajId());
+		
 		toSave.setId(response.getPonuda().getId());
 		toSave.setSmestaj(smestaj);
 		ponudaService.save((toSave));

@@ -63,9 +63,9 @@ public class Usluga {
     @OneToMany(mappedBy = "usluga", cascade = CascadeType.REMOVE)
     protected List<PonudaUsluga> ponudaUsluga;
     
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id_smestaja", nullable = true)
-    protected Smestaj smestaj;
+    @OneToMany(mappedBy = "usluga", cascade = CascadeType.REMOVE)
+    protected List<SmestajUsluga> smestajUsluga;
+    
 
     /**
      * Gets the value of the id property.
@@ -115,12 +115,14 @@ public class Usluga {
 		this.ponudaUsluga = ponudaUsluga;
 	}
 
-	public Smestaj getSmestaj() {
-		return smestaj;
+	public List<SmestajUsluga> getSmestajUsluga() {
+		return smestajUsluga;
 	}
 
-	public void setSmestaj(Smestaj smestaj) {
-		this.smestaj = smestaj;
+	public void setSmestajUsluga(List<SmestajUsluga> smestajUsluga) {
+		this.smestajUsluga = smestajUsluga;
 	}
+
+
 
 }

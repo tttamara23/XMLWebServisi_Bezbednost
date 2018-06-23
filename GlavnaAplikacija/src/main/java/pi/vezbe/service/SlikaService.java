@@ -18,4 +18,8 @@ public class SlikaService {
 		return slikaRepository.findBySmestajId(idSmestaj);
 	}
 	
+	public void save(Slika s){
+		slikaRepository.save(s);
+	}
+	
 }

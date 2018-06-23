@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -26,7 +27,9 @@ import pi.vezbe.model.Ponuda;
 import pi.vezbe.model.PonudaUsluga;
 import pi.vezbe.model.Poruka;
 import pi.vezbe.model.Rezervacija;
+import pi.vezbe.model.Slika;
 import pi.vezbe.model.Smestaj;
+import pi.vezbe.model.SmestajUsluga;
 import pi.vezbe.model.SmestajVlasnik;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.model.Usluga;
@@ -40,7 +43,9 @@ import pi.vezbe.service.PonudaUslugaService;
 import pi.vezbe.service.PorukaService;
 import pi.vezbe.service.RezervacijaService;
 import pi.vezbe.service.RoleService;
+import pi.vezbe.service.SlikaService;
 import pi.vezbe.service.SmestajService;
+import pi.vezbe.service.SmestajUslugaService;
 import pi.vezbe.service.SmestajVlasnikService;
 import pi.vezbe.service.TipSmestajaService;
 import pi.vezbe.service.UserService;
@@ -141,6 +146,12 @@ public class WSEndpoint {
 	@Autowired
 	private ChatKorisnikService chatKorisnikService;
 	
+	@Autowired
+	private SlikaService slikaService;
+	
+
+	@Autowired
+	private SmestajUslugaService smestajUslugaService;
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ponudaRequest")
 	@ResponsePayload
 	public PonudaResponse ponudaRequest(@RequestPayload PonudaRequest request) throws ParseException {
@@ -155,10 +166,19 @@ public class WSEndpoint {
 		ponuda.setDatumDo(dateFormat.parse(request.getPonuda().getDatumDo()));
 		ponuda.setDatumOd(dateFormat.parse(request.getPonuda().getDatumOd()));
 		Smestaj smestaj = smestajService.findById(request.getPonuda().getSmestajId());
+		
 		ponuda.setSmestaj(smestaj);
 		
 		Ponuda toSave = ponudaService.save(ponuda);
 		if(toSave!=null){
+			List<SmestajUsluga> smestajUsluge = smestajUslugaService.findAllBySmestajId(smestaj.getId());
+			for(SmestajUsluga su : smestajUsluge){
+				PonudaUsluga ponudaUsluga = new PonudaUsluga();
+				ponudaUsluga.setPonuda(toSave);
+				ponudaUsluga.setUsluga(su.getIdUsluge());
+				ponudaUslugaService.save(ponudaUsluga);
+			}
+			
 			response.getPonuda().setBrojLezaja(toSave.getBrojLezaja());
 			response.getPonuda().setBrojSlobodnihPonuda(toSave.getBrojSlobodnihPonuda());
 			response.getPonuda().setCena(Double.parseDouble(toSave.getCena().toString()));
@@ -431,10 +451,8 @@ public class WSEndpoint {
 		smestajZaUnos.setNaziv(smestajXML.getNaziv());
 		smestajZaUnos.setOpis(smestajXML.getOpis());
 		smestajZaUnos.setLokacija(smestajXML.getLokacija());
-		for(int i=0; i< request.getAccommodation().getUsluge().size(); i++){
-			Usluga u = uslugaService.findById(request.getAccommodation().getUsluge().get(i).toString());
-			smestajZaUnos.getUsluga().add(u);
-		}
+		
+		
 		Long a = request.getAccommodation().getTipSmestaja().getId();
 		
 		TipSmestaja tip = tipSmestajaService.findById(a.toString());
@@ -446,7 +464,27 @@ public class WSEndpoint {
 		
 		
 		Smestaj saved = smestajService.save(smestajZaUnos);
+		saved.setSlika(new ArrayList<Slika>());
+		//ArrayList<Slika> slike = new ArrayList<Slika>();
+		for(int i=0; i< smestajXML.getSlike().size(); i++){
+			Slika slika = new Slika();
+			slika.setSmestaj(saved);
+			slika.setUrl(smestajXML.getSlike().get(i).getUrl());
+			//slika.setUrl("aa");
+			slikaService.save(slika);
+			saved.getSlika().add(slika);
+		}
+		
+		smestajService.save(saved);
 		if(saved!=null){
+			for(int i=0; i< request.getAccommodation().getUsluge().size(); i++){
+				Usluga u = uslugaService.findById(request.getAccommodation().getUsluge().get(i).toString());
+				SmestajUsluga smestajUsluga = new SmestajUsluga();
+				smestajUsluga.setIdSmestaja(saved);
+				smestajUsluga.setIdUsluge(u);
+				smestajUslugaService.save(smestajUsluga);
+				
+			}
 			AccommodationXML smestajXML1 = new AccommodationXML();
 			smestajXML1.setId(saved.getId());
 			smestajXML1.setLokacija(saved.getLokacija());

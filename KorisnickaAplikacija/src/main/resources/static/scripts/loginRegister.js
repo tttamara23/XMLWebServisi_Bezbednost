@@ -13,7 +13,7 @@ function buttonLoginClick() {
 	});
 	$.ajax({
 		async: false,
-		url: "https://localhost:1234/user/loginRegistered",
+		url: "http://localhost:1234/user/loginRegistered",
         type: "POST",
         contentType: "application/json",
         data: data,

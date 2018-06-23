@@ -1,5 +1,6 @@
 package pi.vezbe.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -51,6 +52,7 @@ import javax.xml.bind.annotation.XmlType;
     	@GeneratedValue(strategy=GenerationType.AUTO)
         protected Long id;
     	
+    	@Column(length = 1000000)
         @XmlElement(required = true)
         protected String url;
         

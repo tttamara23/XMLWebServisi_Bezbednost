@@ -160,7 +160,9 @@ public class Smestaj {
     @XmlElement(required = true)
     protected String lokacija;
     
-    
+    @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
+    protected List<SmestajUsluga> smestajUsluga;
+
     
     
     @XmlElement(required = true)
@@ -172,8 +174,7 @@ public class Smestaj {
     protected List<Ponuda> ponuda;
     
     @XmlElement(name = "Usluga", required = true)
-    @OneToMany(mappedBy = "smestaj", cascade = CascadeType.MERGE)
-    protected List<Usluga> usluga;
+    protected ArrayList<Usluga> usluga;
     
     @XmlElement(name = "Slika", required = true)
     @OneToMany(mappedBy = "smestaj", cascade = CascadeType.REMOVE)
@@ -203,7 +204,7 @@ public class Smestaj {
 		return usluga;
 	}
 
-	public void setUsluga(List<Usluga> usluga) {
+	public void setUsluga(ArrayList<Usluga> usluga) {
 		this.usluga = usluga;
 	}
 
@@ -384,6 +385,14 @@ public class Smestaj {
     public void setSlika(List<Slika> value) {
         this.slika = value;
     }
+
+	public List<SmestajUsluga> getSmestajUsluga() {
+		return smestajUsluga;
+	}
+
+	public void setSmestajUsluga(List<SmestajUsluga> smestajUsluga) {
+		this.smestajUsluga = smestajUsluga;
+	}
 
 
     

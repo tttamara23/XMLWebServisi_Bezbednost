@@ -115,7 +115,7 @@ public class AdminisrtatorController {
 		}
 		
         Agent agentToSave = agentDtoToAgentConverter.convert(agentDTO);
-       // agentToSave.setLozinka(getSaltString());
+       agentToSave.setLozinka(getSaltString());
         Agent saved = agentService.save(agentToSave);
         
         emailService.getMail().setTo(agentToSave.getEmail());

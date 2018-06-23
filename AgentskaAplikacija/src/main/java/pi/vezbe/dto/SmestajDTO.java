@@ -13,6 +13,7 @@ public class SmestajDTO {
 	private String opis;
 	private List<PonudaDTO> ponude;
 	private List<UslugaDTO> usluge;
+	private List<String> slike;
 	
 	
 	public SmestajDTO(Long id, String naziv, String tip, String kategorija, String lokacija, String opis) {
@@ -33,6 +34,15 @@ public class SmestajDTO {
 	}
 	
 	
+	
+	public List<String> getSlike() {
+		return slike;
+	}
+
+	public void setSlike(List<String> slike) {
+		this.slike = slike;
+	}
+
 	public Long getId() {
 		return id;
 	}

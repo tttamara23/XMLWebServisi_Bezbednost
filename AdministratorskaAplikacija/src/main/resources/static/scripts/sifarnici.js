@@ -1,7 +1,7 @@
 function tipSmestaja() {
 	$("#tableTipSmestaja").find("tr:gt(0)").remove();
     $.ajax({
-    	url: "https://localhost:1234/administrator/tipSmestaja",
+    	url: "http://localhost:1234/administrator/tipSmestaja",
         type: "GET",
         crossDomain: true,
         xhrFields: {
@@ -38,7 +38,7 @@ function tipSmestaja() {
 }
 function ukloni(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/ukloniTipSmestaja",
+    	url: "http://localhost:1234/administrator/ukloniTipSmestaja",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -60,7 +60,7 @@ function ukloni(id){
 
 function izmeni(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/izmeniTipSmestaja",
+    	url: "http://localhost:1234/administrator/izmeniTipSmestaja",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -96,7 +96,7 @@ function sacuvajIzmenuTipa2(id,naziv){
 	
 	var podaciJson = JSON.stringify(podaci);
 	$.ajax({
-    	url: "https://localhost:1234/administrator/sacuvajIzmenuTipaSmestaja",
+    	url: "http://localhost:1234/administrator/sacuvajIzmenuTipaSmestaja",
         type: "POST",
         crossDomain: true,
         contentType: "application/json",
@@ -125,7 +125,7 @@ function dodajTipSmestaja(){
 	});
     $.ajax({
     	async: false,
-		url: "https://localhost:1234/administrator/addTipSmestaja",
+		url: "http://localhost:1234/administrator/addTipSmestaja",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -154,7 +154,7 @@ function dodajKategorijuSmestaja(){
 	});
     $.ajax({
     	async: false,
-		url: "https://localhost:1234/administrator/addKategorijaSmestaja",
+		url: "http://localhost:1234/administrator/addKategorijaSmestaja",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -183,7 +183,7 @@ function dodajDodatneUsluge(){
 	});
     $.ajax({
     	async: false,
-		url: "https://localhost:1234/administrator/addDodatneUsluge",
+		url: "http://localhost:1234/administrator/addDodatneUsluge",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -204,7 +204,7 @@ function dodajDodatneUsluge(){
 function kategorijaSmestaja() {
 	$("#tableKategorijaSmestaja").find("tr:gt(0)").remove();
     $.ajax({
-    	url: "https://localhost:1234/administrator/kategorijaSmestaja",
+    	url: "http://localhost:1234/administrator/kategorijaSmestaja",
         type: "GET",
         crossDomain: true,
         xhrFields: {
@@ -242,7 +242,7 @@ function kategorijaSmestaja() {
 }
 function ukloniKategoriju(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/ukloniKategoriju",
+    	url: "http://localhost:1234/administrator/ukloniKategoriju",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -262,7 +262,7 @@ function ukloniKategoriju(id){
 }
 function izmeniKategoriju(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/izmeniKategoriju",
+    	url: "http://localhost:1234/administrator/izmeniKategoriju",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -299,7 +299,7 @@ function sacuvajIzmenuKategorije2(id,kategorija){
 	
 	var podaciJson = JSON.stringify(podaci);
 	$.ajax({
-    	url: "https://localhost:1234/administrator/sacuvajIzmenuKategorijeSmestaja",
+    	url: "http://localhost:1234/administrator/sacuvajIzmenuKategorijeSmestaja",
         type: "POST",
         crossDomain: true,
         contentType: "application/json",
@@ -321,7 +321,7 @@ function sacuvajIzmenuKategorije2(id,kategorija){
 function dodatneUsluge() {
 	$("#tableDodatneUsluge").find("tr:gt(0)").remove();
     $.ajax({
-    	url: "https://localhost:1234/administrator/dodatneUsluge",
+    	url: "http://localhost:1234/administrator/dodatneUsluge",
         type: "GET",
         crossDomain: true,
         xhrFields: {
@@ -359,7 +359,7 @@ function dodatneUsluge() {
 }
 function ukloniUslugu(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/ukloniUslugu",
+    	url: "http://localhost:1234/administrator/ukloniUslugu",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -380,7 +380,7 @@ function ukloniUslugu(id){
 
 function izmeniUslugu(id){
 	$.ajax({
-    	url: "https://localhost:1234/administrator/izmeniUslugu",
+    	url: "http://localhost:1234/administrator/izmeniUslugu",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -416,7 +416,7 @@ function sacuvajIzmenuUsluge2(id,naziv){
 	
 	var podaciJson = JSON.stringify(podaci);
 	$.ajax({
-    	url: "https://localhost:1234/administrator/sacuvajIzmenuUsluge",
+    	url: "http://localhost:1234/administrator/sacuvajIzmenuUsluge",
         type: "POST",
         crossDomain: true,
         contentType: "application/json",
