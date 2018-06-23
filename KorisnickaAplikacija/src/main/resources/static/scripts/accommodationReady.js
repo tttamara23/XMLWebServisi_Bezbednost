@@ -71,7 +71,12 @@ $(document).ready(function () {
         	});
         	
         	for(i=0; i<data.length; i++) {
-        		datum = data[i].datumKomentara.substring(0, 19);
+        		var datum;
+        		if(data[i].datumKomentara != null) {
+        			datum = data[i].datumKomentara.substring(0, 19);
+        		} else {
+        			datum = "2018-06-26 09:00:00";
+        		}
         		newCom = "<div class=\"row textTag\" style=\"padding-left:2%;width:50%;\">"
         			+ "<div class=\"col-lg-8\">" +data[i].imeAutora + "&nbsp" + data[i].prezimeAutora + ":</div>"
         			+ "<div class=\"col-lg-4\">" + datum + "</div>"
