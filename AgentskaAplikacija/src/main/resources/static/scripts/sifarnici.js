@@ -476,7 +476,7 @@ function posaljiPoruku(id){
 function termins() {
 	$("#tableTermins").find("tr:gt(0)").remove();
     $.ajax({
-    	url: "http://localhost:4321/agent/termins",
+    	url: "https://localhost:4321/agent/termins",
         type: "GET",
         crossDomain: true,
         xhrFields: {
@@ -550,7 +550,7 @@ function dodajTermin2(id){
 	});
     $.ajax({
     	async: false,
-		url: "http://localhost:4321/agent/dodajTermin",
+		url: "https://localhost:4321/agent/dodajTermin",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -576,7 +576,7 @@ function PregledajTermine(id){
 	$("#tablePregledTermina").find("tr:gt(0)").remove();
 	$("#modalPregledTermina").modal('show');
 	$.ajax({
-    	url: "http://localhost:4321/agent/pregledajTermine",
+    	url: "https://localhost:4321/agent/pregledajTermine",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -639,7 +639,7 @@ function nadjiTermin(idTermina){
 function potvrdiZauzimanjeTermina(idTermina){
 	
 	$.ajax({
-    	url: "http://localhost:4321/agent/nadjiTermin",
+    	url: "https://localhost:4321/agent/nadjiTermin",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -657,7 +657,7 @@ function potvrdiZauzimanjeTermina(idTermina){
         		zauzimanjeDTO.idTermina = idTermina;
         		zauzimanjeDTO.brojSoba = unetBrojSoba;
         		$.ajax({
-        	    	url: "http://localhost:4321/agent/zauzmiTermin",
+        	    	url: "https://localhost:4321/agent/zauzmiTermin",
         	        type: "POST",
         	        crossDomain: true,
         	        contentType: "application/json",
@@ -688,7 +688,7 @@ function potvrdiZauzimanjeTermina(idTermina){
 function reservations() {
 	$("#tableReservations").find("tr:gt(0)").remove();
     $.ajax({
-    	url: "http://localhost:4321/agent/rezervacije",
+    	url: "https://localhost:4321/agent/rezervacije",
         type: "GET",
         crossDomain: true,
         xhrFields: {
@@ -746,7 +746,7 @@ function reservations() {
 
 function potvrdiRezervaciju(id){
 	$.ajax({
-    	url: "http://localhost:4321/agent/potvrdiRezervaciju",
+    	url: "https://localhost:4321/agent/potvrdiRezervaciju",
         type: "POST",
         crossDomain: true,
         contentType: "text/plain",
@@ -815,7 +815,7 @@ function dodajSmestajnuJedinicu(){
 	});
     $.ajax({
     	async: false,
-		url: "http://localhost:4321/agent/addSmestaj",
+		url: "https://localhost:4321/agent/addSmestaj",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -855,7 +855,7 @@ function getSelectedChbox() {
 function chats() {
 	$("#tableChats").find("tr:gt(0)").remove();
     $.ajax({
-    	url: "http://localhost:4321/agent/chatovi",
+    	url: "https://localhost:4321/agent/chatovi",
         type: "GET",
         crossDomain: true,
         xhrFields: {
@@ -901,7 +901,7 @@ function chats() {
 function pregledajChat(id){
 	$("#modalBodyChat").html("");
 	$.ajax({
-    	url: "http://localhost:4321/agent/getPorukeIzChata",
+    	url: "https://localhost:4321/agent/getPorukeIzChata",
         type: "POST",
         contentType: "text/plain",
         data: id,
@@ -947,7 +947,7 @@ function posaljiPoruku(id){
 	poruka.idChat = id;
 	
 	$.ajax({
-    	url: "http://localhost:4321/agent/posaljiPoruku",
+    	url: "https://localhost:4321/agent/posaljiPoruku",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(poruka),

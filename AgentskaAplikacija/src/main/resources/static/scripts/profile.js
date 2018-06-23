@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$.ajax({
 		async: false,
-		url: "http://localhost:4321/user/getLoggedIn",
+		url: "https://localhost:4321/user/getLoggedIn",
         type: "GET",
         dataType: "json",
         crossDomain: true,
@@ -39,7 +39,7 @@ function changePasswordClick() {
 	
 	$.ajax({
 		async: false,
-		url: "http://localhost:4321/user/changePassword",
+		url: "https://localhost:4321/user/changePassword",
         type: "POST",
         contentType: "application/json",
         data: data,
@@ -59,7 +59,7 @@ function changePasswordClick() {
 
 function logout() {
     $.ajax({
-    	url: "http://localhost:4321/user/logout",
+    	url: "https://localhost:4321/user/logout",
         type: "POST",
         crossDomain: true,
         xhrFields: {
