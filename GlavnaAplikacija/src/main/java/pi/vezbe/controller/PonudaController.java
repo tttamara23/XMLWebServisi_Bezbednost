@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import pi.vezbe.annotations.PermissionAnnotation;
 import pi.vezbe.converters.PonudaToPonudaDtoConverter;
 import pi.vezbe.dto.SearchDTO;
+import pi.vezbe.model.Ocena;
 import pi.vezbe.model.Ponuda;
-import pi.vezbe.model.Usluga;
+import pi.vezbe.model.Smestaj;
+import pi.vezbe.service.OcenaService;
 import pi.vezbe.service.PonudaService;
 import pi.vezbe.service.UslugaService;
 
@@ -36,9 +37,11 @@ public class PonudaController {
 	private UslugaService uslugaService; 
 	
 	@Autowired
+	private OcenaService ocenaService; 
+	
+	@Autowired
 	private PonudaToPonudaDtoConverter ponudaToPonudaDtoConverter;
 	
-	@PermissionAnnotation(name = "GET_PONUDA")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getBySmestaj/{idSmestaj}",
@@ -48,7 +51,6 @@ public class PonudaController {
 		return new ResponseEntity<>(ponudaToPonudaDtoConverter.convert(ponudaService.getBySmestaj(idSmestaj)), HttpStatus.OK);
 	}
 	
-	@PermissionAnnotation(name = "SEARCH_PONUDA")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/search/{advanced}/{sort}",
@@ -56,6 +58,9 @@ public class PonudaController {
 	)
 	public ResponseEntity<?> search(@PathVariable("advanced") int advanced, @PathVariable("sort") int sort, @RequestBody SearchDTO searchDTO) {
 		int numberOfPersons;
+		if(searchDTO.getDestination().equals("") || searchDTO.getDestination() == null) {
+			return new ResponseEntity<>("Enter a destination and date to start searching.", HttpStatus.BAD_REQUEST);
+		}
 		try{
 			numberOfPersons = Integer.parseInt(searchDTO.getNumberOfPersons());
 		} catch(Exception e) {
@@ -67,12 +72,12 @@ public class PonudaController {
 			Date dateFrom;
 			Date dateTo;
 			if(searchDTO.getDateFrom().equals("") || searchDTO.getDateFrom() == null) {
-				dateFrom = new Date(Long.MIN_VALUE);
+				return new ResponseEntity<>("Enter a destination and date to start searching.", HttpStatus.BAD_REQUEST);
 			} else {
 				dateFrom = dateFormat.parse(searchDTO.getDateFrom());
 			}
 			if(searchDTO.getDateTo().equals("") || searchDTO.getDateTo() == null) {
-				dateTo = new Date(Long.MAX_VALUE);
+				return new ResponseEntity<>("Enter a destination and date to start searching.", HttpStatus.BAD_REQUEST);
 			} else {
 				dateTo = dateFormat.parse(searchDTO.getDateTo());
 			}
@@ -84,6 +89,17 @@ public class PonudaController {
 					ponude = ponudaService.searchNotAdvancedOrderByCena(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
 				} else if(sort == 3) {  //kategorija
 					ponude = ponudaService.searchNotAdvancedOrderByCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
+				} else if(sort == 2) { //sortByRating
+					ponude = ponudaService.searchNotAdvancedOrderByRating(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons);
+					for(int i = 0; i < ponude.size()-1; i++) {
+						for(int j = i; j < ponude.size(); j++) {
+							if(avgOcena(ponude.get(i).getSmestaj()) < avgOcena(ponude.get(j).getSmestaj())) {
+								Ponuda temp = ponude.get(i);
+								ponude.set(i, ponude.get(j));
+								ponude.set(j, temp);
+							}
+						}
+					}
 				}
 			} else {
 				
@@ -91,6 +107,17 @@ public class PonudaController {
 					ponude = ponudaService.searchAdvancedOrderByCena(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory());
 				} else if(sort == 3) {
 					ponude = ponudaService.searchAdvancedOrderByCategory(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory());
+				} else if(sort == 3) { 
+					ponude = ponudaService.searchAdvancedOrderByRating(dateFrom, dateTo, searchDTO.getDestination(), numberOfPersons, searchDTO.getAccommodationType(), searchDTO.getCategory());
+					for(int i = 0; i < ponude.size()-1; i++) {
+						for(int j = i; j < ponude.size(); j++) {
+							if(avgOcena(ponude.get(i).getSmestaj()) < avgOcena(ponude.get(j).getSmestaj())) {
+								Ponuda temp = ponude.get(i);
+								ponude.set(i, ponude.get(j));
+								ponude.set(j, temp);
+							}
+						}
+					}
 				}
 				
 				for(Long l : searchDTO.getSearchServices()) {
@@ -113,6 +140,15 @@ public class PonudaController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	public double avgOcena(Smestaj smestaj) {
+		List<Ocena> ocene = ocenaService.findBySmestaj(smestaj.getId());
+		int ukupno = 0;
+		for(Ocena ocena : ocene) {
+			ukupno += ocena.getVrednost();
+		}
+		return ((double)ukupno)/ocene.size();
 	}
 
 }

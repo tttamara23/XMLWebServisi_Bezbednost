@@ -114,58 +114,99 @@ function ucitajSmestaj(idSmestaja){
                          },
                         headers: {  'Access-Control-Allow-Origin': '*' },
                         success: function (dataRejting) {
-                	
-                        	$('#vlasnikSmestaja').empty();
-		                	$('#opisSmestaja').empty();
-		                	$('#tipSmestaja').empty();
 		                	$('#ocenaSmestaja').empty();
-		                	$('#ratingSmestaja').empty();
 		                	
-					                	if(dataRejting == true){
-					                		divOcena = "<h4>Please rate "+data.naziv+":</h4>"
-					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"1\" onclick =\"uncheckAll(btn1)\"  name=\"radioButtons\" id=\"btn1\" style=\"width:3%\"/>1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-					                			+"<input type=\"checkbox\"  class=\"boxes\" value=\"2\" onclick =\"uncheckAll(btn2)\" name=\"radioButtons\" id=\"btn2\" style=\"width:3%\"/>2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"3\" onclick =\"uncheckAll(btn3)\" name=\"radioButtons\" id=\"btn3\"/ style=\"width:3%\">3&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-					                			+"<input type=\"checkbox\" class=\"boxes\" value=\"4\" onclick =\"uncheckAll(btn4)\" name=\"radioButtons\" id=\"btn4\"/ style=\"width:3%\">4&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-					                			+"<input type=\"checkbox\"  class=\"boxes\" value=\"5\" onclick =\"uncheckAll(btn5)\" name=\"radioButtons\" id=\"btn5\"/ style=\"width:3%\">5&nbsp&nbsp&nbsp&nbsp"
-					                			+"<button style=\"float:right;\" class=\"btn btn-light buttonSearch\" onclick=\"oceni("+idSmestaja+")\"  id=\"btnOceni\" >Submit</button>"
-					                			+"<br/><br/>"
-					                		$('#ocenaSmestaja').append(divOcena);
+			                	if(dataRejting == true){
+			                		divOcena = "<h4>Please rate "+data.naziv+":</h4>"
+			                			+"<input type=\"checkbox\" class=\"boxes\" value=\"1\" onclick =\"uncheckAll(btn1)\"  name=\"radioButtons\" id=\"btn1\" style=\"width:3%\"/>1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+			                			+"<input type=\"checkbox\"  class=\"boxes\" value=\"2\" onclick =\"uncheckAll(btn2)\" name=\"radioButtons\" id=\"btn2\" style=\"width:3%\"/>2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+			                			+"<input type=\"checkbox\" class=\"boxes\" value=\"3\" onclick =\"uncheckAll(btn3)\" name=\"radioButtons\" id=\"btn3\"/ style=\"width:3%\">3&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+			                			+"<input type=\"checkbox\" class=\"boxes\" value=\"4\" onclick =\"uncheckAll(btn4)\" name=\"radioButtons\" id=\"btn4\"/ style=\"width:3%\">4&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+			                			+"<input type=\"checkbox\"  class=\"boxes\" value=\"5\" onclick =\"uncheckAll(btn5)\" name=\"radioButtons\" id=\"btn5\"/ style=\"width:3%\">5&nbsp&nbsp&nbsp&nbsp"
+			                			+"<button style=\"float:right;\" class=\"btn btn-light buttonSearch\" onclick=\"oceni("+idSmestaja+")\"  id=\"btnOceni\" >Submit</button>"
+			                			+"<br/><br/>"
+			                		$('#ocenaSmestaja').append(divOcena);
+			                	
+				                	
+			                	}
 					                	
-						                	$('#vlasnikSmestaja').append("<h4>Owners:</h4>")
-						                	for(j=0;j<dataVlasnik.length;j++){
-						                		divCnt =  "<p style=\"height:50px;\">"+dataVlasnik[j].vlasnikDTO.ime + " " + dataVlasnik[j].vlasnikDTO.prezime + " - " + dataVlasnik[j].vlasnikDTO.email 
-						        				+ "<button style=\"float:right;\" class=\"btn btn-light buttonSearch\" onclick=\"posaljiPoruku("+dataVlasnik[j].vlasnikDTO.id+")\">Send message</button></p>";
-						                		$('#vlasnikSmestaja').append(divCnt);
-						                	
-						                		
-						                	}
-					                	}
-					                	$('#nazivSmestaja').append(data.naziv);
-					                	$('#opisSmestaja').append("<h4>Description: </h4>"+data.opis);
-					                	$('#tipSmestaja').append("<h4>Type: </h4>"+data.tip.naziv);
-					                	for(i=0; i<data.ponude.length; i++) {
-					                		newDiv = "";
-					                		if(i%3==0) {
-					                			$('#ponudaDiv').append("<div class=\"row\">");
-					                		}
-					                		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput \" style=\"padding-bottom:10%\">"
-					                			+"<h4>" + data.ponude[i].datumOd + " - " + data.ponude[i].datumDo + "</h4>"
-					                			+ "<p> Number of beds: " + data.ponude[i].brojLezaja + "<br/> " + "Number of available rooms: "+ data.ponude[i].brojSlobodnihPonuda +"<br/>"
-					                			+ "Price: "+data.ponude[i].cena+"</p>"
-					                			+ "<div id=\"divUsluge" + i + "\" style=\"display:none\">asd</div>"
-					                			+ "<a id=\"aTag" + i + "\" onclick=\"return showMoreServicesClick(" + i + ",'" + data.ponude[i].id + "')\" class=\"aTag\" style=\"background-color: #e2e9fc; color: #1e1e77\">Show services</a>"
-					                			+"<button class=\"btn btn-light buttonSearch\" onclick=\"rezervisanje("+data.ponude[i].id+")\" >Reserve</button>"
-					                			+ "</div></div>";
-					                		if(i%3==0) {
-					                			$('#ponudaDiv').append("</div>");
-					                		}
-					                		$('#ponudaDiv').append(newDiv);
-					                	
-					                	
-					                	}
                         }
                         });
+                	$('#vlasnikSmestaja').empty();
+                	$('#opisSmestaja').empty();
+                	$('#tipSmestaja').empty();
+                	$('#ratingSmestaja').empty();
+                	$('#vlasnikSmestaja').append("<h4>Owners:</h4>")
+                	
+                	var user = 0;
+                	
+                	$.ajax({
+            			async: false,
+            			url: "https://localhost:1234/user/getLoggedIn",
+            	        type: "GET",
+            	        dataType: "json",
+            	        crossDomain: true,
+            	        xhrFields: {
+            	            withCredentials: true
+            	         },
+            	        headers: {  'Access-Control-Allow-Origin': '*' },
+            	        success: function (dataUlogovani) {
+            	        	user = 1;
+                	    }
+            		});
+                	for(j=0;j<dataVlasnik.length;j++){
+                		var divCnt =  "<p style=\"height:50px;\">"+dataVlasnik[j].vlasnikDTO.ime + " " + dataVlasnik[j].vlasnikDTO.prezime + " - " + dataVlasnik[j].vlasnikDTO.email 
+        				
+                		if(user === 1) {
+                			$.ajax({
+                    			async: false,
+                    			url: "https://localhost:1234/chat/checkChat/" + dataVlasnik[j].vlasnikDTO.id,
+                    	        type: "GET",
+                    	        dataType: "json",
+                    	        crossDomain: true,
+                    	        xhrFields: {
+                    	            withCredentials: true
+                    	         },
+                    	        headers: {  'Access-Control-Allow-Origin': '*' },
+                    	        success: function (dataPoruka) {
+                    	        	if(dataPoruka) {
+                    	        		divCnt += "<button style=\"float:right;\" class=\"btn btn-light buttonSearch\" onclick=\"posaljiPoruku(" + dataVlasnik[j].vlasnikDTO.id + ")\">Send message</button>";
+                    	        
+                    	        	}
+                    	        }
+                			});
+                    	}
+                		divCnt += "</p>";
+                		$('#vlasnikSmestaja').append(divCnt);
+                	
+                		
+                	}
+                	$('#nazivSmestaja').append(data.naziv);
+                	$('#opisSmestaja').append("<h4>Description: </h4>"+data.opis);
+                	$('#tipSmestaja').append("<h4>Type: </h4>"+data.tip.naziv);
+                	for(i=0; i<data.ponude.length; i++) {
+                		var newDiv = "";
+                		if(i%3==0) {
+                			$('#ponudaDiv').append("<div class=\"row\">");
+                		}
+                		newDiv += "<div class=\"col-lg-4\"><div class=\"divPonuda divSearchInput \" style=\"padding-bottom:10%\">"
+                			+"<h4>" + data.ponude[i].datumOd + " - " + data.ponude[i].datumDo + "</h4>"
+                			+ "<p> Number of beds: " + data.ponude[i].brojLezaja + "<br/> " + "Number of available rooms: "+ data.ponude[i].brojSlobodnihPonuda +"<br/>"
+                			+ "Price: "+data.ponude[i].cena+"</p>"
+                			+ "<div id=\"divUsluge" + i + "\" style=\"display:none\">asd</div>"
+                		newDiv += "<a id=\"aTag" + i + "\" onclick=\"return showMoreServicesClick(" + i + ",'" + data.ponude[i].id + "')\" class=\"aTag\" style=\"background-color: #e2e9fc; color: #1e1e77\">Show services</a>";
+                		
+                		if(user === 1) {
+                			newDiv += "<button class=\"btn btn-light buttonSearch\" onclick=\"rezervisanje("+data.ponude[i].id+")\" >Reserve</button>";
+                		}
+                		newDiv += "</div></div>";
+                		if(i%3==0) {
+                			$('#ponudaDiv').append("</div>");
+                		}
+                		$('#ponudaDiv').append(newDiv);
+                	
+                	
+                	}
                 
                 },
                 error: function (jqxhr, textStatus, errorThrown) {

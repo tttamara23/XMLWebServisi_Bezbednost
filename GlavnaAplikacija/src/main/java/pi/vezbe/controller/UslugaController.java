@@ -26,7 +26,6 @@ public class UslugaController {
 	@Autowired
 	private UslugaToUslugaDtoConverter  uslugaToUslugaDtoConverter;
 	
-	@PermissionAnnotation(name = "GET_DODATNA_USLUGA")
 	@CrossOrigin
 	@RequestMapping(
             value = "/getUsluge",

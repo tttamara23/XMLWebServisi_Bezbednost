@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +18,11 @@ import pi.vezbe.converters.ChatToChatDTOConverter;
 import pi.vezbe.converters.KategorijaSmestajaToKategorijaSmestajaDTOConverter;
 import pi.vezbe.converters.KorisnikToKorisnikDTOConverter;
 import pi.vezbe.dto.ChatDTO;
-import pi.vezbe.model.Chat;
 import pi.vezbe.model.ChatKorisnik;
 import pi.vezbe.model.Korisnik;
+import pi.vezbe.model.KrajnjiKorisnik;
+import pi.vezbe.model.Rezervacija;
+import pi.vezbe.model.SmestajVlasnik;
 import pi.vezbe.service.ChatKorisnikService;
 import pi.vezbe.service.ChatService;
 import pi.vezbe.service.PorukaService;
@@ -76,6 +80,28 @@ public class ChatController {
 		}
 		
 		return new ResponseEntity<>(chatsDTO,HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(
+            value = "/checkChat/{idAgent}",
+            method = RequestMethod.GET
+    )
+	public ResponseEntity<?> checkChat(@PathVariable Long idAgent){
+		Korisnik korisnik = userService.getCurrentUser();
+		if(korisnik instanceof KrajnjiKorisnik) {
+			KrajnjiKorisnik krajnjiKorisnik = (KrajnjiKorisnik) korisnik;
+			List<Rezervacija> rezervacije = krajnjiKorisnik.getRezervacije();
+			for(Rezervacija rezervacija : rezervacije) {
+				for(SmestajVlasnik vlasnik : rezervacija.getPonuda().getSmestaj().getSmestajVlasnik()) {
+					if(vlasnik.getAgent().getId().equals(idAgent)) {
+						return new ResponseEntity<>(true, HttpStatus.OK);
+					}
+				}
+			}
+		}
+		return new ResponseEntity<>(false, HttpStatus.OK);
 	}
 
 }

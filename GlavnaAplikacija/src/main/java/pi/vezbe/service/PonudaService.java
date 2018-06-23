@@ -46,12 +46,20 @@ public class PonudaService {
 		return ponudaRepository.findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdOrderBySmestajKategorijaSmestajaId(naziv, brojLezaja, tip, idKategorija);
 	}
 	
+	public List<Ponuda> searchAdvancedOrderByRating(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija) {
+		return ponudaRepository.findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaId(naziv, brojLezaja, tip, idKategorija);
+	}
+	
 	public List<Ponuda> searchNotAdvancedOrderByCena(Date dateFrom, Date dateTo, String naziv, int brojLezaja) {
 		return ponudaRepository.findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderByCena(naziv, brojLezaja);
 	}
 	
 	public List<Ponuda> searchNotAdvancedOrderByCategory(Date dateFrom, Date dateTo, String naziv, int brojLezaja) {
 		return ponudaRepository.findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderBySmestajKategorijaSmestajaId(naziv, brojLezaja);
+	}
+	
+	public List<Ponuda> searchNotAdvancedOrderByRating(Date dateFrom, Date dateTo, String naziv, int brojLezaja) {
+		return ponudaRepository.findBySmestajLokacijaContainingIgnoreCaseAndBrojLezaja(naziv, brojLezaja);
 	}
 	
 }

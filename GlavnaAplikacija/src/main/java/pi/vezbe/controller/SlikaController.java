@@ -26,7 +26,6 @@ public class SlikaController {
 	@Autowired
 	private SlikaToSlikaDTOConverter slikaToSlikaDTOConverter;
 	
-	@PermissionAnnotation(name = "GET_IMAGES")
 	@CrossOrigin
 	@RequestMapping(
             value = "/getBySmestaj/{idSmestaj}",

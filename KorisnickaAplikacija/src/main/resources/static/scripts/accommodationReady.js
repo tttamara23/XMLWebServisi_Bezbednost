@@ -21,11 +21,16 @@ $(document).ready(function () {
         		var idSmestaja = url.searchParams.get("idSmestaja");
         		ucitajSmestaj(idSmestaja);
         	} else {
-        		top.location.href = "index.html";
+        		ucitajSmestaj(idSmestaja);
         	}
+        	/*else {
+        		top.location.href = "index.html";
+        	}*/
         },
         error: function (jqxhr, textStatus, errorThrown) {
-            top.location.href = "index.html";
+        	$("#liZaUlogovanog").empty();
+        	$("#liZaUlogovanog").append("<div class=\"row\" style=\"margin-top: 30%\"><a href=\"index.html\" class=\"aTag\">Login or register</a></div>");
+        	ucitajSmestaj(idSmestaja);
         }
     });
 	

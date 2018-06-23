@@ -1,10 +1,13 @@
 package pi.vezbe.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.lang.Collections;
 import pi.vezbe.model.Chat;
 import pi.vezbe.model.ChatKorisnik;
 import pi.vezbe.model.Korisnik;
@@ -28,16 +31,20 @@ public class ChatService {
 		if(chatsKorisnik == null){
 			return null;
 		}
-		for(ChatKorisnik chat : chatsKorisnik){
-			boolean found = true;
-			for(Korisnik korisnik : id){
-				if(!chat.getUcesnik().getId().equals(korisnik.getId())){
-					found = false;
-				}
+		ArrayList<Long> id1 = new ArrayList<Long>();
+		ArrayList<Long> id2;
+		
+		for(Korisnik korisnik : id) {
+			id1.add(korisnik.getId());
+		}
+		for(ChatKorisnik chatKorisnik : chatsKorisnik){
+			Chat chat = chatRepository.findOne(chatKorisnik.getChat().getId());
+			id2 = new ArrayList<Long>();
+			for(ChatKorisnik k : chat.getChatKorisnik()) {
+				id2.add(k.getUcesnik().getId());
 			}
-			if(found==true){
-				Chat retVal = chatRepository.findOne(chat.getChat().getId());
-				return retVal;
+			if(id1.containsAll(id2)) {
+				return chat;
 			}
 		}
 		

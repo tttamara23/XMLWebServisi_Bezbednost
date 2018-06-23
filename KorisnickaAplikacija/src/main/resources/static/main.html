@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Booking</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="scripts/search.js"></script>
+		<script src="scripts/mainReady.js"></script>
+	<script src="scripts/accommodation.js"></script>
+	<link rel="shortcut icon" href="assets/ico/favicon.png">
+	<link rel="stylesheet" href="homeStyle/css/myStyle.css">
+	<script src="toastr/toastr.min.js"></script>
+	
+    	<link href="toastr/toastr.min.css" rel="stylesheet"/>
+</head>
+<body>
+	<ul class="nav nav-tabs homeTabs">
+	    <li style="width: 85%">
+	    	<h1 class="title"><a href="#mainDiv" class="aTag" data-toggle="tab">Booking</a></h1>
+	    </li>
+	    <li >
+	    	<div class="row" style="margin-top: 30%">
+	    		<a href="index.html" class="aTag">Login or register</a>
+	        </div>
+	    </li>
+	   
+	</ul>
+	
+	<div class="tab-content">
+	    
+	    
+	    <div class="tab-pane">
+	        
+	    </div>
+	    <div class="tab-pane active" id="mainDiv">
+	        <div class="homeDiv">
+	        	<div class="searchDiv">
+	        		<h4 style="padding-left: 1.5%">Search</h4>
+	        		<div class="divSearchInput">
+		        		<label class="searchLabel">Destination</label>
+		        		<input class="form-control" type="text" id="searchDestination" placeholder="Destination..."><br>
+		        		<div class="row">
+		        			<div class="col-lg-6">
+				        		<label class="searchLabel">Date from</label>
+				        		<input class="form-control" type="date" id="searchDateFrom">
+			        		</div>
+			        		<div class="col-lg-6">
+				        		<label class="searchLabel">Date to</label>
+				        		<input class="form-control" type="date" id="searchDateTo">
+			        		</div>
+		        		</div>
+		        		<div class="row">
+		        			<div class="col-lg-6">
+				        		<br><label class="searchLabel">Number of persons</label>
+				        		<select class="form-control" id="searchNumberOfPersons">
+							        <option selected value="1">1 person</option>
+							        <option value="2">2 persons</option>
+							        <option value="3">3 persons</option>
+							        <option value="4">4 persons</option>
+							        <option value="5">5 persons</option>
+							        <option value="6">6 persons</option>
+							        <option value="7">7 persons</option>
+							        <option value="8">8 persons</option>
+							        <option value="9">9 persons</option>
+							        <option value="10">10 persons</option>
+							        <option value="11">11 persons</option>
+							        <option value="12">12 persons</option>
+
+	      						</select>
+			        		</div>
+			        		<div class="col-lg-6">
+			        		</div>
+		        		</div>
+		        		
+		        		<div id="advancedSearchDiv" style="display: none;">
+		        			<div class="row">
+			        			<div class="col-lg-6">
+				        			<br><label class="searchLabel">Accommodation Type</label>
+				        			<select class="form-control" id="searchAccommodationType">
+								        
+		      						</select>
+	      						</div>
+			        			<div class="col-lg-6">
+			        				<br><label class="searchLabel">Category</label>
+				        			<select class="form-control" id="searchCategory">
+								        
+		      						</select>
+			        			</div>
+			        		</div>
+			        		<div class="row">
+		        			<div class="col-lg-6">
+				        		<br><label class="searchLabel">Services</label>
+				        			<select multiple class="form-control" id="searchServices">
+								        
+		      						</select>
+			        		</div>
+			        		<div class="col-lg-6">
+			        		</div>
+		        		</div>
+			        	</div>
+			        	<div class="row">
+		        			<div class="col-lg-6">
+				        		<br><label class="searchLabel">Sort by</label>
+				        		<select class="form-control" id="searchSort">
+							        <option selected value="1">Price</option>
+							        <option value="2">Rating</option>
+							        <option value="3">Category</option>
+	      						</select>
+			        		</div>
+			        		<div class="col-lg-6">
+			        		</div>
+		        		</div>
+		        		<div>
+		        			<br><a id="aTagShowMore" style="background-color: #e2e9fc; color: #1e1e77" class="aTag">Show advanced</a>
+		        		</div>
+	        		</div>
+	        		<br><button class="btn btn-light buttonSearch" onclick="buttonSearchClick()">Search</button>
+	        	</div>
+	        	<div class="row" id="divPonude">
+	        		
+	        	</div>
+	        </div>
+	    </div>
+	    
+	</div>
+</body>
+</html>

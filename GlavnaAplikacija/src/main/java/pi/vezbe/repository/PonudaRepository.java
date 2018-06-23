@@ -43,6 +43,9 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdOrderBySmestajKategorijaSmestajaId
 	(String naziv, int brojLezaja, Long tip, Long idKategorija);
 	
+	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaId
+	(String naziv, int brojLezaja, Long tip, Long idKategorija);
+	
 	
 	
 	//nije napredna
@@ -50,6 +53,9 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 	(String naziv, int brojLezaja);
 	
 	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderBySmestajKategorijaSmestajaId
+	(String naziv, int brojLezaja);
+	
+	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezaja
 	(String naziv, int brojLezaja);
 	
 

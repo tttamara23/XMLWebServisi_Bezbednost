@@ -22,7 +22,6 @@ public class TipSmestajaController {
 	@Autowired
 	private TipSmestajaToTipSmestajaDTO tipSmestajaToTipSmestajaDTOConverter;
 	
-	@PermissionAnnotation(name = "GET_TIP_SMESTAJA")
 	@CrossOrigin
 	@RequestMapping(
             value = "getSviTipovi",

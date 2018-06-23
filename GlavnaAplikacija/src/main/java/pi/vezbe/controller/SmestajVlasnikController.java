@@ -36,7 +36,6 @@ public class SmestajVlasnikController {
 	@Autowired
 	private SmestajVlasnikToSmestajVlasnikDTOConverter  smestajVlasnikToSmestajVlasnikDtoCOnverter;
 	
-	@PermissionAnnotation(name = "GET_VLASNIK_SMESTAJ")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getVlasnik/{idSmestaja}",

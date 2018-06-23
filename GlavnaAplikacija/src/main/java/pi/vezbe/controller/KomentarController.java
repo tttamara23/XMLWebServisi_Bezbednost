@@ -42,7 +42,6 @@ public class KomentarController {
 	@Autowired
 	private RezervacijaService rezervacijaService;
 	
-	@PermissionAnnotation(name = "GET_PUBLISHED_COMMENTS")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getBySmestaj/{idSmestaj}",
