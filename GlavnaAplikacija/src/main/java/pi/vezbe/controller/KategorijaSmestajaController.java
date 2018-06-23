@@ -22,7 +22,6 @@ public class KategorijaSmestajaController {
 	@Autowired
 	private KategorijaSmestajaToKategorijaSmestajaDTOConverter kategorijaSmestajaToKategorijaSmestajaDTOConverter;
 	
-	@PermissionAnnotation(name = "GET_KATEGORIJA_SMESTAJA")
 	@CrossOrigin
 	@RequestMapping(
             value = "getSveKategorije",

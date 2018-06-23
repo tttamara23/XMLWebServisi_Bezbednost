@@ -32,7 +32,6 @@ import glavna.wsdl.ZauzetostXML;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,18 +43,15 @@ import pi.vezbe.converters.TipSmestajaDTOToTipSmestajaConverter;
 import pi.vezbe.converters.XMLConverter;
 import pi.vezbe.dto.LoginDTO;
 import pi.vezbe.dto.PorukaChatDTO;
-import pi.vezbe.dto.PorukaDTO;
 import pi.vezbe.dto.SmestajDTO;
 import pi.vezbe.dto.ZauzimanjeTerminaDTO;
 import pi.vezbe.model.Ponuda;
-import pi.vezbe.model.Poruka;
 import pi.vezbe.model.Smestaj;
 import pi.vezbe.model.TipSmestaja;
-import pi.vezbe.service.PonudaService;
 import pi.vezbe.service.TipSmestajaService;
 
 public class WSClient extends WebServiceGatewaySupport {
-	private static final String URI = "http://localhost:1234/ws";
+	private static final String URI = "https://localhost:1234/ws";
 	
 	private XMLConverter xmlConverter;
 	@Autowired

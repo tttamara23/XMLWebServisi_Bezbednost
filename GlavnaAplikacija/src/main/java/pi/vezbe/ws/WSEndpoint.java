@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -209,18 +211,27 @@ public class WSEndpoint {
 	public LogInResponse logINRequest(@RequestPayload LogInRequest request) {
 		LogInResponse response = new LogInResponse();
 		Korisnik korisnik = userService.findByEmail(request.getUser().getEmail());
-		userService.setCurrentUser(korisnik);
 		if(!korisnik.getRole().getId().equals(3L)) {
 			return null;		}
 		String enteredPassword = request.getUser().getPassword();
 		byte[] salt = korisnik.getSalt();
 		byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
+	
+		String lozinkaIzBaze = korisnik.getLozinka();
+		String lozinkaUneta = "";
+		for(int i=0; i<hashForEnteredPassword.length; i++) {
+			lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
+		}
+		if(!lozinkaIzBaze.equals(lozinkaUneta)) {
+			return null;
+		}
+		userService.setCurrentUser(korisnik);
 		/*if(!korisnik.getLozinka().equals(new String(hashForEnteredPassword))) {
 			return null;
 		}*/
 		UserXML user = new UserXML();
 		user.setEmail(korisnik.getEmail());
-		
+		user.setPassword(lozinkaUneta);
 		response.setUser(user);
 		return response;
 	}
@@ -490,6 +501,7 @@ public class WSEndpoint {
 			smestajXML1.setLokacija(saved.getLokacija());
 			smestajXML1.setNaziv(saved.getNaziv());
 			smestajXML1.setOpis(saved.getOpis());
+			smestajXML1.setKategorijaSmestaja(saved.getKategorijaSmestaja().getKategorija());
 			TipSmestajaXML tip2 = new TipSmestajaXML();
 			tip2.setId(saved.getTipSmestaja().getId());
 			tip2.setNaziv(saved.getTipSmestaja().getNaziv());

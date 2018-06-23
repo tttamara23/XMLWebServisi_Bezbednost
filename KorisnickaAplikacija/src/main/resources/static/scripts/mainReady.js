@@ -11,13 +11,11 @@ $(document).ready(function () {
         headers: {  'Access-Control-Allow-Origin': '*' },
         success: function (data) {
         	if(data.role === "REGISTERED") {
-        		$("#tabProfileName").text(data.name);
-        	} else {
-        		top.location.href = "main.html";
-        	}
+        		top.location.href = "home.html";
+        	} 
         },
         error: function (jqxhr, textStatus, errorThrown) {
-            top.location.href = "main.html";
+        	
         }
     });
 	
@@ -28,23 +26,6 @@ $(document).ready(function () {
 	    
 	    return false;
 	});
-	
-	/*$.ajax({
-		async: false,
-		url: "https://localhost:1234/user/hashPasswords",
-        type: "GET",
-        crossDomain: true,
-        xhrFields: {
-            withCredentials: true
-         },
-        headers: {  'Access-Control-Allow-Origin': '*' },
-        success: function () {
-        	top.location.href = "index.html";
-        },
-        error: function (jqxhr, textStatus, errorThrown) {
-            top.location.href = "index.html";
-        }
-	});*/
 	
 	$.ajax({
 		async: false,
@@ -74,7 +55,7 @@ $(document).ready(function () {
         	}
         },
         error: function (jqxhr, textStatus, errorThrown) {
-            top.location.href = "index.html";
+            
         }
     });
 	
@@ -94,7 +75,7 @@ $(document).ready(function () {
         	}
         },
         error: function (jqxhr, textStatus, errorThrown) {
-            top.location.href = "index.html";
+            alert("asd")
         }
         
 		
@@ -117,7 +98,7 @@ $(document).ready(function () {
         	}
         },
         error: function (jqxhr, textStatus, errorThrown) {
-            top.location.href = "index.html";
+            
         }
 	});
 	
@@ -138,7 +119,7 @@ $(document).ready(function () {
         	}
         },
         error: function (jqxhr, textStatus, errorThrown) {
-            top.location.href = "index.html";
+            
         }
 	});
 	

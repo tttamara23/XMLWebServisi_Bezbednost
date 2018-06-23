@@ -3,10 +3,12 @@ package pi.vezbe.repository;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.TemporalType;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Temporal;
 
 import pi.vezbe.model.Ponuda;
-import pi.vezbe.model.Usluga;
 
 public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 	
@@ -35,20 +37,26 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 			@Param("idKategorijaSmestaja") Long idKategorijaSmestaja);*/
 	
 	//napredna
-	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotInOrderByCena  
-		(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> ponudaUsluga);
+	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdOrderByCena  
+	(String naziv, int brojLezaja, Long tip, Long idKategorija);
 	
-	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdAndPonudaUslugaUslugaNotInOrderBySmestajKategorijaSmestajaId
-	(Date dateFrom, Date dateTo, String naziv, int brojLezaja, Long tip, Long idKategorija, List<Usluga> ponudaUsluga);
+	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaIdOrderBySmestajKategorijaSmestajaId
+	(String naziv, int brojLezaja, Long tip, Long idKategorija);
+	
+	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaAndSmestajTipSmestajaIdAndSmestajKategorijaSmestajaId
+	(String naziv, int brojLezaja, Long tip, Long idKategorija);
 	
 	
 	
 	//nije napredna
-	List<Ponuda> findDistinctPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderByCena
-	(Date dateFrom, Date dateTo, String naziv, int brojLezaja);
+	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderByCena
+	(String naziv, int brojLezaja);
 	
-	List<Ponuda> findPonudaByDatumOdGreaterThanAndDatumDoLessThanAndSmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderBySmestajKategorijaSmestajaId
-	(Date dateFrom, Date dateTo, String naziv, int brojLezaja);
+	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezajaOrderBySmestajKategorijaSmestajaId
+	(String naziv, int brojLezaja);
+	
+	List<Ponuda> findBySmestajLokacijaContainingIgnoreCaseAndBrojLezaja
+	(String naziv, int brojLezaja);
 	
 
 }

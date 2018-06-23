@@ -41,7 +41,6 @@ public class SmestajController {
 	@Autowired
 	private PonudaToPonudaDtoConverter ponudaToPonudaDtoConverter;
 	
-	@PermissionAnnotation(name = "GET_SMESTAJ")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getLocations",
@@ -51,7 +50,6 @@ public class SmestajController {
 		return new ResponseEntity<>(smestajService.getLocations(), HttpStatus.OK);
 	}
 	
-	@PermissionAnnotation(name = "GET_SMESTAJ")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getByLocation",
@@ -61,7 +59,6 @@ public class SmestajController {
 		return new ResponseEntity<>(smestajToSmestajDtoConverter.convert(smestajService.getByLocation(location)), HttpStatus.OK);
 	}
 	
-	@PermissionAnnotation(name = "GET_SMESTAJ")
 	@CrossOrigin
 	@RequestMapping(
 			value = "/getSmestaj/{idSmestaja}",

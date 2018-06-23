@@ -26,7 +26,6 @@ public class PonudaUslugaController {
 	@Autowired
 	private PonudaUslugaToPonudaUslugaDtoConverter ponudaUslugaToPonudaUslugaDtoConverter;
 	
-	@PermissionAnnotation(name = "GET_PONUDA_USLUGA")
 	@CrossOrigin
 	@RequestMapping(
             value = "getByPonuda/{idPonuda}",

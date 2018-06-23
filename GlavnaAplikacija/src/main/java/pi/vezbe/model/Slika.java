@@ -1,5 +1,7 @@
 package pi.vezbe.model;
 
+import javax.persistence.Basic;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -52,12 +55,10 @@ import javax.xml.bind.annotation.XmlType;
     	@GeneratedValue(strategy=GenerationType.AUTO)
         protected Long id;
     	
-    	@Column(length = 1000000)
         @XmlElement(required = true)
+        //@Lob @Basic(fetch = FetchType.LAZY)
+        @Column(length=1000000)
         protected String url;
-        
-        /*@XmlElement(required = true)
-        protected byte[] data;*/
         
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "id_smestaj", nullable = false)
@@ -71,7 +72,18 @@ import javax.xml.bind.annotation.XmlType;
             return id;
         }
 
-        /**
+
+		public String getUrl() {
+			return url;
+		}
+
+
+		public void setUrl(String url) {
+			this.url = url;
+		}
+
+
+		/**
          * Sets the value of the id property.
          * 
          */
@@ -79,29 +91,6 @@ import javax.xml.bind.annotation.XmlType;
             this.id = value;
         }
 
-        /**
-         * Gets the value of the naziv property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
-         */
-        public String getUrl() {
-            return url;
-        }
-
-        /**
-         * Sets the value of the naziv property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
-         */
-        public void setUrl(String url) {
-            this.url = url;
-        }
         
         /**
          * Gets the value of the data property.

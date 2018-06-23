@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -116,6 +117,8 @@ public class UserController {
 	@Autowired
 	private SmestajVlasnikService smestajVlasnikService;
 	
+	@Value("${spring.jpa.hibernate.ddl-auto}")
+	private String property;
 	@CrossOrigin
 	@RequestMapping(
             value = "/loginAgent",
@@ -322,6 +325,7 @@ public class UserController {
             method = RequestMethod.POST)
     public ResponseEntity<?> signout() {
         SecurityContextHolder.clearContext();
+        property = "create-drop";
         return new ResponseEntity<>(HttpStatus.OK);
     }
 	
