@@ -59,6 +59,10 @@ function dodajTermin2(id){
 		toastr["error"]('Fill in all required entry fields!');
 		return;
 	}
+	if(isNaN(brojSoba) || isNaN(brojKreveta) || isNaN(cena)){
+		toastr["error"]('Unesite brojeve za broj soba,broj kreveta i cenu!');
+		return;
+	}
 	
 	var data = JSON.stringify({
 		"datumOd": datumOd,
@@ -80,15 +84,30 @@ function dodajTermin2(id){
             withCredentials: true
          },
         headers: {  'Access-Control-Allow-Origin': '*' },
-        success: function () {
-        	document.getElementById("inputBrojSoba").value = "";
+        success: function (data) {
+        	if(data == "popunitiSve"){
+        		toastr["error"]('Popuni sve!');
+               	document.getElementById("inputBrojSoba").value = "";
+	        	document.getElementById("inputBrojKreveta").value = "";
+	        	document.getElementById("inputCena").value = "";
+	        	document.getElementById("datumOd").valueAsDate = null;
+	        	document.getElementById("datumDo").valueAsDate = null;
+     
+        	}else{
+	        	document.getElementById("inputBrojSoba").value = "";
+	        	document.getElementById("inputBrojKreveta").value = "";
+	        	document.getElementById("inputCena").value = "";
+	        	document.getElementById("datumOd").valueAsDate = null;
+	        	document.getElementById("datumDo").valueAsDate = null;
+        	}
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(errorThrown);
+           	document.getElementById("inputBrojSoba").value = "";
         	document.getElementById("inputBrojKreveta").value = "";
         	document.getElementById("inputCena").value = "";
         	document.getElementById("datumOd").valueAsDate = null;
         	document.getElementById("datumDo").valueAsDate = null;
-        	
-        }, error: function (jqxhr, textStatus, errorThrown) {
-            alert(errorThrown);
+ 
         }
     });
 	
@@ -170,6 +189,15 @@ function potvrdiZauzimanjeTermina(idTermina){
          },
         success: function (data) {
         	var unetBrojSoba = document.getElementById("inputBrojSobaZauzmi").value;
+        	if(!unetBrojSoba){
+        		toastr["error"]('Uneti broj soba!');
+        		$("#inputBrojSobaZauzmi").val("");
+        		return;
+        	}else if(isNaN(unetBrojSoba)){
+        		toastr["error"]('Uneti broj!');
+        		$("#inputBrojSobaZauzmi").val("");
+        		return;
+        	}
         	if(unetBrojSoba > data.brojSlobodnihPonuda){
         		toastr["error"]('Broj slobodnih soba je: ' + data.brojSlobodnihPonuda +'!');
         		$("#inputBrojSobaZauzmi").val("");
@@ -187,9 +215,14 @@ function potvrdiZauzimanjeTermina(idTermina){
         	            withCredentials: true
         	         },
         	        success: function (data) {
-        	        	if(data!=null){
-        	        		$("#inputBrojSobaZauzmi").val("");
-        	        		toastr["success"]('Uspesno!');
+        	        	if(data=="popuni"){
+        	        		toastr["error"]('Popuniti broj soba.');
+                	        
+        	        	}else{
+	        	        	if(data!=null){
+	        	        		$("#inputBrojSobaZauzmi").val("");
+	        	        		toastr["success"]('Uspesno!');
+	        	        	}
         	        	}
         	        	
 
@@ -231,8 +264,6 @@ function reservations() {
                    tdDo = document.createElement('td');
                    tdCena = document.createElement('td');
                    
-                   /*var d = new Date(data[i].date);
-                   var stringDate = d.toLocaleString();*/
                    td.innerHTML=data[i].date;
                    td1 = document.createElement('td');
                    td1.innerHTML= i+1;
@@ -443,7 +474,10 @@ function posaljiPoruku(id){
 	var poruka = {};
 	poruka.sadrzajPoruke = sadrzaj;
 	poruka.idChat = id;
-	
+	if(!textAreaSadrzaj){
+		toastr["error"]('Uneti sadrzaj poruke.');
+		return;
+	}
 	$.ajax({
     	url: "https://localhost:4321/agent/posaljiPoruku",
         type: "POST",
@@ -454,11 +488,18 @@ function posaljiPoruku(id){
             withCredentials: true
          },
         success: function (data) {
-        	toastr["success"]('Poruka poslata!');
-        	$("#modalBodyChat").html("");
-        	document.getElementById("sadrzajPoruke").value = "";
-        	pregledajChat(id);
-                   
+        	if(data=="upisiTekstPoruke"){
+        		toastr["error"]('Upisati tekst poruke!');
+        		$("#modalBodyChat").html("");
+            	document.getElementById("sadrzajPoruke").value = "";
+            	pregledajChat(id);
+            	
+        	}else{
+	        	toastr["success"]('Poruka poslata!');
+	        	$("#modalBodyChat").html("");
+	        	document.getElementById("sadrzajPoruke").value = "";
+	        	pregledajChat(id);
+        	}       
         }
          , error: function (jqxhr, textStatus, errorThrown) {
             alert(errorThrown);
@@ -531,7 +572,11 @@ function dodajTermin2(id){
 		toastr["error"]('Fill in all required entry fields!');
 		return;
 	}
+	if(isNaN(brojSoba) || isNaN(brojKreveta) || isNaN(cena)){
+		toastr["error"]('Uneti brojcane vrednosti za broj soba,broj kreveta i cenu!');
+		return;
 	
+	}
 	var data = JSON.stringify({
 		"datumOd": datumOd,
 		"datumDo" : datumDo,
@@ -642,6 +687,15 @@ function potvrdiZauzimanjeTermina(idTermina){
          },
         success: function (data) {
         	var unetBrojSoba = document.getElementById("inputBrojSobaZauzmi").value;
+        	if(!unetBrojSoba){
+        		toastr["error"]('Uneti broj soba!');
+        		
+        		return;
+        	}else if(isNaN(unetBrojSoba)){
+        		toastr["error"]('Uneti brojcane vrednosti!');
+        		$("#inputBrojSobaZauzmi").val("");
+        		return;
+        	}
         	if(unetBrojSoba > data.brojSlobodnihPonuda){
         		toastr["error"]('Broj slobodnih soba je: ' + data.brojSlobodnihPonuda +'!');
         		$("#inputBrojSobaZauzmi").val("");
@@ -936,7 +990,10 @@ function posaljiPoruku(id){
 	var poruka = {};
 	poruka.sadrzajPoruke = sadrzaj;
 	poruka.idChat = id;
-	
+	if(!sadrzaj){
+		toastr["error"]('Uneti sadrzaj poruke');
+		return;
+	}
 	$.ajax({
     	url: "https://localhost:4321/agent/posaljiPoruku",
         type: "POST",

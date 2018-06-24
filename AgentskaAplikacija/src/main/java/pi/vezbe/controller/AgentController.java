@@ -153,9 +153,7 @@ public class AgentController {
     )
     public ResponseEntity<?> termins() throws IOException {
 	
-		//Smestaj toSave = smestajDtoToSmestajConverter.convert(smestajDTO);
 		ArrayList<Smestaj> smestajevi = (ArrayList<Smestaj>) smestajService.getAll();
-		//OVDEEE NAMESTI ULOGOVANOG
 		Korisnik ulogovani = userService.getCurrentUser();
 		ArrayList<SmestajVlasnik> vlasniciSmestaja = (ArrayList<SmestajVlasnik>) smestajVlasnikService.findByIdVlasnikId(ulogovani.getId());
 		for(int i = smestajevi.size()-1; i >= 0; i--){
@@ -179,6 +177,10 @@ public class AgentController {
             method = RequestMethod.POST
     )
     public ResponseEntity<?> dodajTermin(@RequestBody PonudaDTO ponuda) throws IOException, ParseException {
+		
+		if(ponuda.getDatumOd() == null || ponuda.getDatumDo() == null || ponuda.getBrojLezaja() == 0 || ponuda.getBrojSlobodnihPonuda() == 0 || ponuda.getCena() == 0){
+			return new ResponseEntity<>("popunitiSve" , HttpStatus.BAD_REQUEST);
+		}
 		
 		Smestaj smestajPonude = smestajService.findById(ponuda.getSmestajId());
 		
@@ -231,7 +233,9 @@ public class AgentController {
             method = RequestMethod.POST
     )
     public ResponseEntity<?> zauzmiTermin(@RequestBody ZauzimanjeTerminaDTO zauzimanjeDTO) {
-		
+		if(zauzimanjeDTO.getBrojSoba()==0){
+			return new ResponseEntity<>("popuni", HttpStatus.BAD_REQUEST);
+		}
 		ZauzetostResponse zauzetostResponse = WSClient.zauzetostWS(zauzimanjeDTO);
 		if(zauzetostResponse!=null){
 			Ponuda ponudaZaZauzimanje = ponudaService.findOne(zauzetostResponse.getZauzetost().getIdPonude());
@@ -395,6 +399,9 @@ public class AgentController {
     )
     public ResponseEntity<?> posaljiPoruku(@RequestBody PorukaChatDTO poruka) throws IOException, ParseException {
 	
+		if(poruka.getSadrzajPoruke() == null || poruka.getSadrzajPoruke().equals("")){
+			return new ResponseEntity<>("upisiTekstPoruke", HttpStatus.BAD_REQUEST);
+		}
 		Chat chat = chatService.findById(new Long(poruka.getIdChat()));
 		PorukaResponse responsePoruka = WSClient.porukaWS(poruka);
 		if(responsePoruka!=null){

@@ -280,6 +280,12 @@ function buttonRegisterAgentClick() {
 		return;
 	}
 	
+	if(isNaN(phoneNumber) || isNaN(brn)){
+		toastr["error"]('uneti brojcane vrednosti za broj telefona i poslovni maticni broj!');
+		return;
+	
+	}
+	
 	var data = JSON.stringify({
 		"ime": firstName, 
 		"prezime": lastName, 

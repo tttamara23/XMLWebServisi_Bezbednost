@@ -90,6 +90,12 @@ function sacuvajIzmenuTipa(id){
 }
 
 function sacuvajIzmenuTipa2(id,naziv){
+	
+	if(!naziv){
+		toastr["error"]('Unesi naziv tipa!');
+		return;
+	}
+	
 	var podaci = {};
 	podaci.id = id;
 	podaci.naziv = naziv;
@@ -301,6 +307,10 @@ function sacuvajIzmenuKategorije(id){
 }
 
 function sacuvajIzmenuKategorije2(id,kategorija){
+	if(!kategorija){
+		toastr["error"]('Unesi naziv tipa!');
+		return;
+	}
 	var podaci = {};
 	podaci.id = id;
 	podaci.kategorija = kategorija;
@@ -420,6 +430,10 @@ function sacuvajIzmenuUsluge(id){
 }
 
 function sacuvajIzmenuUsluge2(id,naziv){
+	if(!naziv){
+		toastr["error"]('Unesi naziv tipa!');
+		return;
+	}
 	var podaci = {};
 	podaci.id = id;
 	podaci.naziv = naziv;
