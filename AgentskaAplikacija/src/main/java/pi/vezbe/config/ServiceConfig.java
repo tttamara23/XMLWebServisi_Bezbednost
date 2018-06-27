@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
@@ -14,20 +16,27 @@ import org.springframework.context.annotation.Configuration;
 
 import pi.vezbe.service.SmestajService;
 import pi.vezbe.ws.WSClient;
+import soapservices.LodgingWebService;
 
-
-//@Configuration
+/*
+@Configuration
 public class ServiceConfig {
 	
-	/*@Bean
+	@Bean
 	public SmestajService getSmestajService() {
-		SmestajService service = new SmestajService();
-	
-		setUpInterceptors(service.getSmestajServicePort());
-		return service;
+		LodgingWebService service = new LodgingWebService();
+		SmestajService sservice = service.getLodgingServicePort();
+		setUpInterceptors(sservice);
+		return sservice;
 	}
 	
-	
+	@Bean(name = Bus.DEFAULT_BUS_ID)
+	public SpringBus springBus() {
+		SpringBus springBus = new SpringBus();
+		springBus.getInInterceptors().add(getWSS4JInInterceptor());
+		springBus.getOutInterceptors().add(getWSS4JOutInterceptor());
+		return springBus;
+	}
 	
 	private void setUpInterceptors(Object o) {
 		
@@ -67,5 +76,5 @@ public class ServiceConfig {
 
 		return new WSS4JInInterceptor(inProps);
 	}
-	*/
-}
+	
+}*/

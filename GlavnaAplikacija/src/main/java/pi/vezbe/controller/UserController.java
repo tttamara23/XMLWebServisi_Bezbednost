@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -143,24 +144,28 @@ public class UserController {
             method = RequestMethod.POST
     )
     public ResponseEntity<?> loginRegistered(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request) {
-		logger.info("Neki lg");
+		
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
+			logger.info("Korisnik " + korisnik.getEmail() + " pokusava da se uloguje na korisnicku aplikaciju.");
 			if(!korisnik.getRole().equals(roleService.findById(1L))) {
+				logger.info("Korisnik " + korisnik.getEmail() + " nema pristup korisnickoj aplikaciji.");
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
 			String enteredPassword = loginDTO.getPassword();
-			//byte[] salt = korisnik.getSalt();
-			//byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
+			byte[] salt = korisnik.getSalt();
+			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
 			String lozinkaIzBaze = korisnik.getLozinka();
 			String lozinkaUneta = "";
 			
-			/*for(int i=0; i<hashForEnteredPassword.length; i++) {
+			for(int i=0; i<hashForEnteredPassword.length; i++) {
 				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
-			}*/
-			if(!lozinkaIzBaze.equals(loginDTO.getPassword())) {
+			}
+			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
+				logger.info("Korisnik " + korisnik.getEmail() + " se nije uspesno ulogovao na korisnicku aplikaciju.");
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
+			logger.info("Korisnik " + korisnik.getEmail() + " se uspesno ulogovao na korisnicku aplikaciju.");
 			userService.setCurrentUser(korisnik);
 		} catch(Exception e) {
 			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
@@ -359,6 +364,48 @@ public class UserController {
 		}
 		return new ResponseEntity<>(false, HttpStatus.OK);
     }
+	
+	@CrossOrigin()
+    @RequestMapping(
+            value = "/forgotPassword",
+            method = RequestMethod.POST)
+    public ResponseEntity<?> forgotPassword(@RequestBody String email) {
+		KrajnjiKorisnik krajnjiKorisnik = null;
+		try{
+			krajnjiKorisnik = userService.findRegisteredByEmail(email);
+		} catch (Exception e) {
+			return new ResponseEntity<>("There is no user with this email.",HttpStatus.NOT_FOUND);
+		}
+		RandomString gen = new RandomString(10, ThreadLocalRandom.current());
+        String newPassword = gen.nextString();
+		byte[] salt = userService.salt();
+		krajnjiKorisnik.setSalt(salt);
+		byte[] hashedPassword = userService.hashPassword(newPassword, salt);
+		String lozinkaUneta = "";
+		
+		for(int i=0; i<hashedPassword.length; i++) {
+			lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashedPassword[i]));
+		}
+		krajnjiKorisnik.setLozinka(lozinkaUneta);
+		
+		
+		emailService.getMail().setTo(email);
+        emailService.getMail().setFrom(emailService.getEnv().getProperty("spring.mail.username"));
+        emailService.getMail().setSubject("New password for your account");
+        emailService.getMail().setText("Hello " + krajnjiKorisnik.getIme() + ",\n\nThis is your new password:\n\n" + newPassword + "");
+        try {
+			emailService.sendNotificaitionAsync(krajnjiKorisnik);
+			userService.save(krajnjiKorisnik);
+		} catch (MailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	/*@CrossOrigin()
 	@PreAuthorize("isAuthenticated()")
