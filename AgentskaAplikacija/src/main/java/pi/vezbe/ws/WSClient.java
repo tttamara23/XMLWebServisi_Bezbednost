@@ -49,6 +49,7 @@ import pi.vezbe.model.Ponuda;
 import pi.vezbe.model.Smestaj;
 import pi.vezbe.model.TipSmestaja;
 import pi.vezbe.service.TipSmestajaService;
+import soapservices.MyInterceptor;
 
 public class WSClient extends WebServiceGatewaySupport {
 	private static final String URI = "https://localhost:1234/ws";
@@ -81,6 +82,9 @@ public class WSClient extends WebServiceGatewaySupport {
 		ponudaXML.setCena(Double.parseDouble((ponuda.getCena().toString())));
 		ponudaXML.setSmestajId(ponuda.getSmestaj().getId());
 		request.setPonuda(ponudaXML);
+		MyInterceptor[] myInterceptors = {new MyInterceptor()};
+		
+		//getWebServiceTemplate().setInterceptors(myInterceptors);
 		PonudaResponse response = (PonudaResponse) getWebServiceTemplate().marshalSendAndReceive(URI , 
 				request, new SoapActionCallback(URI + "/ponudaRequest"));
 

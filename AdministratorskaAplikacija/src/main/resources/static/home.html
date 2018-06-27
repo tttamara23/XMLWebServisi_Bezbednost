@@ -46,7 +46,8 @@ tr:nth-child(even) {
 	         <!--    <li><a href="#changePasswordTab" data-toggle="tab">Change password</a></li> -->
 	            <li><a href="#addAgentTab" data-toggle="tab">Add agent</a></li>
 	            <li><a href="#changeUsers" onclick="return users()" data-toggle="tab">Users</a></li>
-	             <li><a href="#publishComments" onclick="return comments()" data-toggle="tab">Comments</a></li>
+	            <li><a href="#publishComments" onclick="return comments()" data-toggle="tab">Comments</a></li>
+	            <li><a href="#rolesAndPermissions" onclick="return showRolesAndPermissions()" data-toggle="tab">Roles and permissions</a></li>
 	            <li><a onclick="return logout()" data-toggle="tab">Logout</a></li>
 	        </ul>
 	    </li>
@@ -146,6 +147,32 @@ tr:nth-child(even) {
 	        	</tr>
 	        </table>
 	    </div>
+	    
+	    
+	    <div class="tab-pane" id="rolesAndPermissions">
+	    <br/><br/>
+	        <table width="200" id="tableRolesAndPermissions">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	 
+	        	 	<th>Naziv</th>
+	        	 	
+	        	 	<th></th>
+	        	</tr>
+	        </table><br><br><br>
+	        
+	        <table width="200" id="tableRolesAndPermissionsPer">
+	        	<tr>
+	        	 	<th>#</th>
+	        	 	 
+	        	 	<th>Naziv</th>
+	        	 	
+	        	 	<th></th>
+	        	</tr>
+	        </table>
+	    </div>
+	    
+	    
 	    <div class="tab-pane" id="tipSmestaja">
 	    <br/><br/>
 	    	<div class="TextBox">
@@ -256,6 +283,34 @@ tr:nth-child(even) {
       
     </div>
   </div>
+  
+  
+  
+  <div class="modal fade" id="modalPermisija" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Dodaj permisiju</h4>
+        </div>
+        <div class="modal-body">
+          <p>Permisija: </p>
+          <select id="selectPermisija" class="form-control">
+			</select>
+			<input type="hidden" id="addPermissionModalIdRole"/>
+        </div>
+        <div class="modal-footer">
+          <button onClick="dodajPermisijuButton()" type="button" class="btn btn-primary" data-dismiss="modal">Dodaj</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  
   
  </div>
 </body>

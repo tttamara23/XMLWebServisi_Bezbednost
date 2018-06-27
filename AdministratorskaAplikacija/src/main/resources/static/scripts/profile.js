@@ -314,3 +314,136 @@ function buttonRegisterAgentClick() {
         }
     });
 }
+
+function showRolesAndPermissions() {
+	$("#tableRolesAndPermissions").find("tr:gt(0)").remove();
+	$.ajax({
+    	url: "https://localhost:1234/role/getRoles",
+        type: "GET",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function (data) {
+        	
+               
+        	 for (var i=0; i<data.length; i++){
+                 var td;
+                 var td1,td2,td3;
+                 var tr=document.createElement('tr');
+                
+                 td1 = document.createElement('td');
+                 td1.innerHTML= data[i].id;
+                 td2 = document.createElement('td');
+                 td2.innerHTML= data[i].name;
+                 
+                 tr.appendChild(td1);  
+                 tr.appendChild(td2);             
+                
+                 td3 = document.createElement('td');
+                 td3.innerHTML= "<button class=\"btn btn-default\" onclick=\"return prikaziPermisije('" + data[i].id + "')\">Show permissions</button>&nbsp&nbsp&nbsp<button class=\"btn btn-success\" onclick=\"return dodajPermisiju('" + data[i].id + "')\">Add permissions</button>";
+                 tr.appendChild(td3);
+                 $('#tableRolesAndPermissions').append(tr);
+                   
+               }
+             
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(jqxhr.responseText);
+        }
+    });
+}
+
+function prikaziPermisije(idRole) {
+	$("#tableRolesAndPermissionsPer").find("tr:gt(0)").remove();
+	$.ajax({
+    	url: "https://localhost:1234/permission/getPermissions/" + idRole,
+        type: "GET",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function (data) {
+        	
+               
+        	 for (var i=0; i<data.length; i++){
+                 var td;
+                 var td1,td2,td3;
+                 var tr=document.createElement('tr');
+                
+                 td1 = document.createElement('td');
+                 td1.innerHTML= data[i].id;
+                 td2 = document.createElement('td');
+                 td2.innerHTML= data[i].name;
+                 
+                 tr.appendChild(td1);  
+                 tr.appendChild(td2);             
+                
+                 td3 = document.createElement('td');
+                 td3.innerHTML= "<button class=\"btn btn-danger\" onclick=\"return obrisiPermisiju(" + idRole + ", " + data[i].id + ")\">Remove</button>";
+                 tr.appendChild(td3);
+                 $('#tableRolesAndPermissionsPer').append(tr);
+                   
+               }
+             
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(jqxhr.responseText);
+        }
+    });
+}
+
+function obrisiPermisiju(idRole, idPermission) {
+	$("#tableRolesAndPermissionsPer").find("tr:gt(0)").remove();
+	$.ajax({
+    	url: "https://localhost:1234/role/deletePermissionToRole/" + idRole + "/" + idPermission,
+        type: "DELETE",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+         headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	prikaziPermisije(idRole);
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(jqxhr.responseText);
+        }
+	});
+}
+
+function dodajPermisiju(idRole) {
+	$('#addPermissionModalIdRole').val(idRole);
+	$.ajax({
+    	url: "https://localhost:1234/permission/getAll",
+        type: "GET",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+        success: function (data) {
+        	$('#selectPermisija').empty();
+        	for(i=0; i<data.length; i++) {
+        		$('#selectPermisija').append("<option value=\"" + data[i].id +"\">" + data[i].name + "</select>");
+        	}
+        }
+	});
+	$('#modalPermisija').modal('toggle');
+}
+
+function dodajPermisijuButton() {
+	idRole = $('#addPermissionModalIdRole').val();
+	idPermisije = $('#selectPermisija').val();
+	$('#modalPermisija').modal('toggle');
+	$.ajax({
+    	url: "https://localhost:1234/role/addPermissionToRole/" + idRole + "/" + idPermisije,
+        type: "GET",
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+         },
+         headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function (data) {
+        	prikaziPermisije(idRole);
+        }, error: function (jqxhr, textStatus, errorThrown) {
+            alert(jqxhr.responseText);
+        }
+	});
+}

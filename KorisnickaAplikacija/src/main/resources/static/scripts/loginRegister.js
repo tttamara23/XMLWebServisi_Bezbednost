@@ -69,3 +69,28 @@ function buttonRegisterClick() {
     });
 }
 
+function buttonForgotClick() {
+	$('#forgotPasswordModal').modal('toggle');
+}
+
+function forgotPasswordClick() {
+	data = $('#forgotPasswordContent').val();
+	$.ajax({
+		async: false,
+		url: "https://localhost:1234/user/forgotPassword",
+        type: "POST",
+        contentType: "text/plain",
+        data: data,
+        headers: {  'Access-Control-Allow-Origin': '*' },
+        success: function () {
+        	$('#forgotPasswordModal').modal('toggle');
+        	toastr["info"]('New password sent on email.');
+        	$('#forgotPasswordContent').val('');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        	$('#forgotPasswordModal').modal('toggle');
+            toastr["error"](jqXHR.responseText);
+            $('#forgotPasswordContent').val('');
+        }
+    });
+}

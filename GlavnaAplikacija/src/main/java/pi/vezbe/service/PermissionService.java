@@ -14,6 +14,10 @@ public class PermissionService {
 	@Autowired
 	private PermissionReposiory permissionReposiory;
 	
+	public List<Permission> findAll() {
+		return permissionReposiory.findAll();
+	}
+	
 	public Permission findById(Long id) {
 		return permissionReposiory.findOne(id);
 	}

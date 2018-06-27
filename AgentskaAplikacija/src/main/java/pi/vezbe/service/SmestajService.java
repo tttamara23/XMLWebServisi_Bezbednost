@@ -5,12 +5,12 @@ import java.net.URL;
 import java.util.List;
 
 import javax.jws.WebMethod;
-import javax.jws.WebService;
 import javax.xml.namespace.QName;
-import javax.xml.ws.WebEndpoint;
-import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceException;
 
+import org.apache.cxf.configuration.jsse.TLSClientParameters;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.http.HTTPConduit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +18,12 @@ import pi.vezbe.model.Smestaj;
 import pi.vezbe.repository.SmestajRepository;
 
 @Service
+
 public class SmestajService {
+
 	
+	
+
 	@Autowired
 	private SmestajRepository smestajRepository;
 	
@@ -43,9 +47,5 @@ public class SmestajService {
 		return smestajRepository.findOne(idSmestaja);
 	}
 	
-	@WebMethod()
-	  public String sayHello(String name) {
-	    return name + ".";
-	  }
-
+	
 }

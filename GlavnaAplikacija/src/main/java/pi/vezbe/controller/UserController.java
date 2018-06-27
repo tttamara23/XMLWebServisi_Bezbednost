@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -127,6 +128,7 @@ public class UserController {
 		            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		        }
 			 
+			logger.info("Korisnik " + krajnjiKorisnik.getEmail() + " se registrovao.");
 			
 			userService.save(krajnjiKorisnik);
 			
@@ -143,24 +145,28 @@ public class UserController {
             method = RequestMethod.POST
     )
     public ResponseEntity<?> loginRegistered(@RequestBody LoginDTO loginDTO, HttpServletResponse response, HttpServletRequest request) {
-		logger.info("Neki lg");
+		
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
+			logger.info("Korisnik " + korisnik.getEmail() + " pokusava da se uloguje na korisnicku aplikaciju.");
 			if(!korisnik.getRole().equals(roleService.findById(1L))) {
+				logger.info("Korisnik " + korisnik.getEmail() + " nema pristup korisnickoj aplikaciji.");
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
 			String enteredPassword = loginDTO.getPassword();
-			//byte[] salt = korisnik.getSalt();
-			//byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
+			byte[] salt = korisnik.getSalt();
+			byte[] hashForEnteredPassword = userService.hashPassword(enteredPassword, salt);
 			String lozinkaIzBaze = korisnik.getLozinka();
 			String lozinkaUneta = "";
 			
-			/*for(int i=0; i<hashForEnteredPassword.length; i++) {
+			for(int i=0; i<hashForEnteredPassword.length; i++) {
 				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
-			}*/
-			if(!lozinkaIzBaze.equals(loginDTO.getPassword())) {
+			}
+			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
+				logger.info("Korisnik " + korisnik.getEmail() + " se nije uspesno ulogovao na korisnicku aplikaciju.");
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
+			logger.info("Korisnik " + korisnik.getEmail() + " se uspesno ulogovao na korisnicku aplikaciju.");
 			userService.setCurrentUser(korisnik);
 		} catch(Exception e) {
 			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
@@ -176,6 +182,7 @@ public class UserController {
     public ResponseEntity<?> loginAdmin(@RequestBody LoginDTO loginDTO) {
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
+			logger.info("Korisnik " + korisnik.getEmail() + " pokusava da se uloguje na adminsku aplikaciju.");
 			if(!korisnik.getRole().equals(roleService.findById(2L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
@@ -188,9 +195,11 @@ public class UserController {
 				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
 			}
 			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
+				logger.info("Korisnik " + korisnik.getEmail() + " se nije uspesno ulogovao na adminsku aplikaciju.");
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
 			
+			logger.info("Korisnik " + korisnik.getEmail() + " se uspesno ulogovao na adminsku aplikaciju.");
 			userService.setCurrentUser(korisnik);
 		} catch(Exception e) {
 			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
@@ -206,6 +215,7 @@ public class UserController {
     public ResponseEntity<?> loginAgent(@RequestBody LoginDTO loginDTO) {
 		try {
 			Korisnik korisnik = userService.findByEmail(loginDTO.getEmail());
+			logger.info("Korisnik " + korisnik.getEmail() + " pokusava da se uloguje na agentsku aplikaciju.");
 			if(!korisnik.getRole().equals(roleService.findById(3L))) {
 				return new ResponseEntity<>("You don't have permission to access!", HttpStatus.UNAUTHORIZED);
 			}
@@ -218,8 +228,10 @@ public class UserController {
 				lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashForEnteredPassword[i]));
 			}
 			if(!lozinkaIzBaze.equals(lozinkaUneta)) {
+				logger.info("Korisnik " + korisnik.getEmail() + " se nije uspesno ulogovao na agentsku aplikaciju.");
 				return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
 			}
+			logger.info("Korisnik " + korisnik.getEmail() + " se uspesno ulogovao na agentsku aplikaciju.");
 			userService.setCurrentUser(korisnik);
 		} catch(Exception e) {
 			return new ResponseEntity<>("Email or password incorrect!", HttpStatus.BAD_REQUEST);
@@ -236,8 +248,9 @@ public class UserController {
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
 		Korisnik loggedIn = userService.getCurrentUser();
 		String oldPassword = changePasswordDTO.getOldPassword();
-		
+		logger.info("Korisnii " + loggedIn.getEmail() + " pokusava da pormeni lozinku.");
 		if(!changePasswordDTO.getNewPassword().equals(changePasswordDTO.getPasswordConfirm())) {
+			logger.info("Korisnii " + loggedIn.getEmail() + " nije uspeo da promeni lozinku-ne podudaraju se unete lozinke.");
 			return new ResponseEntity<>("Passwords don't match!", HttpStatus.BAD_REQUEST);
 		}
 		
@@ -248,23 +261,27 @@ public class UserController {
 			lozinkaStara = lozinkaStara.concat(Byte.toString(hashedOldPassword[i]));
 		}
 		if(!loggedIn.getLozinka().equals(lozinkaStara)) {
+			logger.info("Korisnii " + loggedIn.getEmail() + " nije uspeo da promeni lozinku-nije uneta ispravna stara lozinka.");
 			return new ResponseEntity<>("Incorrect old password!", HttpStatus.BAD_REQUEST);
 		}
 		
 		for(int i=0; i<mostPopularPasswords.size(); i++) {
 			if(changePasswordDTO.getNewPassword().toUpperCase().equals(mostPopularPasswords.get(i).toUpperCase())) {
+				logger.info("Korisnii " + loggedIn.getEmail() + " nije uspeo da promeni lozinku.");
 				return new ResponseEntity<>("Your password is in the top " + (i+1) +" most used passwords!", HttpStatus.BAD_REQUEST);
 			}
 		}
 		
 		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=:()*])(?=\\S+$).{10,}";
 		if(!changePasswordDTO.getNewPassword().matches(pattern)) {
+			logger.info("Korisnii " + loggedIn.getEmail() + " nije uspeo da promeni lozinku.");
 			return new ResponseEntity<>("Password must be at least ten characters including"
 				+ " one uppercase letter, one special character and alphanumeric characters!", HttpStatus.BAD_REQUEST);
 		}
 		
 		String pattern2 = "[A-Za-z]+[0-9]+[@#$%^&+=:()*]+";
 		if(changePasswordDTO.getNewPassword().matches(pattern2)) {
+			logger.info("Korisnii " + loggedIn.getEmail() + " nije uspeo da promeni lozinku.");
 			return new ResponseEntity<>("Your password cannot contain a sequence of letters, numbers and specias characters in that specific order!", HttpStatus.BAD_REQUEST);
 		}
 		
@@ -276,6 +293,7 @@ public class UserController {
 		}
 		
 		if(lozinkaNova.equals(lozinkaStara)) {
+			logger.info("Korisnii " + loggedIn.getEmail() + " nije uspeo da promeni lozinku.");
 			return new ResponseEntity<>("New password cannot be the same as old password!", HttpStatus.BAD_REQUEST);
 		}
 		
@@ -283,12 +301,14 @@ public class UserController {
 		if(index != -1) {
 			String username = loggedIn.getEmail().substring(0, index);
 			if(changePasswordDTO.getNewPassword().toUpperCase().contains(username.toUpperCase())) {
+				logger.info("Korisnii " + loggedIn.getEmail() + " nije uspeo da promeni lozinku.");
 				return new ResponseEntity<>("Your password cannot include name from Your email!", HttpStatus.BAD_REQUEST);
 			}
 		}
 		
 		loggedIn.setLozinka(lozinkaNova);
 		userService.save(loggedIn);
+		logger.info("Korisnii " + loggedIn.getEmail() + " je uspesno promenio lozniku.");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -298,6 +318,7 @@ public class UserController {
             value = "/logout",
             method = RequestMethod.POST)
     public ResponseEntity<?> signout() {
+		logger.info("Korisnii " + userService.getCurrentUser().getEmail() + " se izlogovao.");
         SecurityContextHolder.clearContext();
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -359,6 +380,49 @@ public class UserController {
 		}
 		return new ResponseEntity<>(false, HttpStatus.OK);
     }
+	
+	@CrossOrigin()
+    @RequestMapping(
+            value = "/forgotPassword",
+            method = RequestMethod.POST)
+    public ResponseEntity<?> forgotPassword(@RequestBody String email) {
+		KrajnjiKorisnik krajnjiKorisnik = null;
+		try{
+			krajnjiKorisnik = userService.findRegisteredByEmail(email);
+		} catch (Exception e) {
+			return new ResponseEntity<>("There is no user with this email.",HttpStatus.NOT_FOUND);
+		}
+		RandomString gen = new RandomString(10, ThreadLocalRandom.current());
+        String newPassword = gen.nextString();
+		byte[] salt = userService.salt();
+		krajnjiKorisnik.setSalt(salt);
+		byte[] hashedPassword = userService.hashPassword(newPassword, salt);
+		String lozinkaUneta = "";
+		
+		for(int i=0; i<hashedPassword.length; i++) {
+			lozinkaUneta = lozinkaUneta.concat(Byte.toString(hashedPassword[i]));
+		}
+		krajnjiKorisnik.setLozinka(lozinkaUneta);
+		
+		
+		emailService.getMail().setTo(email);
+        emailService.getMail().setFrom(emailService.getEnv().getProperty("spring.mail.username"));
+        emailService.getMail().setSubject("New password for your account");
+        emailService.getMail().setText("Hello " + krajnjiKorisnik.getIme() + ",\n\nThis is your new password:\n\n" + newPassword + "");
+        try {
+			emailService.sendNotificaitionAsync(krajnjiKorisnik);
+			logger.info("Korisnik " + email + " je zaboravio lonku i poslata mu je nova.");
+			userService.save(krajnjiKorisnik);
+		} catch (MailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	/*@CrossOrigin()
 	@PreAuthorize("isAuthenticated()")
