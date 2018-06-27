@@ -108,6 +108,11 @@
 		    <artifactId>cxf-rt-ws-security</artifactId>
 		    <version>3.2.4</version>
 		</dependency>
+		<dependency>
+		    <groupId>log4j</groupId>
+		    <artifactId>log4j</artifactId>
+		    <version>1.2.17</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -137,6 +142,13 @@
                             <url>https://localhost:1234/ws/glavna.wsdl</url>
                         </schema>
                     </schemas>
+                    
+                    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+					<property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
+					<include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+					<root level="INFO">
+						<appender-ref ref="FILE" />
+					</root>
                 </configuration>
             </plugin>
 		</plugins>

@@ -26,6 +26,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -117,6 +119,8 @@ public class UserController {
 	@Autowired
 	private SmestajVlasnikService smestajVlasnikService;
 	
+	private static Logger logger = LogManager.getLogger(UserController.class);
+	
 	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String property;
 	@CrossOrigin
@@ -134,6 +138,7 @@ public class UserController {
 		Korisnik ulogovani = userService.findByEmail(email);
 		userService.setCurrentUser(ulogovani);
 		
+		logger.info("Agent " + ulogovani.getEmail() + " se uspesno ulogovao.");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -315,6 +320,7 @@ public class UserController {
 		
 		loggedIn.setLozinka(changePasswordDTO.getNewPassword());
 		userService.save(loggedIn);
+		logger.info("Agent " + loggedIn.getEmail() + " je promenio lozinku.");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -324,6 +330,7 @@ public class UserController {
             value = "/logout",
             method = RequestMethod.POST)
     public ResponseEntity<?> signout() {
+		logger.info("Agent " + userService.getCurrentUser().getEmail() + " se izlogovao.");
         SecurityContextHolder.clearContext();
         property = "create-drop";
         return new ResponseEntity<>(HttpStatus.OK);

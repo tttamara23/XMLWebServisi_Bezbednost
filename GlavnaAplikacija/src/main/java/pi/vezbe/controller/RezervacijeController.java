@@ -3,6 +3,8 @@ package pi.vezbe.controller;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,8 @@ public class RezervacijeController {
 	@Autowired
 	private PonudaToPonudaDtoConverter ponudaToPonudaDtoConverter;
 	
+	private static Logger logger = LogManager.getLogger(RezervacijeController.class);
+	
 	@PermissionAnnotation(name = "CREATE_RESERVATIONS")
 	@CrossOrigin
 	@RequestMapping(
@@ -64,6 +68,7 @@ public class RezervacijeController {
 		Ponuda ponudaRet = ponudaService.save(ponuda);
 		Rezervacija rezervacijaRet = rezervacijeService.save(rezervacija);
 		PonudaDTO ponudaRetDTO = ponudaToPonudaDtoConverter.convert(ponudaRet);
+		logger.info("Korisnik " + ((KrajnjiKorisnik)userService.getCurrentUser()).getEmail() + " je rezervisao ponudu #" + ponuda.getId());
 		return new ResponseEntity<>(ponudaRetDTO,HttpStatus.OK);
 	}
 
@@ -84,6 +89,7 @@ public class RezervacijeController {
 		ponuda.getRezervacija().remove(rez);
 		Ponuda retPonuda = ponudaService.save(ponuda);
 		PonudaDTO ponudaDTOret = ponudaToPonudaDtoConverter.convert(retPonuda);
+		logger.info("Korisnik " + ((KrajnjiKorisnik)userService.getCurrentUser()).getEmail() + " je otkazao rezervaciju ponude #" + ponuda.getId());
 		return new ResponseEntity<>(ponudaDTOret,HttpStatus.OK);
 	}
 }

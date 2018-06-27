@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +53,8 @@ public class PorukaController {
 	@Autowired
 	private ChatKorisnikService chatKorisnikService;
 	
+	private static Logger logger = LogManager.getLogger(PorukaController.class);
+	
 	@PermissionAnnotation(name = "SEND_MESSAGE")
 	@CrossOrigin
 	@RequestMapping(
@@ -94,6 +98,13 @@ public class PorukaController {
 		
 		try{
 			porukaService.save(poruka);
+			String str = "Korisnik " + ulogovani.getEmail() + " je poslao poruku korisnicima: ";
+			for(ChatKorisnik ck : chat.getChatKorisnik()) {
+				if(!ck.getUcesnik().getId().equals(ulogovani.getId())) {
+					str += ck.getUcesnik().getEmail() + " ";
+				}
+			}
+			logger.info(str);
 		} catch(Exception e) {
 			return new ResponseEntity<>("Message too long!", HttpStatus.BAD_REQUEST);
 		}
@@ -151,6 +162,13 @@ public class PorukaController {
 		
 		try {
 			saved = porukaService.save(poruka);
+			String str = "Korisnik " + ulogovani.getEmail() + " je poslao poruku korisnicima: ";
+			for(ChatKorisnik ck : chat.getChatKorisnik()) {
+				if(!ck.getUcesnik().getId().equals(ulogovani.getId())) {
+					str += ck.getUcesnik().getEmail() + " ";
+				}
+			}
+			logger.info(str);
 		}catch(Exception e) {
 			return new ResponseEntity<>("Message too long!", HttpStatus.BAD_REQUEST);
 		}

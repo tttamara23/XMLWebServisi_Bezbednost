@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -146,6 +148,8 @@ public class AgentController {
 	@Autowired
 	private PonudaToPonudaDtoConverter ponudaToPonudaDtoConverter;
 	
+	private static Logger logger = LogManager.getLogger(AgentController.class);
+	
 	@CrossOrigin
 	@RequestMapping(
             value = "termins",
@@ -202,7 +206,8 @@ public class AgentController {
 		
 		toSave.setId(response.getPonuda().getId());
 		toSave.setSmestaj(smestaj);
-		ponudaService.save((toSave));
+		Ponuda saved = ponudaService.save((toSave));
+		logger.info("Agent " + userService.getCurrentUser().getEmail() + " je dodao ponudu #" + saved.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 	
@@ -243,6 +248,7 @@ public class AgentController {
 			
 			ponudaZaZauzimanje.setBrojSlobodnihPonuda(brSlobodnih - zauzimanjeDTO.getBrojSoba());
 			Ponuda saved = ponudaService.save(ponudaZaZauzimanje);
+			logger.info("Agent " + userService.getCurrentUser().getEmail() + " je zauzeo ponudu " + saved.getId());
 			return new ResponseEntity<>(smestajToSmestajDTOConverter.convert(saved.getSmestaj()),HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
@@ -307,6 +313,7 @@ public class AgentController {
 		}
 		zaPotvrditi.setRealizovano(true);
 		Rezervacija sacuvana = rezervacijaService.save(zaPotvrditi);
+		logger.info("Agent " + userService.getCurrentUser().getEmail() + " je potrvrdio rezervaciju #" + sacuvana.getId());
 		return new ResponseEntity<>(true,HttpStatus.OK);
     }
 	
@@ -356,7 +363,8 @@ public class AgentController {
 			XMLConverter xmlConverter = new XMLConverter();
 			TipSmestaja tip = xmlConverter.convertTipSmestajaXMLToTipSmestaja(smestajXML.getTipSmestaja());
 			toSave.setTipSmestaja(tip);
-			smestajService.save(toSave);
+			Smestaj savedSmestaj = smestajService.save(toSave);
+			logger.info("Agent " + userService.getCurrentUser().getEmail() + " je dodao smestaj #" + savedSmestaj.getId());
 			//namesti ulogovanog
 			SmestajVlasnikXML svXML = new SmestajVlasnikXML();
 			svXML.setIdSmestaja(toSave.getId());
@@ -416,7 +424,13 @@ public class AgentController {
 			toSave.setDatumSlanja(dateFormat.parse(responsePoruka.getPoruka().getDatumSlanja()));
 			toSave.setSeen(responsePoruka.getPoruka().isSeen());
 			porukeService.save(toSave);
-
+			String str = "Agent " + posiljalac.getEmail() + " je poslao poruku korisnicima: ";
+			for(ChatKorisnik ck : chatPoruke.getChatKorisnik()) {
+				if(!ck.getUcesnik().getId().equals(posiljalac.getId())) {
+					str += ck.getUcesnik().getEmail() + " ";
+				}
+			}
+			logger.info(str);
 			ChatDTO chatDTO = chatToChatDTOConverter.convert(chat);
 			ArrayList<PorukaDTO> sortirane = sortPoruke((ArrayList<PorukaDTO>)chatDTO.getPoruke());
 			

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -101,6 +103,8 @@ public class AdminisrtatorController {
 	@Autowired
 	private KomentarToKomentarDTOConverter komentarToKomentarDtoConverter;
 	
+	private static Logger logger = LogManager.getLogger(AdminisrtatorController.class);
+	
 	@PermissionAnnotation(name = "INSERT_AGENT")
 	@CrossOrigin
 	@RequestMapping(
@@ -132,7 +136,7 @@ public class AdminisrtatorController {
 		agentToSave.setLozinka(lozinkaUneta);
 		
         Agent saved = agentService.save(agentToSave);
-        
+        logger.info("Admin " + userService.getCurrentUser().getEmail() + " je dodao agenta " + saved.getEmail());
         emailService.getMail().setTo(agentToSave.getEmail());
         emailService.getMail().setFrom(emailService.getEnv().getProperty("spring.mail.username"));
         emailService.getMail().setSubject("Setting password for your account");
@@ -163,6 +167,7 @@ public class AdminisrtatorController {
         TipSmestaja TipToSave = tipSmestajaDTOToTipSmestajaConverter.convert(tipSmestajaDTO);
         @SuppressWarnings("unused")
         TipSmestaja saved = tipSmestajaService.save(TipToSave);
+        logger.info("Admin " + userService.getCurrentUser().getEmail() + " je dodao tip smestaja " + saved.getNaziv());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	
@@ -179,6 +184,7 @@ public class AdminisrtatorController {
 		KategorijaSmestaja KategorijaToSave = kategorijaSmestajaDTOToKategorijaSmestajaConverter.convert(kategorijaSmestajaDTO);
 		@SuppressWarnings("unused")
 		KategorijaSmestaja saved = kategorijaSmestajaService.save(KategorijaToSave);
+		logger.info("Admin " + userService.getCurrentUser().getEmail() + " je dodao kategoriju smestaja " + saved.getKategorija());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	
@@ -195,6 +201,7 @@ public class AdminisrtatorController {
 		Usluga UslugaToSave = dodatneUslugeDTOToDodatneUslugeConverter.convert(dodatneUslugeDTO);
 		@SuppressWarnings("unused")
 		Usluga saved = dodatneUslugeService.save(UslugaToSave);
+		logger.info("Admin " + userService.getCurrentUser().getEmail() + " je dodao dodatnu uslugu " + saved.getNaziv());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	
@@ -223,6 +230,7 @@ public class AdminisrtatorController {
 			zaBlok.setBlokiran(true);
 			@SuppressWarnings("unused")
 			KrajnjiKorisnik saved = userService.save(zaBlok);
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je blokirao korisnika " + saved.getEmail());
 			return true;	
 		}
 		
@@ -241,6 +249,7 @@ public class AdminisrtatorController {
 			zaAktivaciju.setBlokiran(false);
 			@SuppressWarnings("unused")
 			KrajnjiKorisnik saved = userService.save(zaAktivaciju);
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je odblokirao korisnika " + saved.getEmail());
 			return true;	
 		}
 		
@@ -257,7 +266,7 @@ public class AdminisrtatorController {
 		KrajnjiKorisnik zaBrisanje = userService.findRegisteredByEmail(id);
 		if(zaBrisanje!=null){
 			userService.delete(zaBrisanje);
-			
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je obrisao korisnika " + zaBrisanje.getEmail());
 			return new ResponseEntity<>(HttpStatus.OK);	
 		}
 		
@@ -275,7 +284,7 @@ public class AdminisrtatorController {
 		TipSmestaja zaBrisanje = tipSmestajaService.findById(id);
 		if(zaBrisanje!=null){
 			tipSmestajaService.delete(zaBrisanje);
-			
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je obrisao tip smestaja " + zaBrisanje.getNaziv());
 			return true;	
 		}
 		
@@ -294,6 +303,7 @@ public class AdminisrtatorController {
 		if(zaBrisanje!=null){
 			kategorijaSmestajaService.delete(zaBrisanje);
 			
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je obrisao kategoriju smestaja " + zaBrisanje.getKategorija());
 			return true;	
 		}
 		
@@ -312,6 +322,7 @@ public class AdminisrtatorController {
 		if(zaBrisanje!=null){
 			dodatneUslugeService.delete(zaBrisanje);
 			
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je obrisao dodatnu uslugu " + zaBrisanje.getNaziv());
 			return true;	
 		}
 		
@@ -329,6 +340,8 @@ public class AdminisrtatorController {
 		TipSmestaja zaIzmenu = tipSmestajaService.findById(id);
 		if(zaIzmenu!=null){
 			//tipSmestajaService.delete(zaBrisanje);
+			
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je izmenio tip smestaja " + zaIzmenu.getNaziv());
 			return new ResponseEntity<>(tipSmestajaToTipSmestajaDTOConverter.convert(zaIzmenu), HttpStatus.OK);
 		}
 		
@@ -346,6 +359,7 @@ public class AdminisrtatorController {
 		KategorijaSmestaja zaIzmenu = kategorijaSmestajaService.findById(id);
 		if(zaIzmenu!=null){
 			
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je izmenio kategoriju smestaja " + zaIzmenu.getKategorija());
 			return new ResponseEntity<>(kategorijaSmestajaToKategorijaSmestajaDTOConverter.convert(zaIzmenu), HttpStatus.OK);
 		}
 		
@@ -363,6 +377,7 @@ public class AdminisrtatorController {
 		Usluga zaIzmenu = dodatneUslugeService.findById(id);
 		if(zaIzmenu!=null){
 			
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je izmenio dodatnu uslugu " + zaIzmenu.getNaziv());
 			return new ResponseEntity<>(uslugaToUslugaDtoConverter.convert(zaIzmenu), HttpStatus.OK);
 		}
 		
@@ -425,6 +440,7 @@ public class AdminisrtatorController {
 			zaObjavljivanje.setObjavljen(true);
 			@SuppressWarnings("unused")
 			Komentar saved = komentarService.save(zaObjavljivanje);
+			logger.info("Admin " + userService.getCurrentUser().getEmail() + " je objavio komentar #" + saved.getId());
 			return true;	
 		}
 		
